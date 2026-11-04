@@ -1,0 +1,25 @@
+{
+  "id": "ts-zod-schema",
+  "lang": "typescript",
+  "framework": "zod",
+  "kind": "schema",
+  "title": "Zod 数据校验",
+  "description": "生成带类型推导、默认值和错误信息的 Zod schema。",
+  "vars": [
+    { "key": "Name", "type": "PascalCase", "required": true, "example": "UserProfile" },
+    { "key": "name", "type": "camelCase", "required": true, "example": "userProfile" }
+  ],
+  "files": [
+    { "from": "files/{{name}}.schema.ts", "to": "src/schemas/{{name}}.schema.ts" }
+  ],
+  "review": [
+    "类型用 z.infer 导出，不手写 interface",
+    "每个字段有 .describe() 或错误文案",
+    "可选字段用 .optional() 且给默认值",
+    "敏感字段不输出日志"
+  ],
+  "example": {
+    "render": "Name=UserProfile",
+    "output": "src/schemas/userProfile.schema.ts"
+  }
+}

@@ -109,7 +109,8 @@ window.__ModuleLoader__.load({
     function StyleCard({ it, onOpen }) {
       const hue = SERIES_HUE[it.series] || '#888'
       const [broken, setBroken] = React.useState(false)
-      const showImg = it.hasStill && !broken
+      const isGenerated = !it.hasStill && !!it.generated
+      const showImg = (it.hasStill || it.generated) && !broken
 
       return h('div', {
         onClick: () => onOpen(it),
@@ -135,6 +136,14 @@ window.__ModuleLoader__.load({
                   fontSize: 26, fontWeight: 700, color: hue, opacity: 0.85,
                 },
               }, String(it.name || it.id).slice(0, 1)),
+          isGenerated && showImg
+            ? h('span', {
+                style: {
+                  position: 'absolute', top: 4, right: 4, fontSize: 9, lineHeight: '14px',
+                  padding: '0 4px', borderRadius: 3, background: 'rgba(0,0,0,.55)', color: '#fff',
+                },
+              }, '示意')
+            : null,
         ),
         h('div', { style: { padding: '6px 8px 8px' } },
           h('div', { style: { fontSize: 12, color: C.text, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' } }, String(it.name)),

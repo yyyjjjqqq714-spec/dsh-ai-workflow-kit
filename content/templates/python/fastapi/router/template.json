@@ -1,0 +1,25 @@
+{
+  "id": "py-fastapi-router",
+  "lang": "python",
+  "framework": "fastapi",
+  "kind": "router",
+  "title": "FastAPI 路由",
+  "description": "生成带 Pydantic 模型、依赖注入和错误处理的 APIRouter。",
+  "vars": [
+    { "key": "resource", "type": "snake_case", "required": true, "example": "order" },
+    { "key": "Resource", "type": "PascalCase", "required": true, "example": "Order" }
+  ],
+  "files": [
+    { "from": "files/{{resource}}_router.py", "to": "app/routers/{{resource}}.py" }
+  ],
+  "review": [
+    "响应模型用 response_model 声明",
+    "404 用 HTTPException 且带 detail",
+    "依赖用 Depends 注入，不全局实例化",
+    "路径参数有类型注解"
+  ],
+  "example": {
+    "render": "resource=order",
+    "output": "app/routers/order.py"
+  }
+}

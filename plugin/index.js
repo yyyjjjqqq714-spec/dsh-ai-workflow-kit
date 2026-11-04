@@ -1,10 +1,12 @@
 import { readFile, readdir, stat } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
-export const inject = ['webServer']
+export const inject = ['webServer', 'commands']
 
 const ROOT = 'F:/软件/DeepSeek Harness工作区/ai-workflow-kit'
 const STYLE_SRC = 'F:/skill提示词库/提示词等（DeepSeek可用等）/代码动画_341种风格提示词_免费/风格提示词'
+const GEN_DIR = join(ROOT, 'content/styles/_generated')
 
 async function readJson(p, fallback) {
   try {
@@ -120,6 +122,10 @@ export function apply(ctx) {
             const bySeries = {}
             for (const s of styles) {
               bySeries[s.series] = (bySeries[s.series] || 0) + 1
+              // 无原图时回退到程序化示意卡
+              if (!s.hasStill) {
+                s.generated = existsSync(join(GEN_DIR, s.id + '.jpg'))
+              }
             }
             const prompts = await scanPrompts()
             const templates = await scanTemplates()
@@ -153,27 +159,33 @@ export function apply(ctx) {
             })
           }
 
-          // 缩略图
+          // 缩略图：原图优先，无原图回退到程序化示意卡
           if (url.pathname === '/awkit/api/still') {
             const id = url.searchParams.get('id')
             if (!id) return sendJson(res, 400, { ok: false, error: 'missing id' })
             const styles = await readJson(join(ROOT, 'content/styles/_index.json'), [])
             const row = styles.find((s) => s.id === id)
             if (!row) return sendJson(res, 404, { ok: false, error: 'not found' })
-            const jpgPath = join(STYLE_SRC, row.file.replace(/\.md$/i, '.jpg'))
-            try {
-              const st = await stat(jpgPath)
-              const buf = await readFile(jpgPath)
-              res.writeHead(200, {
-                'content-type': 'image/jpeg',
-                'content-length': buf.length,
-                'cache-control': 'public, max-age=86400',
-                'x-source-bytes': st.size,
-              })
-              return res.end(buf)
-            } catch {
-              return sendJson(res, 404, { ok: false, error: 'no still for ' + id })
+
+            const candidates = []
+            if (row.hasStill) candidates.push({ path: join(STYLE_SRC, row.file.replace(/\.md$/i, '.jpg')), kind: 'original' })
+            candidates.push({ path: join(GEN_DIR, row.id + '.jpg'), kind: 'generated' })
+
+            for (const c of candidates) {
+              try {
+                const buf = await readFile(c.path)
+                res.writeHead(200, {
+                  'content-type': 'image/jpeg',
+                  'content-length': buf.length,
+                  'cache-control': 'public, max-age=86400',
+                  'x-still-kind': c.kind,
+                })
+                return res.end(buf)
+              } catch {
+                // 试下一个
+              }
             }
+            return sendJson(res, 404, { ok: false, error: 'no still for ' + id })
           }
 
           // 提示词原文
@@ -210,4 +222,63 @@ export function apply(ctx) {
       },
     }),
   )
+
+  // 斜杠命令：随时在对话里调用
+  ctx.commands.register({
+    name: 'awkit',
+    description: 'AI 工作流：查视频风格库 / 提示词 / 代码模板',
+    input: { hint: '关键词或风格编号，如 水墨 / A3' },
+    async handler(invocation) {
+      const q = String((invocation && invocation.rawInput) || '').trim()
+      const styles = await readJson(join(ROOT, 'content/styles/_index.json'), [])
+
+      if (!q) {
+        const bySeries = {}
+        for (const s of styles) bySeries[s.series] = (bySeries[s.series] || 0) + 1
+        const prompts = await scanPrompts()
+        const templates = await scanTemplates()
+        return {
+          kind: 'success',
+          text: [
+            `AI 工作流 · ${styles.length} 条视频风格 / ${prompts.length} 个提示词 / ${templates.length} 个模板`,
+            '',
+            '按系列：',
+            ...Object.entries(bySeries).map(([k, v]) => `- ${k}  ${v} 条`),
+            '',
+            '用法：',
+            '  /awkit 水墨    搜索并给出提示词',
+            '  /awkit A3      按编号查',
+          ].join('\n'),
+        }
+      }
+
+      const ql = q.toLowerCase()
+      const hits = styles.filter(
+        (s) => s.id.toLowerCase().includes(ql) || String(s.name).toLowerCase().includes(ql),
+      )
+      if (!hits.length) {
+        return { kind: 'error', text: `没找到匹配「${q}」的风格。试试 /awkit 看全部系列。` }
+      }
+
+      const first = hits[0]
+      let md = ''
+      try {
+        md = await readFile(join(STYLE_SRC, first.file), 'utf8')
+      } catch (e) {
+        md = '(原文读取失败: ' + String((e && e.message) || e) + ')'
+      }
+
+      return {
+        kind: 'success',
+        text: [
+          `命中 ${hits.length} 条${hits.length > 1 ? '（列前 8）' : ''}：`,
+          ...hits.slice(0, 8).map((h) => `- ${h.id}  ${h.name}`),
+          '',
+          `=== ${first.id} ${first.name} ===`,
+          '',
+          md.slice(0, 2400),
+        ].join('\n'),
+      }
+    },
+  })
 }
