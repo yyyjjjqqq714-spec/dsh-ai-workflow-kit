@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "code-template-gen",
+    "version": "v1",
+    "title": "代码模板生成器",
+    "chars": 970
+  },
+  {
+    "slug": "mv-storyboard",
+    "version": "v1",
+    "title": "MV 分镜生成",
+    "chars": 686
+  },
+  {
+    "slug": "mv-title-card",
+    "version": "v1",
+    "title": "标题卡生成",
+    "chars": 717
+  },
+  {
+    "slug": "style-mix",
+    "version": "v1",
+    "title": "风格混搭器",
+    "chars": 690
+  },
+  {
+    "slug": "style-rewrite",
+    "version": "v1",
+    "title": "风格提示词改写器",
+    "chars": 725
+  },
+  {
+    "slug": "style-to-code",
+    "version": "v1",
+    "title": "风格转代码",
+    "chars": 500
+  },
+  {
+    "slug": "tutorial-steps",
+    "version": "v1",
+    "title": "教程分步讲解",
+    "chars": 381
+  },
+  {
+    "slug": "video-script",
+    "version": "v1",
+    "title": "短视频脚本生成",
+    "chars": 524
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "name": "ai-workflow-kit",
+  "version": "1.0.0",
+  "generatedAt": "2026-11-04T05:37:05.462Z",
+  "counts": {
+    "styles": 340,
+    "stylesWithOriginalStill": 193,
+    "stylesWithGeneratedStill": 147,
+    "prompts": 8,
+    "templates": 5
+  },
+  "entrypoints": {
+    "styles": "styles.json",
+    "styleMarkdown": "styles/{id}.md",
+    "styleImage": "styles/{id}.jpg",
+    "prompts": "prompts.json",
+    "promptMarkdown": "prompts/{slug}/{version}.md",
+    "templates": "templates.json",
+    "templateDir": "templates/{path}/"
+  },
+  "usage": "api.md"
+}

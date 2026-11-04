@@ -1,0 +1,147 @@
+[
+  {
+    "id": "py-cli-script",
+    "title": "Python CLI 脚本",
+    "description": "生成带 argparse、日志、异常出口码的标准命令行脚本骨架。",
+    "lang": "python",
+    "framework": "argparse",
+    "kind": "cli",
+    "vars": [
+      {
+        "key": "script",
+        "type": "snake_case",
+        "required": true,
+        "example": "daily_report"
+      }
+    ],
+    "files": [
+      {
+        "from": "files/{{script}}.py",
+        "to": "scripts/{{script}}.py"
+      }
+    ],
+    "path": "python/argparse/cli"
+  },
+  {
+    "id": "py-fastapi-router",
+    "title": "FastAPI 路由",
+    "description": "生成带 Pydantic 模型、依赖注入和错误处理的 APIRouter。",
+    "lang": "python",
+    "framework": "fastapi",
+    "kind": "router",
+    "vars": [
+      {
+        "key": "resource",
+        "type": "snake_case",
+        "required": true,
+        "example": "order"
+      },
+      {
+        "key": "Resource",
+        "type": "PascalCase",
+        "required": true,
+        "example": "Order"
+      }
+    ],
+    "files": [
+      {
+        "from": "files/{{resource}}_router.py",
+        "to": "app/routers/{{resource}}.py"
+      }
+    ],
+    "path": "python/fastapi/router"
+  },
+  {
+    "id": "ts-fastify-route",
+    "title": "Fastify REST 路由",
+    "description": "生成一个带输入校验、错误处理和日志的 Fastify CRUD 路由。",
+    "lang": "typescript",
+    "framework": "fastify",
+    "kind": "route",
+    "vars": [
+      {
+        "key": "Resource",
+        "type": "PascalCase",
+        "required": true,
+        "example": "Order"
+      },
+      {
+        "key": "resource",
+        "type": "camelCase",
+        "required": true,
+        "example": "order"
+      },
+      {
+        "key": "table",
+        "type": "snake_case",
+        "required": true,
+        "example": "orders"
+      }
+    ],
+    "files": [
+      {
+        "from": "files/{{resource}}.ts",
+        "to": "src/routes/{{resource}}.ts"
+      }
+    ],
+    "path": "typescript/fastify/route"
+  },
+  {
+    "id": "ts-react-component",
+    "title": "React 函数组件",
+    "description": "生成带 Props 类型、空状态和加载状态处理的函数组件骨架。",
+    "lang": "typescript",
+    "framework": "react",
+    "kind": "component",
+    "vars": [
+      {
+        "key": "Name",
+        "type": "PascalCase",
+        "required": true,
+        "example": "UserCard"
+      },
+      {
+        "key": "name",
+        "type": "camelCase",
+        "required": true,
+        "example": "userCard"
+      }
+    ],
+    "files": [
+      {
+        "from": "files/{{Name}}.tsx",
+        "to": "src/components/{{Name}}/{{Name}}.tsx"
+      }
+    ],
+    "path": "typescript/react/component"
+  },
+  {
+    "id": "ts-zod-schema",
+    "title": "Zod 数据校验",
+    "description": "生成带类型推导、默认值和错误信息的 Zod schema。",
+    "lang": "typescript",
+    "framework": "zod",
+    "kind": "schema",
+    "vars": [
+      {
+        "key": "Name",
+        "type": "PascalCase",
+        "required": true,
+        "example": "UserProfile"
+      },
+      {
+        "key": "name",
+        "type": "camelCase",
+        "required": true,
+        "example": "userProfile"
+      }
+    ],
+    "files": [
+      {
+        "from": "files/{{name}}.schema.ts",
+        "to": "src/schemas/{{name}}.schema.ts"
+      }
+    ],
+    "path": "typescript/zod/schema"
+  }
+]

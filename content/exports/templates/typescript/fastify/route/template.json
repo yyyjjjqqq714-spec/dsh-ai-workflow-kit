@@ -1,0 +1,26 @@
+{
+  "id": "ts-fastify-route",
+  "lang": "typescript",
+  "framework": "fastify",
+  "kind": "route",
+  "title": "Fastify REST 路由",
+  "description": "生成一个带输入校验、错误处理和日志的 Fastify CRUD 路由。",
+  "vars": [
+    { "key": "Resource", "type": "PascalCase", "required": true, "example": "Order" },
+    { "key": "resource", "type": "camelCase", "required": true, "example": "order" },
+    { "key": "table", "type": "snake_case", "required": true, "example": "orders" }
+  ],
+  "files": [
+    { "from": "files/{{resource}}.ts", "to": "src/routes/{{resource}}.ts" }
+  ],
+  "review": [
+    "错误处理覆盖 400 / 404 / 500",
+    "无 any，无类型断言",
+    "输入用 JSON Schema 校验",
+    "关键路径有日志"
+  ],
+  "example": {
+    "render": "Resource=Order",
+    "output": "src/routes/order.ts"
+  }
+}

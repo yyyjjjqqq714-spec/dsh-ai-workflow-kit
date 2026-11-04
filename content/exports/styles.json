@@ -1,0 +1,3062 @@
+[
+  {
+    "id": "S1-A1",
+    "name": "字雨",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/A1_字雨.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-A2",
+    "name": "光标打字",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/A2_光标打字.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-A3",
+    "name": "大字冲击",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/A3_大字冲击.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-A4",
+    "name": "字的隧道",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/A4_字的隧道.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-A5",
+    "name": "字散了再聚",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/A5_字散了再聚.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-B1",
+    "name": "流动的丝线",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/B1_流动的丝线.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-B2",
+    "name": "萤火光尘",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/B2_萤火光尘.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-B3",
+    "name": "粒子聚形",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/B3_粒子聚形.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-B4",
+    "name": "星空连线",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/B4_星空连线.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-B5",
+    "name": "呼吸的圆",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/B5_呼吸的圆.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-C1",
+    "name": "水墨晕开",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/C1_水墨晕开.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-C2",
+    "name": "一笔画",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/C2_一笔画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-C3",
+    "name": "心里的等高线",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/C3_心里的等高线.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-C4",
+    "name": "涟漪",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/C4_涟漪.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-D1",
+    "name": "雨窗",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/D1_雨窗.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-D2",
+    "name": "窗光与尘",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/D2_窗光与尘.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-D3",
+    "name": "雪与火星",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/D3_雪与火星.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-D4",
+    "name": "天亮",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/D4_天亮.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-E1",
+    "name": "极简几何",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/E1_极简几何.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-E2",
+    "name": "剪纸层叠",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/E2_剪纸层叠.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-E3",
+    "name": "字符画",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/E3_字符画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-F1",
+    "name": "图表生长",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/F1_图表生长.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-F2",
+    "name": "关系图",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/F2_关系图.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-F3",
+    "name": "分屏对比",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/F3_分屏对比.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-G1",
+    "name": "老胶片",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/G1_老胶片.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S1-G2",
+    "name": "信号故障",
+    "series": "S1",
+    "seriesDir": "A-G_代码样片",
+    "hasStill": true,
+    "source": "A-G_代码样片/G2_信号故障.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z1",
+    "name": "水墨",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z1_水墨.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z2",
+    "name": "工笔",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z2_工笔.md",
+    "promptSource": "patched"
+  },
+  {
+    "id": "S10-Z3",
+    "name": "写意",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z3_写意.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z4",
+    "name": "山水",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z4_山水.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z5",
+    "name": "剪纸",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": true,
+    "source": "Z_中国风/Z5_剪纸.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z6",
+    "name": "年画",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z6_年画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z7",
+    "name": "皮影",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z7_皮影.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z8",
+    "name": "敦煌",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z8_敦煌.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z9",
+    "name": "青花",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z9_青花.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z10",
+    "name": "木版画",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z10_木版画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z12",
+    "name": "书法",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z12_书法.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z13",
+    "name": "水墨漫画",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z13_水墨漫画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z14",
+    "name": "彩铅手绘",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z14_彩铅手绘.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S10-Z15",
+    "name": "温暖水彩科普卡",
+    "series": "S10",
+    "seriesDir": "Z_中国风",
+    "hasStill": false,
+    "source": "Z_中国风/Z15_温暖水彩科普卡.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H1",
+    "name": "Biennale Yellow",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": true,
+    "source": "H_现成版式/H1_Biennale Yellow.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H2",
+    "name": "BlockFrame",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H2_BlockFrame.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H3",
+    "name": "Blue Professional",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H3_Blue Professional.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H4",
+    "name": "Bold Poster",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H4_Bold Poster.md",
+    "promptSource": "patched"
+  },
+  {
+    "id": "S2-H5",
+    "name": "Broadside",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H5_Broadside.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H6",
+    "name": "Capsule",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H6_Capsule.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H7",
+    "name": "Cartesian",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H7_Cartesian.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H8",
+    "name": "Cobalt Grid",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H8_Cobalt Grid.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H9",
+    "name": "Coral",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H9_Coral.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H10",
+    "name": "Creative Mode",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H10_Creative Mode.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H11",
+    "name": "Daisy Days",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H11_Daisy Days.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S2-H12",
+    "name": "Editorial Forest",
+    "series": "S2",
+    "seriesDir": "H_现成版式",
+    "hasStill": false,
+    "source": "H_现成版式/H12_Editorial Forest.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K1",
+    "name": "扁平矢量",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K1_扁平矢量.md",
+    "promptSource": "patched"
+  },
+  {
+    "id": "S3-K2",
+    "name": "Q 版",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K2_Q 版.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K3",
+    "name": "卡哇伊",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K3_卡哇伊.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K4",
+    "name": "极简线条小人",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K4_极简线条小人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K5",
+    "name": "孟菲斯扁平人",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K5_孟菲斯扁平人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K6",
+    "name": "清线漫画",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K6_清线漫画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K7",
+    "name": "日式动画",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K7_日式动画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K8",
+    "name": "绘本",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K8_绘本.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K9",
+    "name": "涂鸦",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K9_涂鸦.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K10",
+    "name": "粉笔黑板",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K10_粉笔黑板.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K11",
+    "name": "手账笔记",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K11_手账笔记.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K12",
+    "name": "报纸四格",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K12_报纸四格.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K13",
+    "name": "美漫网点",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K13_美漫网点.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K14",
+    "name": "波普",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K14_波普.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K15",
+    "name": "橡皮管 1930",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K15_橡皮管 1930.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K16",
+    "name": "中世纪现代",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K16_中世纪现代.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K17",
+    "name": "几何",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K17_几何.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K18",
+    "name": "水彩",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K18_水彩.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K19",
+    "name": "厚涂",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K19_厚涂.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K20",
+    "name": "剪纸",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K20_剪纸.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K21",
+    "name": "手工纸艺",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K21_手工纸艺.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K22",
+    "name": "折纸",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K22_折纸.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K23",
+    "name": "拼贴",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K23_拼贴.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K24",
+    "name": "粘土",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K24_粘土.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K25",
+    "name": "皮克斯式 3D",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K25_皮克斯式 3D.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K26",
+    "name": "卡通渲染 3D",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K26_卡通渲染 3D.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K27",
+    "name": "低多边形",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K27_低多边形.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K28",
+    "name": "像素",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K28_像素.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K29",
+    "name": "蓝图",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K29_蓝图.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K30",
+    "name": "说明书线稿",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K30_说明书线稿.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K31",
+    "name": "平铺整理",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K31_平铺整理.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K32",
+    "name": "积木",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K32_积木.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K33",
+    "name": "地铁图",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K33_地铁图.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K34",
+    "name": "赛博霓虹",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K34_赛博霓虹.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K35",
+    "name": "旧学院风",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K35_旧学院风.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K36",
+    "name": "丝网印刷",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K36_丝网印刷.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K37",
+    "name": "哥特",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K37_哥特.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S3-K38",
+    "name": "情景喜剧",
+    "series": "S3",
+    "seriesDir": "K_卡通画风",
+    "hasStill": false,
+    "source": "K_卡通画风/K38_情景喜剧.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L1",
+    "name": "字幕新闻",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L1_字幕新闻.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L2",
+    "name": "1920 年代新闻片",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L2_1920 年代新闻片.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L3",
+    "name": "倒计时分屏",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L3_倒计时分屏.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L4",
+    "name": "延时摄影交响",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L4_延时摄影交响.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L5",
+    "name": "视觉调查",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L5_视觉调查.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L6",
+    "name": "构成主义蒙太奇",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L6_构成主义蒙太奇.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L7",
+    "name": "体育战术板",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L7_体育战术板.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L8",
+    "name": "电视新闻包装",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L8_电视新闻包装.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L9",
+    "name": "卫星地图简报",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L9_卫星地图简报.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L10",
+    "name": "工程方案比较墙",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L10_工程方案比较墙.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L11",
+    "name": "激光点云扫描",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L11_激光点云扫描.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L12",
+    "name": "白模投影",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L12_白模投影.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L13",
+    "name": "数据实体化",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L13_数据实体化.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L14",
+    "name": "爆炸图拆解",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L14_爆炸图拆解.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L15",
+    "name": "显微镜故事",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L15_显微镜故事.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L16",
+    "name": "档案灯箱",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L16_档案灯箱.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L17",
+    "name": "蜡笔儿童绘本",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L17_蜡笔儿童绘本.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L18",
+    "name": "水彩笔刷",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L18_水彩笔刷.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L19",
+    "name": "中国水墨",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L19_中国水墨.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L20",
+    "name": "油画厚涂",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L20_油画厚涂.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L21",
+    "name": "一笔画",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L21_一笔画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L22",
+    "name": "白板讲解",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L22_白板讲解.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L23",
+    "name": "钢笔淡彩",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L23_钢笔淡彩.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L24",
+    "name": "皮影戏",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L24_皮影戏.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L25",
+    "name": "浮世绘",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L25_浮世绘.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L26",
+    "name": "红色窗花剪纸",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L26_红色窗花剪纸.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L27",
+    "name": "纸雕灯影",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L27_纸雕灯影.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L28",
+    "name": "Risograph 丝网印刷",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L28_Risograph 丝网印刷.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L29",
+    "name": "复古半调案卷",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L29_复古半调案卷.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L30",
+    "name": "木刻版画",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L30_木刻版画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L31",
+    "name": "铜版画",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L31_铜版画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L32",
+    "name": "丝印旅行海报",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L32_丝印旅行海报.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L33",
+    "name": "瑞士动态排版",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L33_瑞士动态排版.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L34",
+    "name": "60s 间谍片头",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L34_60s 间谍片头.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L35",
+    "name": "装饰艺术",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L35_装饰艺术.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L36",
+    "name": "蓝图 · 工程制图",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L36_蓝图 · 工程制图.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L37",
+    "name": "彩色玻璃窗",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L37_彩色玻璃窗.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L38",
+    "name": "象形运动图形",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L38_象形运动图形.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L39",
+    "name": "ASCII · CRT 终端",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L39_ASCII · CRT 终端.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L40",
+    "name": "数据叙事",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L40_数据叙事.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L41",
+    "name": "等距信息图",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L41_等距信息图.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L42",
+    "name": "暗色科技发布",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L42_暗色科技发布.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L43",
+    "name": "活体实机录屏",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L43_活体实机录屏.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L44",
+    "name": "科幻全息界面",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L44_科幻全息界面.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L45",
+    "name": "1930s 橡皮管卡通",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L45_1930s 橡皮管卡通.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L46",
+    "name": "80 年代赛璐璐动画",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L46_80 年代赛璐璐动画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L47",
+    "name": "科幻情景喜剧卡通",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L47_科幻情景喜剧卡通.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L48",
+    "name": "50s 扁平卡通",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L48_50s 扁平卡通.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L49",
+    "name": "16-bit 像素 RPG",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L49_16-bit 像素 RPG.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L50",
+    "name": "HD-2D",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L50_HD-2D.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L51",
+    "name": "微游戏快闪",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L51_微游戏快闪.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L52",
+    "name": "综艺节奏扁平",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L52_综艺节奏扁平.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L53",
+    "name": "1920s 默片",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L53_1920s 默片.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L54",
+    "name": "后室 · 新怪谈",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L54_后室 · 新怪谈.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L55",
+    "name": "积木玩具",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L55_积木玩具.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L56",
+    "name": "纸片立体书",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L56_纸片立体书.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L57",
+    "name": "移轴微缩",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L57_移轴微缩.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L58",
+    "name": "低多边形等距",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L58_低多边形等距.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S4-L59",
+    "name": "玻璃质感产品",
+    "series": "S4",
+    "seriesDir": "L_Lemo-Opuscar",
+    "hasStill": true,
+    "source": "L_Lemo-Opuscar/L59_玻璃质感产品.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M1",
+    "name": "白板手绘讲解",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": true,
+    "source": "M_动态风格/M1_白板手绘讲解.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M2",
+    "name": "纸感手写笔记",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M2_纸感手写笔记.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M3",
+    "name": "文字建筑（口播金句专用）",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M3_文字建筑（口播金句专用）.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M4",
+    "name": "一个元素串全片",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M4_一个元素串全片.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M5",
+    "name": "一镜到底",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M5_一镜到底.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M6",
+    "name": "苹果发布会风",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M6_苹果发布会风.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M7",
+    "name": "极简卡点",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M7_极简卡点.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M8",
+    "name": "口播 + 逐字字幕",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M8_口播 + 逐字字幕.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M9",
+    "name": "情绪弧线：混乱、掌控、清晰",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M9_情绪弧线：混乱、掌控、清晰.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M10",
+    "name": "把一个抽象概念、一种情绪做成画面",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M10_把一个抽象概念、一种情绪做成画面.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M11",
+    "name": "人生循环",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M11_人生循环.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M12",
+    "name": "剪纸皮影",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M12_剪纸皮影.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M13",
+    "name": "手绘定格，第一人称",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M13_手绘定格，第一人称.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M14_",
+    "name": "M14_",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M14_.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M15_",
+    "name": "M15_",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M15_.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M16_",
+    "name": "M16_",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M16_.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M17_",
+    "name": "M17_",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M17_.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M18",
+    "name": "数学·科学讲解（3Blue1Brown 那种）",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M18_数学·科学讲解（3Blue1Brown 那种）.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M19",
+    "name": "零基础科普",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M19_零基础科普.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M20",
+    "name": "时间线·历史",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M20_时间线·历史.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M21",
+    "name": "原理拆解（它是怎么工作的）",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M21_原理拆解（它是怎么工作的）.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M22",
+    "name": "配方式步骤",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M22_配方式步骤.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M23",
+    "name": "五幕讲解（万能讲解模板）",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M23_五幕讲解（万能讲解模板）.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M24",
+    "name": "四段式发布片",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M24_四段式发布片.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M25",
+    "name": "歌词卡点",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M25_歌词卡点.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M26_",
+    "name": "M26_",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M26_.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M27",
+    "name": "无对白短片，声音讲一半",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M27_无对白短片，声音讲一半.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M28",
+    "name": "对称暖色的电影感空镜",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M28_对称暖色的电影感空镜.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M29",
+    "name": "日落天空的 3D 空镜加一句话",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M29_日落天空的 3D 空镜加一句话.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M30",
+    "name": "东方意境",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M30_东方意境.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M31",
+    "name": "粘土定格 MV",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M31_粘土定格 MV.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M32",
+    "name": "竖屏快节奏 POV",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M32_竖屏快节奏 POV.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M33",
+    "name": "从一个点拉远到宇宙",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M33_从一个点拉远到宇宙.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M34",
+    "name": "新闻快讯盘点",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M34_新闻快讯盘点.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M35_",
+    "name": "M35_",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M35_.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M36",
+    "name": "破框",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M36_破框.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M37",
+    "name": "Logo 慢慢拼出来（片头片尾）",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M37_Logo 慢慢拼出来（片头片尾）.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M38",
+    "name": "一个形状变到底",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M38_一个形状变到底.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M39_",
+    "name": "M39_",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M39_.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S5-M40_",
+    "name": "M40_",
+    "series": "S5",
+    "seriesDir": "M_动态风格",
+    "hasStill": false,
+    "source": "M_动态风格/M40_.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O1",
+    "name": "翼",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O1_翼.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O2",
+    "name": "百老汇旋律",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O2_百老汇旋律.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O3",
+    "name": "西线无战事",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O3_西线无战事.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O4",
+    "name": "壮志千秋",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O4_壮志千秋.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O5",
+    "name": "大饭店",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O5_大饭店.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O6",
+    "name": "乱世春秋",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O6_乱世春秋.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O7",
+    "name": "一夜风流",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O7_一夜风流.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O8",
+    "name": "叛舰喋血记",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O8_叛舰喋血记.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O9",
+    "name": "歌舞大王齐格飞",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O9_歌舞大王齐格飞.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O10",
+    "name": "左拉传",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O10_左拉传.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O11",
+    "name": "浮生若梦",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O11_浮生若梦.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O12",
+    "name": "乱世佳人",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O12_乱世佳人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O13",
+    "name": "蝴蝶梦",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O13_蝴蝶梦.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O14",
+    "name": "青山翠谷",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O14_青山翠谷.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O15",
+    "name": "忠勇之家",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O15_忠勇之家.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O16",
+    "name": "卡萨布兰卡",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O16_卡萨布兰卡.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O17",
+    "name": "与我同行",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O17_与我同行.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O18",
+    "name": "失去的周末",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O18_失去的周末.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O19",
+    "name": "黄金时代",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O19_黄金时代.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O20",
+    "name": "君子协定",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O20_君子协定.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O21",
+    "name": "王子复仇记",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O21_王子复仇记.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O22",
+    "name": "国王班底",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O22_国王班底.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O23",
+    "name": "彗星美人",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O23_彗星美人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O24",
+    "name": "一个美国人在巴黎",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O24_一个美国人在巴黎.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O25",
+    "name": "戏王之王",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O25_戏王之王.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O26",
+    "name": "乱世忠魂",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O26_乱世忠魂.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O27",
+    "name": "码头风云",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O27_码头风云.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O28",
+    "name": "君子好逑",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O28_君子好逑.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O29",
+    "name": "环游地球八十天",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O29_环游地球八十天.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O30",
+    "name": "桂河大桥",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O30_桂河大桥.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O31",
+    "name": "金粉世界",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O31_金粉世界.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O32",
+    "name": "宾虚",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O32_宾虚.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O33",
+    "name": "桃色公寓",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O33_桃色公寓.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O34",
+    "name": "西区故事",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O34_西区故事.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O35",
+    "name": "阿拉伯的劳伦斯",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O35_阿拉伯的劳伦斯.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O36",
+    "name": "汤姆·琼斯",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O36_汤姆·琼斯.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O37",
+    "name": "窈窕淑女",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O37_窈窕淑女.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O38",
+    "name": "音乐之声",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O38_音乐之声.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O39",
+    "name": "日月精忠",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O39_日月精忠.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O40",
+    "name": "炎热的夜晚",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O40_炎热的夜晚.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O41",
+    "name": "雾都孤儿",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O41_雾都孤儿.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O42",
+    "name": "午夜牛郎",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O42_午夜牛郎.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O43",
+    "name": "巴顿将军",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O43_巴顿将军.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O44",
+    "name": "法国贩毒网",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O44_法国贩毒网.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O45",
+    "name": "教父",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O45_教父.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O46",
+    "name": "骗中骗",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O46_骗中骗.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O47",
+    "name": "教父2",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O47_教父2.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O48",
+    "name": "飞越疯人院",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O48_飞越疯人院.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O49",
+    "name": "洛奇",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O49_洛奇.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O50",
+    "name": "安妮·霍尔",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O50_安妮·霍尔.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O51",
+    "name": "猎鹿人",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O51_猎鹿人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O52",
+    "name": "克莱默夫妇",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O52_克莱默夫妇.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O53",
+    "name": "普通人",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O53_普通人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O54",
+    "name": "烈火战车",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O54_烈火战车.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O55",
+    "name": "甘地传",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O55_甘地传.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O56",
+    "name": "母女情深",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O56_母女情深.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O57",
+    "name": "莫扎特传",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O57_莫扎特传.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O58",
+    "name": "走出非洲",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O58_走出非洲.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O59",
+    "name": "野战排",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O59_野战排.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O60",
+    "name": "末代皇帝",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O60_末代皇帝.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O61",
+    "name": "雨人",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O61_雨人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O62",
+    "name": "为黛西小姐开车",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O62_为黛西小姐开车.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O63",
+    "name": "与狼共舞",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O63_与狼共舞.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O64",
+    "name": "沉默的羔羊",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O64_沉默的羔羊.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O65",
+    "name": "不可饶恕",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O65_不可饶恕.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O66",
+    "name": "辛德勒的名单",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O66_辛德勒的名单.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O67",
+    "name": "阿甘正传",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O67_阿甘正传.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O68",
+    "name": "勇敢的心",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O68_勇敢的心.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O69",
+    "name": "英国病人",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O69_英国病人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O70",
+    "name": "泰坦尼克号",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O70_泰坦尼克号.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O71",
+    "name": "莎翁情史",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O71_莎翁情史.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O72",
+    "name": "美国丽人",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O72_美国丽人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O73",
+    "name": "角斗士",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O73_角斗士.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O74",
+    "name": "美丽心灵",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O74_美丽心灵.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O75",
+    "name": "芝加哥",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O75_芝加哥.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O76",
+    "name": "指环王：王者无敌",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O76_指环王：王者无敌.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O77",
+    "name": "百万美元宝贝",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O77_百万美元宝贝.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O78",
+    "name": "撞车",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O78_撞车.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O79",
+    "name": "无间行者",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O79_无间行者.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O80",
+    "name": "老无所依",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O80_老无所依.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O81",
+    "name": "贫民窟的百万富翁",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O81_贫民窟的百万富翁.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O82",
+    "name": "拆弹部队",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O82_拆弹部队.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O83",
+    "name": "国王的演讲",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O83_国王的演讲.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O84",
+    "name": "艺术家",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O84_艺术家.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O85",
+    "name": "逃离德黑兰",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O85_逃离德黑兰.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O86",
+    "name": "为奴十二年",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O86_为奴十二年.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O87",
+    "name": "鸟人",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O87_鸟人.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O88",
+    "name": "聚焦",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O88_聚焦.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O89",
+    "name": "月光男孩",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O89_月光男孩.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O90",
+    "name": "水形物语",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O90_水形物语.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O91",
+    "name": "绿皮书",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O91_绿皮书.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O92",
+    "name": "寄生虫",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O92_寄生虫.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O93",
+    "name": "无依之地",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O93_无依之地.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O94",
+    "name": "健听女孩",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O94_健听女孩.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O95",
+    "name": "瞬息全宇宙",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O95_瞬息全宇宙.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O96",
+    "name": "奥本海默",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O96_奥本海默.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O97",
+    "name": "阿诺拉",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O97_阿诺拉.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S6-O98",
+    "name": "一战再战",
+    "series": "S6",
+    "seriesDir": "O_奥斯卡98部",
+    "hasStill": true,
+    "source": "O_奥斯卡98部/O98_一战再战.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S7-R1",
+    "name": "霓虹雨夜 · 电影感",
+    "series": "S7",
+    "seriesDir": "R_照参考学来的",
+    "hasStill": true,
+    "source": "R_照参考学来的/R1_霓虹雨夜 · 电影感.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S7-R2",
+    "name": "80–90 年代复古日漫",
+    "series": "S7",
+    "seriesDir": "R_照参考学来的",
+    "hasStill": true,
+    "source": "R_照参考学来的/R2_80–90 年代复古日漫.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S7-R3",
+    "name": "美式漫画 · 潮流涂鸦",
+    "series": "S7",
+    "seriesDir": "R_照参考学来的",
+    "hasStill": true,
+    "source": "R_照参考学来的/R3_美式漫画 · 潮流涂鸦.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S7-R4",
+    "name": "末日工业 · 暗黑科幻",
+    "series": "S7",
+    "seriesDir": "R_照参考学来的",
+    "hasStill": true,
+    "source": "R_照参考学来的/R4_末日工业 · 暗黑科幻.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S7-R5",
+    "name": "像素赛博 · 复古游戏",
+    "series": "S7",
+    "seriesDir": "R_照参考学来的",
+    "hasStill": true,
+    "source": "R_照参考学来的/R5_像素赛博 · 复古游戏.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S7-R6",
+    "name": "东方赛博 · 国风幻想",
+    "series": "S7",
+    "seriesDir": "R_照参考学来的",
+    "hasStill": true,
+    "source": "R_照参考学来的/R6_东方赛博 · 国风幻想.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S7-R7",
+    "name": "扁平插画 · 黄昏屋顶",
+    "series": "S7",
+    "seriesDir": "R_照参考学来的",
+    "hasStill": true,
+    "source": "R_照参考学来的/R7_扁平插画 · 黄昏屋顶.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V1",
+    "name": "逐帧手绘 · 抖动线条",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V1_逐帧手绘 · 抖动线条.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V2",
+    "name": "等距 2.5D",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V2_等距 2.5D.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V3",
+    "name": "扁平矢量",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V3_扁平矢量.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V4",
+    "name": "线条画",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V4_线条画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V5",
+    "name": "3D 渲染",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V5_3D 渲染.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V6",
+    "name": "形变",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V6_形变.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V7",
+    "name": "贴纸讲解",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V7_贴纸讲解.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V8",
+    "name": "赛博朋克界面",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V8_赛博朋克界面.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V9",
+    "name": "拼贴 · 剪贴",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V9_拼贴 · 剪贴.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V10",
+    "name": "极光与毛玻璃",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V10_极光与毛玻璃.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V11",
+    "name": "包豪斯几何",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V11_包豪斯几何.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V12",
+    "name": "80 年代合成波 · VHS",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V12_80 年代合成波 · VHS.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V13",
+    "name": "像素",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V13_像素.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V14",
+    "name": "液态流动",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V14_液态流动.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S8-V15",
+    "name": "综艺花字",
+    "series": "S8",
+    "seriesDir": "V_mg-styles-15",
+    "hasStill": false,
+    "source": "V_mg-styles-15/V15_综艺花字.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X1",
+    "name": "手绘",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X1_手绘.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X2",
+    "name": "品牌动态图形",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X2_品牌动态图形.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X3",
+    "name": "沙画",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X3_沙画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X4",
+    "name": "歌词 MV",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X4_歌词 MV.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X5",
+    "name": "卡点素材剪辑",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X5_卡点素材剪辑.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X6",
+    "name": "界面形变",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X6_界面形变.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X7",
+    "name": "英雄漫画",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X7_英雄漫画.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X8",
+    "name": "手账剪贴本",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X8_手账剪贴本.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X9",
+    "name": "撕纸拼贴",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X9_撕纸拼贴.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X10",
+    "name": "粒子",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X10_粒子.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X11",
+    "name": "翻牌显示板",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X11_翻牌显示板.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X12",
+    "name": "霓虹灯牌",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X12_霓虹灯牌.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X13",
+    "name": "16-bit 街机",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X13_16-bit 街机.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X14",
+    "name": "CRT 终端",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X14_CRT 终端.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X15",
+    "name": "热敏小票",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X15_热敏小票.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X16",
+    "name": "地铁线路图",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X16_地铁线路图.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X17",
+    "name": "蓝图",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X17_蓝图.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X18",
+    "name": "漫画书",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X18_漫画书.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X19",
+    "name": "纪录片",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X19_纪录片.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X20",
+    "name": "博物馆展览",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X20_博物馆展览.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X21",
+    "name": "突发新闻",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X21_突发新闻.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X22",
+    "name": "侦探线索板",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X22_侦探线索板.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X23",
+    "name": "绘本",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X23_绘本.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X24",
+    "name": "RPG 任务",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X24_RPG 任务.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X25",
+    "name": "天气预报",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X25_天气预报.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X26",
+    "name": "电视购物",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X26_电视购物.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X27",
+    "name": "体育直播",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X27_体育直播.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X28",
+    "name": "组装说明书",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X28_组装说明书.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X29",
+    "name": "白板讲课",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X29_白板讲课.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X30",
+    "name": "电影预告片",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X30_电影预告片.md",
+    "promptSource": "original"
+  },
+  {
+    "id": "S9-X31",
+    "name": "数学证明讲课",
+    "series": "S9",
+    "seriesDir": "X_code-video",
+    "hasStill": false,
+    "source": "X_code-video/X31_数学证明讲课.md",
+    "promptSource": "original"
+  }
+]

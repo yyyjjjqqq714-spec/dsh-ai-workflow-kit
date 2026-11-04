@@ -16,8 +16,15 @@ async function readJson(p, fallback) {
   }
 }
 
+// 供外部程序（别的前端页面/脚本）直接调用
+const CORS = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, POST, OPTIONS',
+  'access-control-allow-headers': 'content-type',
+}
+
 function sendJson(res, code, obj) {
-  res.writeHead(code, { 'content-type': 'application/json; charset=utf-8' })
+  res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', ...CORS })
   res.end(JSON.stringify(obj))
 }
 
@@ -115,6 +122,12 @@ export function apply(ctx) {
           return sendJson(res, 400, { ok: false, error: 'bad url' })
         }
 
+        // CORS 预检
+        if (req.method === 'OPTIONS') {
+          res.writeHead(204, CORS)
+          return res.end()
+        }
+
         try {
           // 总览
           if (url.pathname === '/awkit/api/overview') {
@@ -137,25 +150,34 @@ export function apply(ctx) {
             })
           }
 
-          // 风格详情
+          // 风格详情：优先读本地补全版（_patched），没有再读原始库
           if (url.pathname === '/awkit/api/style') {
             const id = url.searchParams.get('id')
             if (!id) return sendJson(res, 400, { ok: false, error: 'missing id' })
             const styles = await readJson(join(ROOT, 'content/styles/_index.json'), [])
             const row = styles.find((s) => s.id === id)
             if (!row) return sendJson(res, 404, { ok: false, error: 'style not found: ' + id })
+
+            const patchedPath = join(ROOT, 'content/styles/_patched', row.id + '.md')
             let markdown = ''
+            let source = 'original'
             try {
-              markdown = await readFile(join(STYLE_SRC, row.file), 'utf8')
-            } catch (e) {
-              return sendJson(res, 200, {
-                ok: true, id: row.id, name: row.name, series: row.series,
-                markdown: '', error: '原文读取失败: ' + String((e && e.message) || e),
-              })
+              markdown = await readFile(patchedPath, 'utf8')
+              source = 'patched'
+            } catch {
+              try {
+                markdown = await readFile(join(STYLE_SRC, row.file), 'utf8')
+              } catch (e) {
+                return sendJson(res, 200, {
+                  ok: true, id: row.id, name: row.name, series: row.series,
+                  markdown: '', error: '原文读取失败: ' + String((e && e.message) || e),
+                })
+              }
             }
             return sendJson(res, 200, {
               ok: true, id: row.id, name: row.name, series: row.series,
-              seriesDir: row.seriesDir, hasStill: row.hasStill, file: row.file, markdown,
+              seriesDir: row.seriesDir, hasStill: row.hasStill, file: row.file,
+              source, markdown,
             })
           }
 
@@ -179,6 +201,7 @@ export function apply(ctx) {
                   'content-length': buf.length,
                   'cache-control': 'public, max-age=86400',
                   'x-still-kind': c.kind,
+                  ...CORS,
                 })
                 return res.end(buf)
               } catch {
