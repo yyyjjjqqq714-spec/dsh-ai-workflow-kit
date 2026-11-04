@@ -240,7 +240,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z1_水墨.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z2",
@@ -258,7 +258,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z3_写意.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z4",
@@ -267,7 +267,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z4_山水.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z5",
@@ -285,7 +285,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z6_年画.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z7",
@@ -294,7 +294,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z7_皮影.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z8",
@@ -303,7 +303,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z8_敦煌.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z9",
@@ -312,7 +312,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z9_青花.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z10",
@@ -321,7 +321,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z10_木版画.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z12",
@@ -330,7 +330,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z12_书法.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z13",
@@ -339,7 +339,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z13_水墨漫画.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z14",
@@ -348,7 +348,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z14_彩铅手绘.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S10-Z15",
@@ -357,7 +357,7 @@
     "seriesDir": "Z_中国风",
     "hasStill": false,
     "source": "Z_中国风/Z15_温暖水彩科普卡.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H1",
@@ -375,7 +375,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H2_BlockFrame.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H3",
@@ -384,7 +384,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H3_Blue Professional.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H4",
@@ -402,7 +402,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H5_Broadside.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H6",
@@ -411,7 +411,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H6_Capsule.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H7",
@@ -420,7 +420,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H7_Cartesian.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H8",
@@ -429,7 +429,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H8_Cobalt Grid.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H9",
@@ -438,7 +438,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H9_Coral.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H10",
@@ -447,7 +447,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H10_Creative Mode.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H11",
@@ -456,7 +456,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H11_Daisy Days.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S2-H12",
@@ -465,7 +465,7 @@
     "seriesDir": "H_现成版式",
     "hasStill": false,
     "source": "H_现成版式/H12_Editorial Forest.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K1",
@@ -483,7 +483,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K2_Q 版.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K3",
@@ -492,7 +492,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K3_卡哇伊.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K4",
@@ -501,7 +501,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K4_极简线条小人.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K5",
@@ -510,7 +510,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K5_孟菲斯扁平人.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K6",
@@ -519,7 +519,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K6_清线漫画.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K7",
@@ -528,7 +528,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K7_日式动画.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K8",
@@ -537,7 +537,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K8_绘本.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K9",
@@ -546,7 +546,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K9_涂鸦.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K10",
@@ -555,7 +555,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K10_粉笔黑板.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K11",
@@ -564,7 +564,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K11_手账笔记.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K12",
@@ -573,7 +573,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K12_报纸四格.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K13",
@@ -582,7 +582,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K13_美漫网点.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K14",
@@ -591,7 +591,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K14_波普.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K15",
@@ -600,7 +600,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K15_橡皮管 1930.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K16",
@@ -609,7 +609,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K16_中世纪现代.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K17",
@@ -618,7 +618,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K17_几何.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K18",
@@ -627,7 +627,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K18_水彩.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K19",
@@ -636,7 +636,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K19_厚涂.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K20",
@@ -645,7 +645,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K20_剪纸.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K21",
@@ -654,7 +654,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K21_手工纸艺.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K22",
@@ -663,7 +663,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K22_折纸.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K23",
@@ -672,7 +672,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K23_拼贴.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K24",
@@ -681,7 +681,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K24_粘土.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K25",
@@ -690,7 +690,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K25_皮克斯式 3D.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K26",
@@ -699,7 +699,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K26_卡通渲染 3D.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K27",
@@ -708,7 +708,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K27_低多边形.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K28",
@@ -717,7 +717,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K28_像素.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K29",
@@ -726,7 +726,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K29_蓝图.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K30",
@@ -735,7 +735,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K30_说明书线稿.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K31",
@@ -744,7 +744,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K31_平铺整理.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K32",
@@ -753,7 +753,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K32_积木.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K33",
@@ -762,7 +762,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K33_地铁图.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K34",
@@ -771,7 +771,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K34_赛博霓虹.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K35",
@@ -780,7 +780,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K35_旧学院风.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K36",
@@ -789,7 +789,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K36_丝网印刷.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K37",
@@ -798,7 +798,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K37_哥特.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S3-K38",
@@ -807,7 +807,7 @@
     "seriesDir": "K_卡通画风",
     "hasStill": false,
     "source": "K_卡通画风/K38_情景喜剧.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S4-L1",
@@ -1464,7 +1464,7 @@
     "seriesDir": "M_动态风格",
     "hasStill": false,
     "source": "M_动态风格/M14_.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S5-M15_",
@@ -1473,7 +1473,7 @@
     "seriesDir": "M_动态风格",
     "hasStill": false,
     "source": "M_动态风格/M15_.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S5-M16_",
@@ -1482,7 +1482,7 @@
     "seriesDir": "M_动态风格",
     "hasStill": false,
     "source": "M_动态风格/M16_.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S5-M17_",
@@ -1491,7 +1491,7 @@
     "seriesDir": "M_动态风格",
     "hasStill": false,
     "source": "M_动态风格/M17_.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S5-M18",
@@ -1572,7 +1572,7 @@
     "seriesDir": "M_动态风格",
     "hasStill": false,
     "source": "M_动态风格/M26_.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S5-M27",
@@ -1653,7 +1653,7 @@
     "seriesDir": "M_动态风格",
     "hasStill": false,
     "source": "M_动态风格/M35_.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S5-M36",
@@ -1689,7 +1689,7 @@
     "seriesDir": "M_动态风格",
     "hasStill": false,
     "source": "M_动态风格/M39_.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S5-M40_",
@@ -1698,7 +1698,7 @@
     "seriesDir": "M_动态风格",
     "hasStill": false,
     "source": "M_动态风格/M40_.md",
-    "promptSource": "original"
+    "promptSource": "patched"
   },
   {
     "id": "S6-O1",
