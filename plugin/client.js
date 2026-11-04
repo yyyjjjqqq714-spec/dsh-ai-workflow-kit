@@ -235,21 +235,55 @@ window.__ModuleLoader__.load({
     }
 
     // ---------- 详情 ----------
+    // Electron 里 navigator.clipboard 可能因权限/上下文失败，必须有 execCommand 兜底
+    function copyFallback(text) {
+      const ta = document.createElement('textarea')
+      ta.value = text
+      ta.setAttribute('readonly', '')
+      ta.style.position = 'fixed'
+      ta.style.top = '-9999px'
+      ta.style.left = '-9999px'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.focus()
+      ta.select()
+      ta.setSelectionRange(0, ta.value.length)
+      let ok = false
+      try { ok = document.execCommand('copy') } catch (e) { ok = false }
+      document.body.removeChild(ta)
+      return ok ? Promise.resolve() : Promise.reject(new Error('execCommand copy failed'))
+    }
+
+    function copyText(text) {
+      const val = String(text == null ? '' : text)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(val).catch(() => copyFallback(val))
+      }
+      return copyFallback(val)
+    }
+
     function CopyBtn({ text, label }) {
-      const [done, setDone] = React.useState(false)
+      const [state, setState] = React.useState('idle')  // idle | done | fail
       return h('button', {
         onClick: () => {
-          const clip = navigator.clipboard
-          if (clip && clip.writeText) {
-            clip.writeText(text).then(() => { setDone(true); setTimeout(() => setDone(false), 1500) }).catch(() => {})
-          }
+          copyText(text)
+            .then(() => {
+              setState('done')
+              setTimeout(() => setState('idle'), 1600)
+            })
+            .catch(() => {
+              setState('fail')
+              setTimeout(() => setState('idle'), 2200)
+            })
         },
         style: {
-          appearance: 'none', border: '1px solid ' + C.border, background: done ? 'rgba(20,184,166,.12)' : 'transparent',
-          color: done ? '#14b8a6' : C.sub, borderRadius: 6, padding: '3px 10px',
-          cursor: 'pointer', fontSize: 12,
+          appearance: 'none',
+          border: '1px solid ' + (state === 'done' ? 'rgba(20,184,166,.5)' : state === 'fail' ? 'rgba(212,56,13,.5)' : C.border),
+          background: state === 'done' ? 'rgba(20,184,166,.12)' : state === 'fail' ? 'rgba(212,56,13,.08)' : 'transparent',
+          color: state === 'done' ? '#14b8a6' : state === 'fail' ? C.danger : C.sub,
+          borderRadius: 6, padding: '3px 10px', cursor: 'pointer', fontSize: 12,
         },
-      }, done ? '✓ 已复制' : (label || '复制'))
+      }, state === 'done' ? '✓ 已复制' : state === 'fail' ? '✗ 复制失败' : (label || '复制'))
     }
 
     function HowToUse({ id, file, series }) {
@@ -266,6 +300,14 @@ window.__ModuleLoader__.load({
 
     function DetailView({ state, onBack }) {
       const { kind, row, loading, data, error } = state
+
+      React.useEffect(() => {
+        function onKey(e) {
+          if (e.key === 'Escape') onBack()
+        }
+        window.addEventListener('keydown', onKey)
+        return () => window.removeEventListener('keydown', onKey)
+      }, [onBack])
 
       const header = h('div', { style: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 } },
         h('button', {
@@ -300,7 +342,7 @@ window.__ModuleLoader__.load({
           ),
           md ? h('pre', {
             style: {
-              margin: 0, padding: 12, borderRadius: 8, overflow: 'auto', maxHeight: 'calc(100vh - 340px)',
+              margin: 0, padding: 12, borderRadius: 8, overflow: 'visible',
               background: C.layer2, fontSize: 12, lineHeight: 1.6, whiteSpace: 'pre-wrap',
               color: C.text, fontFamily: 'ui-monospace, SFMono-Regular, Consolas, monospace',
             },
@@ -317,7 +359,7 @@ window.__ModuleLoader__.load({
           ),
           h('pre', {
             style: {
-              margin: 0, padding: 12, borderRadius: 8, overflow: 'auto', maxHeight: 'calc(100vh - 260px)',
+              margin: 0, padding: 12, borderRadius: 8, overflow: 'visible',
               background: C.layer2, fontSize: 12, lineHeight: 1.6, whiteSpace: 'pre-wrap',
               color: C.text, fontFamily: 'ui-monospace, SFMono-Regular, Consolas, monospace',
             },
@@ -345,7 +387,7 @@ window.__ModuleLoader__.load({
           t.files.map((f, i) => h('div', { key: i, style: { fontFamily: 'monospace', fontSize: 11 } }, `${f.from} → ${f.to}`)),
         ) : null,
         h('pre', {
-          style: { margin: 0, padding: 12, borderRadius: 8, overflow: 'auto', maxHeight: 'calc(100vh - 340px)', background: C.layer2, fontSize: 12, lineHeight: 1.6, whiteSpace: 'pre-wrap', color: C.text, fontFamily: 'monospace' },
+          style: { margin: 0, padding: 12, borderRadius: 8, overflow: 'visible', background: C.layer2, fontSize: 12, lineHeight: 1.6, whiteSpace: 'pre-wrap', color: C.text, fontFamily: 'monospace' },
         }, dump),
       )
     }
@@ -381,7 +423,7 @@ window.__ModuleLoader__.load({
           .catch((e) => setDetail({ kind: 'template', row, loading: false, error: String((e && e.message) || e) }))
       }
 
-      if (detail) return h('div', { style: { padding: '16px 20px' } }, h(DetailView, { state: detail, onBack: () => setDetail(null) }))
+      if (detail) return h('div', { style: { height: '100%', boxSizing: 'border-box', overflowY: 'auto', overflowX: 'hidden', padding: '16px 20px 40px' } }, h(DetailView, { state: detail, onBack: () => setDetail(null) }))
 
       const counts = {
         styles: data ? data.styles.total : null,
@@ -389,7 +431,7 @@ window.__ModuleLoader__.load({
         templates: data ? data.templates.total : null,
       }
 
-      return h('div', { style: { padding: '16px 20px', color: C.text } },
+      return h('div', { style: { height: '100%', boxSizing: 'border-box', overflowY: 'auto', overflowX: 'hidden', padding: '16px 20px 40px', color: C.text } },
         h('div', { style: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 } },
           h('h2', { style: { fontSize: 16, fontWeight: 600, margin: 0 } }, 'AI 工作流'),
           h('span', { style: { fontSize: 11, color: C.faint } }, '真数据版'),
@@ -397,19 +439,27 @@ window.__ModuleLoader__.load({
           h(Btn, { onClick: reload }, loading ? '刷新中…' : '刷新'),
         ),
         error ? h('div', { style: { padding: '8px 12px', marginBottom: 10, borderRadius: 8, background: 'rgba(212,56,13,.08)', color: C.danger, fontSize: 12 } }, '接口未接通：' + error) : null,
-        h(TabBar, { tabs: TABS, active: tab, counts, onPick: (k) => { setTab(k); setQuery(''); setDetail(null) } }),
+        h('div', {
+          style: {
+            position: 'sticky', top: 0, zIndex: 2,
+            background: 'var(--dsw-alias-bg-layer-1, #ffffff)',
+            paddingTop: 2,
+          },
+        },
+          h(TabBar, { tabs: TABS, active: tab, counts, onPick: (k) => { setTab(k); setQuery(''); setDetail(null) } }),
+          tab === 'styles' ? h('input', {
+            value: query,
+            onChange: (e) => setQuery(e.target.value),
+            placeholder: '搜索 id 或名称，如 A3 / 水墨',
+            style: { width: '100%', boxSizing: 'border-box', marginTop: 10, padding: '6px 10px', fontSize: 12, borderRadius: 6, outline: 'none', border: '1px solid ' + C.border, background: C.card, color: C.text },
+          }) : null,
+        ),
         h('div', { style: { marginTop: 10 } },
-          tab === 'styles' ? h('div', null,
-            h('input', {
-              value: query,
-              onChange: (e) => setQuery(e.target.value),
-              placeholder: '搜索 id 或名称，如 A3 / 水墨',
-              style: { width: '100%', boxSizing: 'border-box', padding: '6px 10px', fontSize: 12, borderRadius: 6, outline: 'none', border: '1px solid ' + C.border, background: C.card, color: C.text },
-            }),
-            data ? h(StyleGrid, { data, query, onOpen: openStyle }) : h(Empty, { text: loading ? '加载中…' : '暂无数据' }),
-          ) : tab === 'prompts'
-            ? (data ? h(PromptList, { data, onOpen: openPrompt }) : h(Empty, { text: loading ? '加载中…' : '暂无数据' }))
-            : (data ? h(TemplateList, { data, onOpen: openTemplate }) : h(Empty, { text: loading ? '加载中…' : '暂无数据' })),
+          tab === 'styles'
+            ? (data ? h(StyleGrid, { data, query, onOpen: openStyle }) : h(Empty, { text: loading ? '加载中…' : '暂无数据' }))
+            : tab === 'prompts'
+              ? (data ? h(PromptList, { data, onOpen: openPrompt }) : h(Empty, { text: loading ? '加载中…' : '暂无数据' }))
+              : (data ? h(TemplateList, { data, onOpen: openTemplate }) : h(Empty, { text: loading ? '加载中…' : '暂无数据' })),
         ),
       )
     }

@@ -1,0 +1,24 @@
+{
+  "id": "py-cli-script",
+  "lang": "python",
+  "framework": "argparse",
+  "kind": "cli",
+  "title": "Python CLI 脚本",
+  "description": "生成带 argparse、日志、异常出口码的标准命令行脚本骨架。",
+  "vars": [
+    { "key": "script", "type": "snake_case", "required": true, "example": "daily_report" }
+  ],
+  "files": [
+    { "from": "files/{{script}}.py", "to": "scripts/{{script}}.py" }
+  ],
+  "review": [
+    "有 --help 且每个参数有 help 文本",
+    "异常统一 catch 并返回非 0 退出码",
+    "日志带时间戳和级别",
+    "无全局可变状态"
+  ],
+  "example": {
+    "render": "script=daily_report",
+    "output": "scripts/daily_report.py"
+  }
+}

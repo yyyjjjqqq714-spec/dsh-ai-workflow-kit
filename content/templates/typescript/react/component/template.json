@@ -1,0 +1,25 @@
+{
+  "id": "ts-react-component",
+  "lang": "typescript",
+  "framework": "react",
+  "kind": "component",
+  "title": "React 函数组件",
+  "description": "生成带 Props 类型、空状态和加载状态处理的函数组件骨架。",
+  "vars": [
+    { "key": "Name", "type": "PascalCase", "required": true, "example": "UserCard" },
+    { "key": "name", "type": "camelCase", "required": true, "example": "userCard" }
+  ],
+  "files": [
+    { "from": "files/{{Name}}.tsx", "to": "src/components/{{Name}}/{{Name}}.tsx" }
+  ],
+  "review": [
+    "Props 有显式类型，无 any",
+    "覆盖 loading / empty / error 三态",
+    "事件处理函数命名以 handle 开头",
+    "组件不超过 150 行"
+  ],
+  "example": {
+    "render": "Name=UserCard",
+    "output": "src/components/UserCard/UserCard.tsx"
+  }
+}
