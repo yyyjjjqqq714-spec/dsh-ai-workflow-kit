@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 工作流 · 视频风格库</title>
+<style>
+  :root{
+    --bg:#fafaf8; --card:#fff; --text:#1a1a1a; --sub:#666; --faint:#999;
+    --line:rgba(0,0,0,.08); --accent:#4f7cff; --radius:10px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14151a; --card:#1c1e26; --text:#eee; --sub:#aaa; --faint:#777;
+      --line:rgba(255,255,255,.10); }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:14px/1.6 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif}
+  header{position:sticky;top:0;z-index:10;background:var(--bg);
+    border-bottom:1px solid var(--line);padding:14px 20px 0}
+  .wrap{max-width:1280px;margin:0 auto}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{font-size:12px;color:var(--faint);margin-bottom:10px}
+  .tabs{display:flex;gap:2px;border-bottom:1px solid var(--line)}
+  .tab{appearance:none;border:none;background:none;color:var(--sub);
+    padding:9px 14px;cursor:pointer;font-size:14px;border-bottom:2px solid transparent}
+  .tab.on{color:var(--text);font-weight:600;border-bottom-color:var(--accent)}
+  .tab b{font-size:11px;color:var(--faint);font-weight:400;margin-left:5px}
+  .search{padding:12px 0}
+  input[type=search]{width:100%;padding:8px 12px;border:1px solid var(--line);
+    border-radius:8px;background:var(--card);color:var(--text);font-size:13px;outline:none}
+  main{max-width:1280px;margin:0 auto;padding:16px 20px 60px}
+  .series{margin:22px 0 8px;display:flex;align-items:baseline;gap:8px}
+  .series strong{font-size:13px}
+  .series span{font-size:12px;color:var(--sub)}
+  .series em{font-size:11px;color:var(--faint);font-style:normal}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;cursor:pointer;transition:transform .12s,box-shadow .12s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10)}
+  .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#ddd}
+  .card .meta{padding:7px 9px 9px}
+  .card .nm{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card .id{font-size:10px;color:var(--faint);margin-top:2px}
+  .badge{position:absolute;top:5px;right:5px;font-size:10px;color:#fff;
+    background:rgba(0,0,0,.55);border-radius:4px;padding:0 5px;line-height:16px}
+  .thumbbox{position:relative}
+  .more{grid-column:1/-1;text-align:center;padding:8px}
+  .more button{appearance:none;border:none;background:none;color:var(--accent);
+    cursor:pointer;font-size:13px}
+  .empty{padding:40px 0;text-align:center;color:var(--faint)}
+
+  /* 详情 */
+  .detail{max-width:1280px;margin:0 auto;padding:18px 20px 60px}
+  .back{appearance:none;border:1px solid var(--line);background:none;color:var(--sub);
+    border-radius:7px;padding:4px 12px;cursor:pointer;font-size:12px;margin-bottom:12px}
+  .dhead{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .dhead h2{font-size:17px;margin:0}
+  .dhead .tag{font-size:11px;color:var(--sub);border:1px solid var(--line);
+    border-radius:10px;padding:1px 8px}
+  .dbody{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+  .dbody img{width:300px;max-width:100%;border-radius:8px;border:1px solid var(--line)}
+  .howto{flex:1;min-width:260px;background:var(--card);border:1px solid var(--line);
+    border-radius:8px;padding:12px 14px;font-size:13px;color:var(--sub)}
+  .howto b{color:var(--text);display:block;margin-bottom:6px}
+  .btn{appearance:none;border:1px solid var(--line);background:none;color:var(--sub);
+    border-radius:7px;padding:5px 14px;cursor:pointer;font-size:13px}
+  .btn.ok{border-color:rgba(20,184,166,.5);background:rgba(20,184,166,.12);color:#14b8a6}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:8px;
+    padding:14px;font-size:12.5px;line-height:1.65;white-space:pre-wrap;
+    word-break:break-word;margin:14px 0 0}
+  .plist{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:8px;
+    padding:12px 14px;cursor:pointer}
+  .pcard:hover{border-color:var(--accent)}
+  .pcard h3{margin:0 0 4px;font-size:14px}
+  .pcard p{margin:0;font-size:12px;color:var(--sub)}
+  footer{max-width:1280px;margin:0 auto;padding:0 20px 40px;font-size:12px;color:var(--faint)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>AI 工作流 · 视频风格库</h1>
+    <div class="sub" id="stat"></div>
+    <div class="tabs">
+      <button class="tab on" data-tab="styles">视频风格 <b id="c1"></b></button>
+      <button class="tab" data-tab="prompts">提示词 <b id="c2"></b></button>
+      <button class="tab" data-tab="templates">代码模板 <b id="c3"></b></button>
+    </div>
+    <div class="search"><input type="search" id="q" placeholder="搜索 id 或名称，如 A3 / 水墨 / 像素"></div>
+  </div>
+</header>
+<main id="main"></main>
+<footer>
+  数据来自公开代码动画风格库；「示意图」为按提示词程序化渲染，非原作者截图。<br>
+  点击卡片查看完整提示词，可直接复制给模型使用。
+</footer>
+<script src="data.js"></script>
+<script>
+const D = window.AWKIT_DATA
+const SERIES = {S1:'代码样片',S2:'现成版式',S3:'卡通画风',S4:'Lemo·Opuscar',S5:'动态风格',S6:'奥斯卡98部',S7:'照参考学来的',S8:'mg-styles-15',S9:'code-video',S10:'中国风'}
+const HUE = {S1:'#4f7cff',S2:'#8b5cf6',S3:'#f59e0b',S4:'#ec4899',S5:'#14b8a6',S6:'#ef4444',S7:'#84cc16',S8:'#06b6d4',S9:'#a855f7',S10:'#64748b'}
+let tab = 'styles', query = '', detail = null, expanded = {}
+
+const $ = s => document.querySelector(s)
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))
+
+$('#c1').textContent = D.styles.length
+$('#c2').textContent = D.prompts.length
+$('#c3').textContent = D.templates.length
+$('#stat').textContent =
+  `${D.styles.length} 个视频风格 · ${D.prompts.length} 个提示词 · ${D.templates.length} 个代码模板 · 构建于 ${D.builtAt.slice(0,10)}`
+
+document.querySelectorAll('.tab').forEach(b => b.onclick = () => {
+  tab = b.dataset.tab; query = ''; detail = null; $('#q').value = ''
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === b))
+  render()
+})
+$('#q').oninput = e => { query = e.target.value.trim().toLowerCase(); render() }
+
+function copyText(t){
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    return navigator.clipboard.writeText(t).catch(() => fallback(t))
+  }
+  return fallback(t)
+}
+function fallback(t){
+  const ta = document.createElement('textarea')
+  ta.value = t; ta.style.position='fixed'; ta.style.opacity='0'
+  document.body.appendChild(ta); ta.select()
+  let ok=false; try{ ok=document.execCommand('copy') }catch(e){}
+  document.body.removeChild(ta)
+  return ok ? Promise.resolve() : Promise.reject()
+}
+
+/* ---------- 列表 ---------- */
+function render(){
+  const m = $('#main')
+  if (detail) return renderDetail(m)
+
+  if (tab === 'styles') {
+    let items = D.styles
+    if (query) items = items.filter(s => s.id.toLowerCase().includes(query) || s.name.toLowerCase().includes(query))
+    if (!items.length) { m.innerHTML = '<div class="empty">没有匹配的风格</div>'; return }
+
+    const groups = []
+    const idx = new Map()
+    for (const it of items) {
+      if (!idx.has(it.series)) { const g = {s: it.series, items: []}; idx.set(it.series, g); groups.push(g) }
+      idx.get(it.series).items.push(it)
+    }
+    let html = ''
+    for (const g of groups) {
+      const cap = query ? 400 : (expanded[g.s] ? g.items.length : 8)
+      const shown = g.items.slice(0, cap)
+      html += `<div class="series"><strong>${g.s}</strong><span>${SERIES[g.s]||''}</span><em>· ${g.items.length} 条</em></div>`
+      html += '<div class="grid">'
+      for (const it of shown) {
+        const img = it.still
+          ? `<img class="thumb" loading="lazy" src="${it.still}" alt="">`
+          : `<div class="thumb" style="background:${(HUE[it.series]||'#888')}22;display:flex;align-items:center;justify-content:center;color:${HUE[it.series]||'#888'};font-size:26px;font-weight:700">${esc(it.name[0]||'?')}</div>`
+        const badge = it.hasStill ? '' : '<span class="badge">示意</span>'
+        html += `<div class="card" data-id="${esc(it.id)}">
+          <div class="thumbbox">${img}${badge}</div>
+          <div class="meta"><div class="nm">${esc(it.name)}</div><div class="id">${esc(it.id)}</div></div>
+        </div>`
+      }
+      html += '</div>'
+      if (g.items.length > cap) {
+        html += `<div class="more"><button data-more="${g.s}">展开全部 ${g.items.length} 条 ↓</button></div>`
+      }
+    }
+    m.innerHTML = html
+    m.querySelectorAll('.card').forEach(c => c.onclick = () => openStyle(c.dataset.id))
+    m.querySelectorAll('[data-more]').forEach(b => b.onclick = () => { expanded[b.dataset.more] = true; render() })
+    return
+  }
+
+  if (tab === 'prompts') {
+    let items = D.prompts
+    if (query) items = items.filter(p => (p.title + p.slug).toLowerCase().includes(query))
+    m.innerHTML = '<div class="plist">' + items.map(p =>
+      `<div class="pcard" data-p="${esc(p.slug)}/${esc(p.version)}">
+         <h3>${esc(p.title)}</h3>
+         <p>${esc(p.slug)} · ${esc(p.version)} · ${p.markdown.length} 字符</p>
+       </div>`).join('') + '</div>'
+    m.querySelectorAll('.pcard').forEach(c => c.onclick = () => {
+      const [slug, v] = c.dataset.p.split('/')
+      openPrompt(slug, v)
+    })
+    return
+  }
+
+  let items = D.templates
+  if (query) items = items.filter(t => (t.title + t.id + t.lang + t.framework).toLowerCase().includes(query))
+  m.innerHTML = '<div class="plist">' + items.map(t =>
+    `<div class="pcard" data-t="${esc(t.path)}">
+       <h3>${esc(t.title||t.id)}</h3>
+       <p>${esc(t.lang||'')} / ${esc(t.framework||'')} / ${esc(t.kind||'')} · ${(t.vars||[]).length} 变量 · ${(t.files||[]).length} 文件</p>
+     </div>`).join('') + '</div>'
+  m.querySelectorAll('.pcard').forEach(c => c.onclick = () => {
+    const t = D.templates.find(x => x.path === c.dataset.t)
+    openTemplate(t)
+  })
+}
+
+/* ---------- 详情 ---------- */
+function openStyle(id){
+  const s = D.styles.find(x => x.id === id)
+  if (!s) return
+  detail = { kind:'style', item: s }
+  window.scrollTo(0,0); render()
+}
+function openPrompt(slug, v){
+  const p = D.prompts.find(x => x.slug === slug && x.version === v)
+  if (!p) return
+  detail = { kind:'prompt', item: p }
+  window.scrollTo(0,0); render()
+}
+function openTemplate(t){
+  detail = { kind:'template', item: t }
+  window.scrollTo(0,0); render()
+}
+
+function renderDetail(m){
+  const { kind, item } = detail
+  const back = '<button class="back" onclick="backToList()">← 返回列表</button>'
+
+  if (kind === 'style') {
+    const img = item.still ? `<img src="${item.still}" alt="">` : ''
+    m.innerHTML = `<div class="detail">${back}
+      <div class="dhead"><h2>${esc(item.name)}</h2><span class="tag">${esc(item.id)}</span>
+        <span class="tag">${SERIES[item.series]||item.series}</span>
+        ${item.patched ? '<span class="tag">已补全</span>' : ''}</div>
+      <div class="dbody">
+        ${img}
+        <div class="howto">
+          <b>怎么调用</b>
+          ① 点「复制提示词」，把整段给模型<br>
+          ② 提示词含画风描述与 Canvas 参考实现<br>
+          ③ 想直接看源文件：<code>${esc(item.id)}.md</code>
+          <div style="margin-top:10px"><button class="btn" id="cp">复制提示词</button></div>
+        </div>
+      </div>
+      <pre>${esc(item.markdown)}</pre></div>`
+    bindCopy(item.markdown)
+    return
+  }
+
+  if (kind === 'prompt') {
+    m.innerHTML = `<div class="detail">${back}
+      <div class="dhead"><h2>${esc(item.title)}</h2>
+        <span class="tag">${esc(item.slug)}</span><span class="tag">${esc(item.version)}</span></div>
+      <div style="margin:12px 0"><button class="btn" id="cp">复制提示词</button></div>
+      <pre>${esc(item.markdown)}</pre></div>`
+    bindCopy(item.markdown)
+    return
+  }
+
+  const dump = JSON.stringify(item, null, 2)
+  m.innerHTML = `<div class="detail">${back}
+    <div class="dhead"><h2>${esc(item.title||item.id)}</h2>
+      <span class="tag">${esc(item.lang||'')}</span><span class="tag">${esc(item.framework||'')}</span>
+      <span class="tag">${esc(item.kind||'')}</span></div>
+    <p style="font-size:13px;color:var(--sub)">${esc(item.description||'')}</p>
+    <div style="margin:12px 0"><button class="btn" id="cp">复制 template.json</button></div>
+    <pre>${esc(dump)}</pre></div>`
+  bindCopy(dump)
+}
+
+function bindCopy(text){
+  const btn = document.getElementById('cp')
+  if (!btn) return
+  btn.onclick = () => copyText(text).then(() => {
+    btn.textContent = '✓ 已复制'; btn.classList.add('ok')
+    setTimeout(() => { btn.textContent = '复制提示词'; btn.classList.remove('ok') }, 1600)
+  }).catch(() => {
+    btn.textContent = '✗ 复制失败'
+    setTimeout(() => { btn.textContent = '复制提示词' }, 2000)
+  })
+}
+window.backToList = () => { detail = null; render(); window.scrollTo(0,0) }
+
+render()
+</script>
+</body>
+</html>
