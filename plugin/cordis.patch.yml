@@ -1,0 +1,6 @@
+# Host half: no-op for the L1 skeleton.
+# The `dsh.client` declaration in package.json makes the Web app load
+# ./client.js as the browser half, which owns the sidebar entry + panel.
+- insert:
+    - id: ai-workflow-kit
+      name: '@local/ai-workflow-kit'

@@ -221,6 +221,13 @@ dsh plugin --profile desktop add "F:\软件\DeepSeek Harness工作区\ai-workflo
 
 ## 6. 插件 L2：接真数据（15 分钟，可选）
 
+> **2026-11-04 已完成 ✅** —— 实际做成了三区块真数据版，超出原计划：
+> - Host 两个接口：`GET /awkit/api/overview`（340 条风格 + 按系列统计）、`GET /awkit/api/style?id=`（读原文 md）
+> - Client 三 Tab（视频风格 / 提示词 / 代码模板）、搜索过滤、点条目看原文、详情页返回
+> - 数据来自 `tools/build-style-index.mjs` 扫描风格库源生成的 `content/styles/_index.json`（340 条，非造假）
+> - 验收截图：`_audit/l2-list.png`、`_audit/l2-detail.png`、`_audit/l2-search.png`
+> - 验证方式：`Invoke-RestMethod` 测 Host API（overview 返回 340 / detail 返回 1435 字符 md），再用 UIA Invoke 点进面板逐屏截图
+
 只有 L1 通过才做。
 
 ### 6.1 改 `index.js`
