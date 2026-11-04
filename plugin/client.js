@@ -5,6 +5,8 @@ window.__ModuleLoader__.load({
     const h = React.createElement
 
     // ---------- 常量 ----------
+    // 每次插件加载生成一个版本号，用于破除图片缓存（重新生成了示意图时能立刻看到）
+    const BUILD = Date.now()
     const SERIES_LABEL = {
       S1: '代码样片', S2: '现成版式', S3: '卡通画风', S4: 'Lemo·Opuscar',
       S5: '动态风格', S6: '奥斯卡98部', S7: '照参考学来的', S8: 'mg-styles-15',
@@ -125,7 +127,7 @@ window.__ModuleLoader__.load({
         h('div', { style: { width: 152, height: 86, background: hue + '22', position: 'relative', overflow: 'hidden' } },
           showImg
             ? h('img', {
-                src: '/awkit/api/still?id=' + encodeURIComponent(it.id),
+                src: '/awkit/api/still?id=' + encodeURIComponent(it.id) + '&t=' + BUILD,
                 loading: 'lazy',
                 onError: () => setBroken(true),
                 style: { width: '100%', height: '100%', objectFit: 'cover', display: 'block' },
@@ -337,7 +339,7 @@ window.__ModuleLoader__.load({
 
       if (kind === 'style') {
         const md = (data && data.markdown) || ''
-        const stillUrl = row.hasStill ? '/awkit/api/still?id=' + encodeURIComponent(row.id) : null
+        const stillUrl = (row.hasStill || row.generated) ? '/awkit/api/still?id=' + encodeURIComponent(row.id) + '&t=' + BUILD : null
         return h('div', null, header,
           h('div', { style: { display: 'flex', gap: 16, marginBottom: 12, alignItems: 'flex-start' } },
             stillUrl ? h('img', {

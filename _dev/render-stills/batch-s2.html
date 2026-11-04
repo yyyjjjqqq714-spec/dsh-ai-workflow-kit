@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;background:#1a1a1a;overflow:hidden}
+  canvas{display:block}
+</style>
+</head>
+<body>
+<canvas id="c" width="320" height="180"></canvas>
+<script>
+const W = 320, H = 180
+const c = document.getElementById('c')
+const ctx = c.getContext('2d')
+const id = new URLSearchParams(location.search).get('id') || 'S2-H2'
+
+const F = {
+  sans: '"Microsoft YaHei","PingFang SC",sans-serif',
+  serif: '"SimSun","Songti SC",serif',
+  hand: '"KaiTi","STKaiti",serif',
+  mono: '"Consolas","Courier New",monospace',
+}
+
+function rr(x, y, w, h, r) {
+  r = Math.min(r, w / 2, h / 2)
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.arcTo(x + w, y, x + w, y + h, r)
+  ctx.arcTo(x + w, y + h, x, y + h, r)
+  ctx.arcTo(x, y + h, x, y, r)
+  ctx.arcTo(x, y, x + w, y, r)
+  ctx.closePath()
+}
+function tx(s, x, y, font, color, align, base) {
+  ctx.save()
+  ctx.font = font
+  ctx.fillStyle = color
+  ctx.textAlign = align || 'left'
+  ctx.textBaseline = base || 'alphabetic'
+  ctx.fillText(s, x, y)
+  ctx.restore()
+}
+function ln(x1, y1, x2, y2, color, w, dash) {
+  ctx.save()
+  ctx.strokeStyle = color
+  ctx.lineWidth = w || 1
+  if (dash) ctx.setLineDash(dash)
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke()
+  ctx.restore()
+}
+function shadowOn(a, blur, oy) {
+  ctx.shadowColor = 'rgba(0,0,0,' + a + ')'
+  ctx.shadowBlur = blur
+  ctx.shadowOffsetY = oy || 0
+}
+function shadowOff() {
+  ctx.shadowColor = 'transparent'
+  ctx.shadowBlur = 0
+  ctx.shadowOffsetY = 0
+}
+
+/* =========================================================
+   S2-H2 BlockFrame —— 粗黑环框 + 橙色 L 角块 + 内嵌图文
+   ========================================================= */
+function h2() {
+  ctx.fillStyle = '#EDE7DA'; ctx.fillRect(0, 0, W, H)
+  ctx.fillStyle = '#141414'; ctx.fillRect(8, 8, 304, 164)
+  ctx.fillStyle = '#F0562B'
+  ctx.fillRect(8, 8, 78, 18)
+  ctx.fillRect(8, 8, 18, 78)
+  ctx.fillStyle = '#FAF5EA'; ctx.fillRect(26, 26, 268, 128)
+
+  tx('02', 288, 41, '700 8px ' + F.mono, '#B9B1A2', 'right')
+  tx('BLOCK', 40, 74, '900 34px ' + F.sans, '#161616')
+  tx('FRAME', 40, 106, '900 34px ' + F.sans, '#F0562B')
+  ln(40, 114, 196, 114, '#D8D0C0', 1)
+  tx('粗色块边框，把内容压进画面中央。', 40, 129, '7px ' + F.sans, '#5E574B')
+  tx('BOLD BLOCK FRAME / INSET CONTENT', 40, 141, '5.5px ' + F.mono, '#8C8475')
+
+  const cols = ['#F0562B', '#161616', '#F2B705']
+  for (let i = 0; i < 3; i++) { ctx.fillStyle = cols[i]; ctx.fillRect(212 + i * 26, 120, 22, 22) }
+  tx('SECTION 02', 40, 167, '5.5px ' + F.mono, '#EFE9DC')
+  ctx.strokeStyle = '#141414'; ctx.lineWidth = 1
+  ctx.strokeRect(8.5, 8.5, 303, 163)
+}
+
+/* =========================================================
+   S2-H3 Blue Professional —— 深蓝仪表盘、细线、数据感
+   ========================================================= */
+function h3() {
+  const g = ctx.createLinearGradient(0, 0, 0, H)
+  g.addColorStop(0, '#0C2340'); g.addColorStop(1, '#071628')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+
+  ctx.save()
+  ctx.strokeStyle = 'rgba(120,170,220,.10)'; ctx.lineWidth = 1
+  for (let x = 0; x <= W; x += 20) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+  for (let y = 0; y <= H; y += 20) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+  ctx.restore()
+
+  tx('BLUE PROFESSIONAL', 16, 22, '700 7px ' + F.mono, '#7FA6C8')
+  tx('Q3 / DASHBOARD', 16, 32, '5.5px ' + F.mono, '#4C7396')
+  ctx.fillStyle = '#3FD3B0'; ctx.fillRect(16, 37, 18, 2)
+
+  tx('TOTAL VOLUME', 16, 62, '5.5px ' + F.mono, '#6E93B4')
+  tx('1.284M', 16, 86, '700 24px ' + F.sans, '#EAF3FB')
+  tx('+24.8%', 16, 100, '700 9px ' + F.mono, '#3FD3B0')
+  ln(16, 110, 106, 110, 'rgba(120,170,220,.25)', 1)
+
+  const rows = [['DIRECT', .72, '#3FD3B0'], ['SEARCH', .54, '#5AA9E6'], ['SOCIAL', .38, '#F2B705']]
+  rows.forEach(function (r, i) {
+    const y = 124 + i * 14
+    tx(r[0], 16, y + 3, '5px ' + F.mono, '#7FA6C8')
+    ctx.fillStyle = 'rgba(120,170,220,.18)'; ctx.fillRect(52, y - 3, 54, 4)
+    ctx.fillStyle = r[2]; ctx.fillRect(52, y - 3, 54 * r[1], 4)
+  })
+
+  const x0 = 128, x1 = 304, yB = 140
+  ctx.save()
+  ctx.strokeStyle = 'rgba(120,170,220,.16)'; ctx.lineWidth = 1
+  for (let y = 48; y <= 136; y += 22) { ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.stroke() }
+  for (let x = x0; x <= x1; x += 44) { ctx.beginPath(); ctx.moveTo(x, 48); ctx.lineTo(x, yB); ctx.stroke() }
+  ctx.restore()
+
+  const pts = [[132, 126], [152, 108], [172, 116], [192, 88], [212, 96], [232, 72], [252, 80], [272, 62], [294, 50]]
+  ctx.save()
+  const ag = ctx.createLinearGradient(0, 48, 0, yB)
+  ag.addColorStop(0, 'rgba(90,200,255,.32)'); ag.addColorStop(1, 'rgba(90,200,255,0)')
+  ctx.beginPath(); ctx.moveTo(pts[0][0], yB)
+  for (const p of pts) ctx.lineTo(p[0], p[1])
+  ctx.lineTo(pts[pts.length - 1][0], yB); ctx.closePath()
+  ctx.fillStyle = ag; ctx.fill()
+
+  ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1])
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1])
+  ctx.strokeStyle = '#6FD6FF'; ctx.lineWidth = 1.6; ctx.lineJoin = 'round'; ctx.stroke()
+
+  for (const p of pts) {
+    ctx.beginPath(); ctx.arc(p[0], p[1], 2, 0, Math.PI * 2)
+    ctx.fillStyle = '#EAF7FF'; ctx.fill()
+  }
+  const last = pts[pts.length - 1]
+  ctx.save(); shadowOn(.9, 10); ctx.beginPath(); ctx.arc(last[0], last[1], 3.6, 0, Math.PI * 2)
+  ctx.fillStyle = '#7DE6FF'; ctx.fill(); ctx.restore()
+  tx('87.4', 300, 40, '700 11px ' + F.mono, '#CFF3FF', 'right')
+
+  ln(128, 150, 304, 150, 'rgba(120,170,220,.25)', 1)
+  tx('SOURCE / INTERNAL METRICS', 128, 161, '5px ' + F.mono, '#4C7396')
+  tx('LIVE', 300, 161, '5px ' + F.mono, '#3FD3B0', 'right')
+  ctx.fillStyle = '#3FD3B0'; ctx.fillRect(16, 154, 3, 3)
+}
+
+/* =========================================================
+   S2-H5 Broadside —— 报纸：报头 + 巨字 + 三栏黑字
+   ========================================================= */
+function h5() {
+  ctx.fillStyle = '#F1E9D8'; ctx.fillRect(0, 0, W, H)
+
+  ln(12, 12, 308, 12, '#1B1815', 1)
+  ln(12, 15, 308, 15, '#1B1815', 3)
+  tx('THE BROADSIDE', 160, 28, '700 11px ' + F.serif, '#141210', 'center')
+  ln(12, 33, 308, 33, '#1B1815', 1)
+
+  tx('VOL. XII — NO. 7', 14, 42, '5px ' + F.serif, '#4A443B')
+  tx('OCT 2026', 306, 42, '5px ' + F.serif, '#4A443B', 'right')
+
+  tx('EXTRA', 14, 88, '700 44px ' + F.serif, '#141210')
+  tx('S P E C I A L   E D I T I O N', 16, 101, '700 6px ' + F.serif, '#4A443B')
+
+  ctx.fillStyle = '#A4262C'; ctx.fillRect(252, 54, 54, 48)
+  tx('号', 279, 74, '700 20px ' + F.serif, '#F6EFDF', 'center')
+  tx('外', 279, 96, '700 20px ' + F.serif, '#F6EFDF', 'center')
+
+  ctx.fillStyle = '#141210'; ctx.fillRect(14, 108, 294, 3)
+
+  const cols = [
+    ['城市更新计划在', '本周正式启动，', '首批十二个街区', '将同步开始改造', '预计明年内完成'],
+    ['设计团队表示，', '新的公共空间会', '保留原有的大树', '并增加步行道', '向市民免费开放'],
+    ['更多细节将在', '下周说明会上', '公布，届时附近', '居民可以现场', '提出自己的意见'],
+  ]
+  const xs = [14, 118, 222]
+  cols.forEach(function (lines, ci) {
+    lines.forEach(function (s, li) {
+      tx(s, xs[ci], 122 + li * 9, '6.5px ' + F.serif, li === 0 ? '#141210' : '#3A352D')
+    })
+  })
+  ln(106, 112, 106, 166, 'rgba(27,24,21,.25)', 1)
+  ln(210, 112, 210, 166, 'rgba(27,24,21,.25)', 1)
+  ln(14, 168, 306, 168, '#1B1815', 1)
+  tx('PAGE 01', 306, 175, '5px ' + F.serif, '#4A443B', 'right')
+  tx('号外 · 城市版', 14, 175, '5px ' + F.serif, '#4A443B')
+}
+
+/* =========================================================
+   S2-H6 Capsule —— 胶囊圆角条排版
+   ========================================================= */
+function pill(x, y, w, h, fill, label, lcolor, fs, center) {
+  ctx.save()
+  rr(x, y, w, h, h / 2); ctx.fillStyle = fill; ctx.fill()
+  if (label) {
+    ctx.fillStyle = lcolor
+    ctx.font = '700 ' + fs + 'px ' + F.sans
+    ctx.textAlign = center ? 'center' : 'left'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(label, center ? x + w / 2 : x + 16, y + h / 2 + .5)
+  }
+  ctx.restore()
+}
+
+function h6() {
+  ctx.fillStyle = '#ECEAF6'; ctx.fillRect(0, 0, W, H)
+  ctx.save()
+  ctx.strokeStyle = 'rgba(91,61,245,.35)'; ctx.lineWidth = 1.4
+  ctx.beginPath(); ctx.arc(288, 44, 26, 0, Math.PI * 2); ctx.stroke()
+  ctx.restore()
+  ctx.fillStyle = '#C9C2F0'
+  for (const p of [[286, 30], [300, 58], [266, 60]]) {
+    ctx.beginPath(); ctx.arc(p[0], p[1], 2.4, 0, Math.PI * 2); ctx.fill()
+  }
+
+  pill(18, 20, 198, 44, '#5B3DF5', 'CAPSULE', '#FFFFFF', 21)
+  ctx.fillStyle = '#FFFFFF'
+  ctx.beginPath(); ctx.arc(192, 42, 5, 0, Math.PI * 2); ctx.fill()
+
+  ctx.save()
+  rr(150, 74, 154, 30, 15)
+  ctx.strokeStyle = '#5B3DF5'; ctx.lineWidth = 1.6; ctx.stroke()
+  ctx.restore()
+  tx('ROUND / SOFT', 168, 93, '700 8px ' + F.sans, '#4A2ED0')
+
+  pill(14, 80, 124, 30, '#FF7A59', 'LAYOUT 06', '#FFFFFF', 8.5)
+  pill(14, 118, 180, 26, '#17B890', 'PILL BY PILL', '#052E24', 8.5)
+  pill(204, 118, 102, 26, '#F2C94C', 'TAG', '#3A2C00', 9, true)
+
+  ctx.save()
+  ctx.translate(150, 156); ctx.rotate(-7 * Math.PI / 180)
+  rr(-80, -11, 160, 22, 11); ctx.fillStyle = '#1B1B1B'; ctx.fill()
+  ctx.fillStyle = '#F3F1FA'; ctx.font = '700 7.5px ' + F.mono
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('STACKED CAPSULES', 0, .5)
+  ctx.restore()
+
+  tx('S2 / H6', 18, 168, '5.5px ' + F.mono, '#7A72A8')
+}
+
+/* =========================================================
+   S2-H7 Cartesian —— 白底坐标网格 + 散点 + 回归线
+   ========================================================= */
+function h7() {
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H)
+
+  ctx.save()
+  ctx.strokeStyle = 'rgba(24,35,50,.06)'; ctx.lineWidth = 1
+  for (let x = 44; x <= 304; x += 13) { ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 146); ctx.stroke() }
+  for (let y = 146; y >= 40; y -= 13) { ctx.beginPath(); ctx.moveTo(44, y); ctx.lineTo(304, y); ctx.stroke() }
+  ctx.strokeStyle = 'rgba(24,35,50,.13)'
+  for (let x = 44; x <= 304; x += 52) { ctx.beginPath(); ctx.moveTo(x, 40); ctx.lineTo(x, 146); ctx.stroke() }
+  for (let y = 146; y >= 40; y -= 52) { ctx.beginPath(); ctx.moveTo(44, y); ctx.lineTo(304, y); ctx.stroke() }
+  ctx.restore()
+
+  ln(34, 146, 306, 146, '#1F2937', 1.2)
+  ln(44, 154, 44, 36, '#1F2937', 1.2)
+  ctx.fillStyle = '#1F2937'
+  ctx.beginPath(); ctx.moveTo(306, 146); ctx.lineTo(299, 143); ctx.lineTo(299, 149); ctx.closePath(); ctx.fill()
+  ctx.beginPath(); ctx.moveTo(44, 36); ctx.lineTo(41, 43); ctx.lineTo(47, 43); ctx.closePath(); ctx.fill()
+
+  const xv = [0, 2, 4, 6, 8, 10], yv = [0, 5, 10, 15]
+  xv.forEach(function (v, i) { tx(String(v), 44 + i * 26, 158, '5.5px ' + F.mono, '#6B7280', 'center') })
+  yv.forEach(function (v, i) {
+    const y = 146 - i * 26
+    tx(String(v), 39, y + 2, '5.5px ' + F.mono, '#6B7280', 'right')
+    ln(41, y, 44, y, '#1F2937', 1)
+  })
+  tx('x', 308, 152, 'italic 8px ' + F.serif, '#374151')
+  tx('y', 38, 46, 'italic 8px ' + F.serif, '#374151', 'right')
+
+  ctx.save()
+  ctx.strokeStyle = 'rgba(37,99,235,.55)'; ctx.lineWidth = 1; ctx.setLineDash([4, 3])
+  ctx.beginPath(); ctx.moveTo(56, 138); ctx.lineTo(290, 46); ctx.stroke()
+  ctx.restore()
+
+  const pts = [[70, 132], [96, 120], [122, 110], [148, 104], [160, 86], [186, 92], [212, 78], [238, 64], [264, 58], [280, 42]]
+  for (const p of pts) {
+    ctx.beginPath(); ctx.arc(p[0], p[1], 2.6, 0, Math.PI * 2)
+    ctx.fillStyle = '#2563EB'; ctx.fill()
+  }
+  for (const p of [[134, 116], [246, 84]]) {
+    ctx.beginPath(); ctx.arc(p[0], p[1], 3, 0, Math.PI * 2)
+    ctx.fillStyle = '#F97316'; ctx.fill()
+  }
+
+  ctx.save()
+  ctx.strokeStyle = '#F97316'; ctx.lineWidth = 1; ctx.setLineDash([2, 2])
+  ctx.beginPath(); ctx.arc(238, 64, 9, 0, Math.PI * 2); ctx.stroke()
+  ctx.restore()
+  tx('P(7.4, 9.2)', 248, 54, '5.5px ' + F.mono, '#C2410C')
+
+  tx('C A R T E S I A N', 14, 14, '700 9px ' + F.mono, '#111827')
+  tx('FIG.07 / 坐标网格与数据点', 14, 24, '5.5px ' + F.sans, '#6B7280')
+  ctx.fillStyle = '#2563EB'; ctx.beginPath(); ctx.arc(232, 170, 2.6, 0, Math.PI * 2); ctx.fill()
+  tx('样本', 239, 172, '5px ' + F.sans, '#4B5563')
+  ctx.fillStyle = '#F97316'; ctx.beginPath(); ctx.arc(270, 170, 2.6, 0, Math.PI * 2); ctx.fill()
+  tx('均值', 277, 172, '5px ' + F.sans, '#4B5563')
+  ctx.strokeStyle = '#E5E9EF'; ctx.lineWidth = 1; ctx.strokeRect(.5, .5, 319, 179)
+}
+
+/* =========================================================
+   S2-H8 Cobalt Grid —— 钴蓝网格 + 白色浮卡
+   ========================================================= */
+function h8() {
+  ctx.fillStyle = '#1B3FA0'; ctx.fillRect(0, 0, W, H)
+  ctx.save()
+  ctx.strokeStyle = 'rgba(255,255,255,.13)'; ctx.lineWidth = 1
+  for (let x = 0; x <= W; x += 24) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+  for (let y = 0; y <= H; y += 24) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+  ctx.restore()
+
+  ctx.fillStyle = 'rgba(255,255,255,.5)'
+  ctx.fillRect(12, 12, 14, 2); ctx.fillRect(18, 6, 2, 14)
+
+  // 主卡
+  ctx.save(); shadowOn(.30, 9, 4)
+  rr(22, 32, 168, 106, 8); ctx.fillStyle = '#FFFFFF'; ctx.fill()
+  ctx.restore()
+  ctx.save(); rr(22, 32, 168, 106, 8); ctx.clip()
+  ctx.fillStyle = '#FF6B5A'; ctx.fillRect(22, 32, 168, 22)
+  ctx.restore()
+  tx('COBALT GRID / 08', 32, 47, '700 6px ' + F.mono, '#2A1A16')
+  tx('GRID', 32, 84, '900 27px ' + F.sans, '#1B3FA0')
+  tx('钴蓝底 + 白卡片 = 秩序感', 32, 98, '6px ' + F.sans, '#5A6478')
+  const bars = [.45, .7, .55, .9, .65]
+  bars.forEach(function (v, i) {
+    ctx.fillStyle = i === 3 ? '#FF6B5A' : '#1B3FA0'
+    ctx.fillRect(32 + i * 14, 128 - v * 16, 8, v * 16)
+  })
+  ctx.fillStyle = '#2E7D5B'; ctx.fillRect(104, 112, 78, 15)
+  tx('CARD SYSTEM', 110, 122, '700 5.5px ' + F.mono, '#EAF7F0')
+
+  // 右上小卡
+  ctx.save(); shadowOn(.28, 8, 3)
+  rr(200, 22, 98, 58, 7); ctx.fillStyle = '#FFFFFF'; ctx.fill()
+  ctx.restore()
+  ctx.fillStyle = '#39D98A'; ctx.fillRect(200, 22, 98, 5)
+  tx('GRID', 210, 42, '700 9px ' + F.mono, '#1B3FA0')
+  tx('24 / 24', 210, 54, '5px ' + F.mono, '#98A2B3')
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath(); ctx.arc(210 + i * 9, 66, 3, 0, Math.PI * 2)
+    ctx.fillStyle = ['#1B3FA0', '#39D98A', '#FF6B5A'][i]; ctx.fill()
+  }
+
+  // 右下卡
+  ctx.save(); shadowOn(.28, 8, 3)
+  rr(198, 90, 100, 64, 7); ctx.fillStyle = '#FFFFFF'; ctx.fill()
+  ctx.restore()
+  ctx.beginPath(); ctx.arc(214, 106, 8, 0, Math.PI * 2); ctx.fillStyle = '#FF6B5A'; ctx.fill()
+  tx('08', 230, 111, '700 13px ' + F.mono, '#1B3FA0')
+  tx('COBALT', 208, 126, '700 6px ' + F.mono, '#5A6478')
+  ctx.fillStyle = '#E8EDF7'; ctx.fillRect(208, 132, 78, 3)
+  ctx.fillStyle = '#1B3FA0'; ctx.fillRect(208, 132, 52, 3)
+  tx('70%', 208, 144, '5px ' + F.mono, '#98A2B3')
+
+  ctx.fillStyle = 'rgba(255,255,255,.55)'
+  for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) {
+    ctx.beginPath(); ctx.arc(28 + i * 8, 154 + j * 8, 1.5, 0, Math.PI * 2); ctx.fill()
+  }
+  tx('COBALT / 08', 300, 174, '5px ' + F.mono, 'rgba(255,255,255,.6)', 'right')
+}
+
+/* =========================================================
+   S2-H9 Coral —— 珊瑚色旋转大色块 + 奶油底 + 柔和圆角
+   ========================================================= */
+function h9() {
+  ctx.fillStyle = '#FFF4E8'; ctx.fillRect(0, 0, W, H)
+  ctx.fillStyle = 'rgba(244,121,107,.12)'
+  for (let x = 10; x < W; x += 18) for (let y = 10; y < H; y += 18) {
+    ctx.beginPath(); ctx.arc(x, y, 1, 0, Math.PI * 2); ctx.fill()
+  }
+
+  ctx.beginPath(); ctx.arc(52, 152, 46, 0, Math.PI * 2)
+  ctx.fillStyle = '#FFC9B8'; ctx.fill()
+
+  ctx.save()
+  ctx.translate(198, 92); ctx.rotate(-6 * Math.PI / 180)
+  ctx.save(); shadowOn(.22, 12, 6)
+  rr(-104, -58, 208, 116, 46); ctx.fillStyle = '#F4796B'; ctx.fill()
+  ctx.restore()
+  ctx.save()
+  rr(-104, -58, 208, 116, 46); ctx.clip()
+  ctx.strokeStyle = 'rgba(255,235,228,.35)'; ctx.lineWidth = 2
+  rr(-86, -40, 172, 80, 34); ctx.stroke()
+  ctx.restore()
+  tx('CORAL', 0, 4, '900 30px ' + F.sans, '#FFF7EF', 'center')
+  tx('SOFT · WARM · ROUND', 0, 26, '700 6px ' + F.mono, '#FFE7DF', 'center')
+  ctx.fillStyle = 'rgba(255,247,239,.85)'
+  ctx.beginPath(); ctx.arc(84, -38, 4, 0, Math.PI * 2); ctx.fill()
+  ctx.restore()
+
+  ctx.save()
+  rr(16, 20, 76, 22, 11); ctx.fillStyle = '#FFFDF8'; ctx.fill()
+  ctx.strokeStyle = 'rgba(244,121,107,.5)'; ctx.lineWidth = 1; ctx.stroke()
+  ctx.restore()
+  tx('S2 / H9', 54, 35, '700 6px ' + F.mono, '#D9534A', 'center')
+
+  for (const p of [[34, 138], [46, 146], [58, 138]]) {
+    ctx.beginPath(); ctx.arc(p[0], p[1], 4, 0, Math.PI * 2)
+    ctx.fillStyle = '#F4796B'; ctx.fill()
+  }
+  ctx.save()
+  ctx.strokeStyle = '#F4796B'; ctx.lineWidth = 1.5
+  ctx.beginPath(); ctx.arc(286, 26, 12, 0, Math.PI * 2); ctx.stroke()
+  ctx.restore()
+  tx('CREAM + CORAL', 18, 174, '5.5px ' + F.mono, '#C98B7E')
+}
+
+/* =========================================================
+   S2-H10 Creative Mode —— 撞色斜切分区
+   ========================================================= */
+function h10() {
+  ctx.fillStyle = '#2A4BFF'; ctx.fillRect(0, 0, W, H)
+
+  function band(pts, color) {
+    ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1])
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1])
+    ctx.closePath(); ctx.fillStyle = color; ctx.fill()
+  }
+  band([[0, 0], [170, 0], [104, 180], [0, 180]], '#FFE14D')
+  band([[170, 0], [246, 0], [180, 180], [104, 180]], '#FF2E88')
+  band([[246, 0], [286, 0], [220, 180], [180, 180]], '#141414')
+
+  ctx.fillStyle = 'rgba(20,20,20,.16)'
+  for (let x = 10; x < 96; x += 8) for (let y = 12; y < 170; y += 8) {
+    ctx.beginPath(); ctx.arc(x, y, 1.4, 0, Math.PI * 2); ctx.fill()
+  }
+
+  ctx.save()
+  ctx.translate(20, 66); ctx.rotate(-6 * Math.PI / 180)
+  ctx.fillStyle = '#141414'; ctx.font = '900 28px ' + F.sans
+  ctx.textBaseline = 'alphabetic'
+  ctx.fillText('CREATIVE', 0, 0)
+  ctx.restore()
+
+  ctx.save()
+  ctx.translate(120, 104); ctx.rotate(-6 * Math.PI / 180)
+  ctx.fillStyle = '#FFFFFF'; ctx.font = '900 22px ' + F.sans
+  ctx.fillText('MODE', 0, 0)
+  ctx.fillStyle = '#FFE14D'; ctx.fillRect(62, -4, 22, 4)
+  ctx.restore()
+
+  ctx.save()
+  ctx.translate(258, 96); ctx.rotate(-6 * Math.PI / 180)
+  ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 2
+  ctx.beginPath(); ctx.arc(0, 0, 18, 0, Math.PI * 2); ctx.stroke()
+  ctx.fillStyle = '#FFFFFF'; ctx.font = '700 11px ' + F.mono
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('10', 0, 1)
+  ctx.restore()
+
+  tx('CLASH / SPLIT / TILT', 20, 152, '700 6px ' + F.mono, '#141414')
+  ctx.save()
+  ctx.translate(246, 158); ctx.rotate(-6 * Math.PI / 180)
+  ctx.fillStyle = '#FFFFFF'; ctx.font = '700 6px ' + F.mono
+  ctx.fillText('S2-H10', 0, 0)
+  ctx.restore()
+
+  ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(96, 122); ctx.lineTo(160, 122); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(96, 122); ctx.lineTo(96, 116); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(96, 122); ctx.lineTo(96, 128); ctx.stroke()
+}
+
+/* =========================================================
+   S2-H11 Daisy Days —— 明黄底 + 雏菊图案 + 粉色
+   ========================================================= */
+function daisy(cx, cy, R, n, dist, rx, ry, petal) {
+  ctx.save()
+  ctx.translate(cx, cy); ctx.rotate(R * .013)
+  for (let i = 0; i < n; i++) {
+    ctx.save(); ctx.rotate(i / n * Math.PI * 2)
+    ctx.beginPath(); ctx.ellipse(dist, 0, rx, ry, 0, 0, Math.PI * 2)
+    ctx.fillStyle = petal || '#FFFFFF'; ctx.fill()
+    ctx.strokeStyle = 'rgba(214,160,0,.22)'; ctx.lineWidth = .8; ctx.stroke()
+    ctx.restore()
+  }
+  ctx.beginPath(); ctx.arc(0, 0, R * .42, 0, Math.PI * 2)
+  ctx.fillStyle = '#FFB300'; ctx.fill()
+  ctx.strokeStyle = 'rgba(150,100,0,.25)'; ctx.lineWidth = 1; ctx.stroke()
+  ctx.fillStyle = '#E89400'
+  for (let i = 0; i < 5; i++) {
+    const a = i / 5 * Math.PI * 2
+    ctx.beginPath(); ctx.arc(Math.cos(a) * R * .2, Math.sin(a) * R * .2, 1.2, 0, Math.PI * 2); ctx.fill()
+  }
+  ctx.restore()
+}
+
+function h11() {
+  ctx.fillStyle = '#FFE45E'; ctx.fillRect(0, 0, W, H)
+
+  ctx.beginPath(); ctx.arc(22, 166, 40, 0, Math.PI * 2)
+  ctx.fillStyle = '#FF9FBE'; ctx.fill()
+
+  ctx.fillStyle = 'rgba(255,255,255,.55)'
+  for (let x = 14; x < W; x += 22) for (let y = 20; y < H; y += 22) {
+    if (x > 170 && y < 150) continue
+    ctx.beginPath(); ctx.arc(x, y, 1.2, 0, Math.PI * 2); ctx.fill()
+  }
+
+  daisy(236, 84, 34, 9, 32, 24, 11)
+  daisy(58, 38, 17, 8, 15, 11, 6)
+  daisy(128, 24, 11, 7, 10, 7, 4)
+  daisy(292, 148, 13, 8, 11, 8, 5)
+  daisy(268, 24, 8, 6, 7, 5, 3)
+
+  ctx.save()
+  ctx.strokeStyle = '#2F8A55'; ctx.lineWidth = 1.6; ctx.lineCap = 'round'
+  ctx.beginPath(); ctx.moveTo(44, 56); ctx.quadraticCurveTo(40, 78, 46, 92); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(46, 78); ctx.quadraticCurveTo(58, 74, 64, 78); ctx.stroke()
+  ctx.restore()
+
+  ctx.save(); shadowOn(.12, 8, 2)
+  rr(12, 106, 152, 30, 15); ctx.fillStyle = '#FFFFFF'; ctx.fill()
+  ctx.restore()
+  tx('daisy days', 28, 126, '700 15px ' + F.sans, '#E85D8A')
+  tx('S2 / H11', 148, 174, '5.5px ' + F.mono, '#A06600', 'right')
+  tx('SUNSHINE / PETALS', 16, 156, '700 5.5px ' + F.mono, '#A06600')
+  ctx.fillStyle = '#FF7FA8'
+  for (const p of [[180, 156], [190, 156], [200, 156]]) {
+    ctx.beginPath(); ctx.arc(p[0], p[1], 2.6, 0, Math.PI * 2); ctx.fill()
+  }
+}
+
+/* =========================================================
+   S2-H12 Editorial Forest —— 森林绿衬线编辑排版
+   ========================================================= */
+function h12() {
+  ctx.fillStyle = '#F4EFE2'; ctx.fillRect(0, 0, W, H)
+
+  ln(12, 12, 292, 12, '#1E3D2F', 1)
+  ln(12, 15, 292, 15, '#1E3D2F', 2.4)
+  tx('E D I T O R I A L', 14, 27, '700 6px ' + F.serif, '#1E3D2F')
+  tx('NO. 12 — 2026', 290, 27, '5px ' + F.serif, '#4A6B57', 'right')
+
+  tx('森林', 16, 90, '700 50px ' + F.serif, '#1E3D2F')
+  tx('F O R E S T   N O T E S', 20, 106, '700 6px ' + F.serif, '#4A6B57')
+  ln(20, 114, 188, 114, '#1E3D2F', 1)
+
+  const lines = [
+    '走进林线以下，光被',
+    '树冠切成细碎的斑点，',
+    '苔藓与蕨类在潮湿的',
+    '空气里缓慢生长。',
+  ]
+  lines.forEach(function (s, i) {
+    tx(s, 20, 128 + i * 10, '7px ' + F.serif, '#33503F')
+  })
+
+  ln(196, 116, 196, 168, 'rgba(30,61,47,.35)', 1)
+  tx('INDEX', 202, 124, '700 6px ' + F.serif, '#1E3D2F')
+  tx('01  林下植被', 202, 137, '5.5px ' + F.serif, '#4A6B57')
+  tx('02  步道与光', 202, 147, '5.5px ' + F.serif, '#4A6B57')
+  tx('03  季节笔记', 202, 157, '5.5px ' + F.serif, '#4A6B57')
+
+  // 冷杉剪影
+  ctx.save()
+  ctx.fillStyle = '#1E3D2F'
+  const cx = 272
+  const tiers = [[78, 104, 13], [94, 124, 18], [112, 146, 22]]
+  for (const t of tiers) {
+    ctx.beginPath()
+    ctx.moveTo(cx, t[0])
+    ctx.lineTo(cx - t[2], t[1])
+    ctx.lineTo(cx + t[2], t[1])
+    ctx.closePath(); ctx.fill()
+  }
+  ctx.fillRect(cx - 2, 146, 4, 20)
+  ctx.restore()
+
+  ctx.fillStyle = '#1E3D2F'; ctx.fillRect(296, 0, 24, 180)
+  tx('FOREST', 308, 167, '700 5px ' + F.serif, '#F4EFE2', 'center')
+  ctx.save()
+  ctx.translate(308, 92); ctx.rotate(-Math.PI / 2)
+  tx('V O L . 1 2', 0, 0, '700 5.5px ' + F.mono, '#C9D8C3', 'center')
+  ctx.restore()
+
+  ctx.fillStyle = 'rgba(30,61,47,.10)'
+  ctx.beginPath(); ctx.arc(70, 168, 30, 0, Math.PI * 2); ctx.fill()
+}
+
+/* ---------- 分发 ---------- */
+const DRAW = {
+  'S2-H2': h2, 'S2-H3': h3, 'S2-H5': h5, 'S2-H6': h6,
+  'S2-H7': h7, 'S2-H8': h8, 'S2-H9': h9, 'S2-H10': h10,
+  'S2-H11': h11, 'S2-H12': h12,
+}
+;(DRAW[id] || h2)()
+window.__DONE__ = true
+</script>
+</body>
+</html>

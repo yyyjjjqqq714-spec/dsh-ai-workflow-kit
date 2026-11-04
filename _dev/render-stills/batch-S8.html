@@ -1,0 +1,1200 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;background:#000;overflow:hidden}
+  canvas{display:block;width:320px;height:180px}
+</style>
+</head>
+<body>
+<canvas id="c" width="320" height="180"></canvas>
+<script>
+const W = 320, H = 180
+const c = document.getElementById('c')
+const ctx = c.getContext('2d')
+const id = new URLSearchParams(location.search).get('id') || 'S8-V1'
+
+const F = {
+  sans: '"Microsoft YaHei","PingFang SC",sans-serif',
+  serif: '"SimSun","Songti SC",serif',
+  hand: '"KaiTi","STKaiti",serif',
+  mono: '"Consolas","Courier New",monospace',
+}
+
+/* ---------- 工具 ---------- */
+function rng(seed) {
+  let s = seed >>> 0
+  return function () {
+    s = (s + 0x6D2B79F5) >>> 0
+    let t = Math.imul(s ^ (s >>> 15), 1 | s)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+function rr(x, y, w, h, r) {
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.arcTo(x + w, y, x + w, y + h, r)
+  ctx.arcTo(x + w, y + h, x, y + h, r)
+  ctx.arcTo(x, y + h, x, y, r)
+  ctx.arcTo(x, y, x + w, y, r)
+  ctx.closePath()
+}
+function circle(x, y, r) { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2) }
+function poly(pts, close) {
+  ctx.beginPath()
+  for (let i = 0; i < pts.length; i++) i ? ctx.lineTo(pts[i][0], pts[i][1]) : ctx.moveTo(pts[i][0], pts[i][1])
+  if (close) ctx.closePath()
+}
+function star(cx, cy, R, spikes, innerRatio, rot) {
+  const pts = []
+  for (let i = 0; i < spikes * 2; i++) {
+    const r = i % 2 ? R * innerRatio : R
+    const a = (i / (spikes * 2)) * Math.PI * 2 - Math.PI / 2 + (rot || 0)
+    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r])
+  }
+  return pts
+}
+
+/* ================================================================
+   S8-V1 逐帧手绘抖动线条  —— 米白纸 + 三重抖动墨线（boiling line）
+   ================================================================ */
+function v1() {
+  const R = rng(31)
+  ctx.fillStyle = '#f4efe2'; ctx.fillRect(0, 0, W, H)
+  // 纸面颗粒
+  for (let i = 0; i < 260; i++) {
+    ctx.fillStyle = `rgba(120,108,88,${0.03 + R() * 0.05})`
+    ctx.fillRect(R() * W, R() * H, 1.4, 1.4)
+  }
+  const ink = '#211f1c'
+  function wl(x1, y1, x2, y2, amp, segs) {
+    ctx.beginPath()
+    for (let i = 0; i <= segs; i++) {
+      const t = i / segs
+      const x = x1 + (x2 - x1) * t + (R() - .5) * 2 * amp
+      const y = y1 + (y2 - y1) * t + (R() - .5) * 2 * amp
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)
+    }
+    ctx.stroke()
+  }
+  function wc(cx, cy, rad, amp) {
+    const n = 44
+    ctx.beginPath()
+    for (let i = 0; i <= n; i++) {
+      const a = i / n * Math.PI * 2
+      const r0 = rad + (R() - .5) * 2 * amp
+      const x = cx + Math.cos(a) * r0, y = cy + Math.sin(a) * r0
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)
+    }
+    ctx.stroke()
+  }
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round'
+  ctx.strokeStyle = ink
+
+  // 外框：三重抖动
+  for (let p = 0; p < 3; p++) {
+    ctx.globalAlpha = [0.9, 0.45, 0.3][p]
+    ctx.lineWidth = [1.7, 1.2, 1][p]
+    wl(10, 12, 300, 12, 1.5, 16)
+    wl(300, 12, 300, 168, 1.5, 12)
+    wl(300, 168, 10, 168, 1.5, 16)
+    wl(10, 168, 10, 12, 1.5, 12)
+  }
+  // 灯泡主体
+  for (let p = 0; p < 3; p++) {
+    ctx.globalAlpha = [0.95, 0.5, 0.35][p]
+    ctx.lineWidth = [2.2, 1.5, 1.2][p]
+    wc(140, 84, 30, 1.7)
+    // 灯头
+    ctx.beginPath()
+    wl(128, 112, 128, 126, 1.4, 4)
+    wl(152, 112, 152, 126, 1.4, 4)
+    wl(124, 126, 156, 126, 1.4, 4)
+    wl(126, 132, 154, 132, 1.4, 4)
+    wl(130, 138, 150, 138, 1.4, 4)
+    // 灯丝
+    wl(136, 100, 134, 92, 1.3, 4)
+    wl(134, 92, 145, 92, 1.3, 4)
+    wl(145, 92, 143, 100, 1.3, 4)
+  }
+  ctx.globalAlpha = 1
+  // 光芒：短线
+  for (let p = 0; p < 2; p++) {
+    ctx.globalAlpha = p ? 0.4 : 0.85
+    ctx.lineWidth = p ? 1.2 : 1.8
+    const rays = [[140, 44, 140, 28], [186, 62, 202, 54], [96, 60, 82, 50],
+                  [196, 96, 212, 96], [84, 96, 68, 100], [176, 126, 188, 138],
+                  [104, 124, 92, 136]]
+    for (const [x1, y1, x2, y2] of rays) wl(x1, y1, x2, y2, 1.6, 4)
+  }
+  // 云朵虚线
+  ctx.globalAlpha = 0.7
+  ctx.lineWidth = 1.3
+  wc(250, 44, 14, 1.6)
+  wc(268, 46, 10, 1.6)
+  // 红笔批注：小箭头 + 下划线
+  ctx.strokeStyle = '#c0392b'; ctx.globalAlpha = 0.9
+  ctx.lineWidth = 1.6
+  wl(212, 142, 176, 124, 1.4, 6)
+  ctx.beginPath()
+  ctx.moveTo(176, 124); ctx.lineTo(184, 122); ctx.moveTo(176, 124); ctx.lineTo(182, 130); ctx.stroke()
+  ctx.strokeStyle = ink
+
+  // 抖动标题（双写）
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillStyle = ink
+  for (let p = 0; p < 2; p++) {
+    ctx.globalAlpha = p ? 0.45 : 0.95
+    ctx.font = '700 21px ' + F.hand
+    ctx.fillText('手绘抖动', 26, 46 + p * 1.2)
+  }
+  ctx.globalAlpha = 0.9
+  ctx.font = '700 11px ' + F.hand
+  ctx.fillStyle = '#c0392b'
+  ctx.fillText('逐帧重画', 26, 64)
+  // 抖动下划线
+  ctx.globalAlpha = 0.75
+  ctx.strokeStyle = '#c0392b'; ctx.lineWidth = 1.4
+  wl(26, 68, 96, 68, 1.6, 7)
+  ctx.strokeStyle = ink
+  ctx.globalAlpha = 1
+  // 帧序号
+  ctx.font = '9px ' + F.mono
+  ctx.fillStyle = 'rgba(33,31,28,.55)'
+  ctx.fillText('FRAME 013        24fps', 26, 158)
+}
+
+/* ================================================================
+   S8-V3 扁平矢量 —— 纯色块、零阴影、零渐变
+   ================================================================ */
+function v3() {
+  const cream = '#f6eedd', sun = '#f2a340', deep = '#12333a',
+        m1 = '#1f6f6b', m2 = '#2f9189', coral = '#e0654f',
+        yellow = '#f7d35b', white = '#fbf7ee'
+  ctx.fillStyle = cream; ctx.fillRect(0, 0, W, H)
+  // 太阳
+  ctx.fillStyle = sun; circle(246, 44, 24); ctx.fill()
+  // 云：纯色块
+  ctx.fillStyle = white
+  ctx.fillRect(46, 40, 44, 12); ctx.fillRect(58, 32, 22, 10)
+  ctx.fillRect(180, 30, 30, 9)
+  // 远山
+  poly([[0, 118], [58, 62], [116, 118]], true); ctx.fillStyle = m2; ctx.fill()
+  poly([[86, 118], [152, 70], [214, 118]], true); ctx.fillStyle = m1; ctx.fill()
+  // 珊瑚色丘陵
+  ctx.beginPath()
+  ctx.moveTo(0, 130)
+  ctx.quadraticCurveTo(96, 92, 196, 128)
+  ctx.quadraticCurveTo(260, 146, 320, 118)
+  ctx.lineTo(320, 180); ctx.lineTo(0, 180); ctx.closePath()
+  ctx.fillStyle = coral; ctx.fill()
+  // 深色地面
+  ctx.fillStyle = deep; ctx.fillRect(0, 148, W, 32)
+  // 房子：纯几何
+  ctx.fillStyle = white; ctx.fillRect(214, 104, 40, 30)
+  poly([[208, 104], [234, 84], [260, 104]], true); ctx.fillStyle = m1; ctx.fill()
+  ctx.fillStyle = yellow; ctx.fillRect(228, 116, 10, 10)
+  ctx.fillStyle = sun; ctx.fillRect(244, 116, 6, 10)
+  // 树
+  ctx.fillStyle = m1; ctx.fillRect(56, 120, 4, 20)
+  ctx.fillStyle = '#1b5a52'; circle(58, 112, 15); ctx.fill()
+  // 河
+  ctx.fillStyle = '#2a7d8a'; ctx.fillRect(0, 140, 132, 5)
+  // 文字条
+  ctx.fillStyle = deep; ctx.fillRect(16, 14, 88, 20)
+  ctx.fillStyle = white
+  ctx.font = '700 13px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle'
+  ctx.fillText('扁平矢量', 25, 25)
+  ctx.fillStyle = deep
+  ctx.font = '8px ' + F.mono
+  ctx.fillText('FLAT · NO SHADOW · NO GRADIENT', 16, 172)
+}
+
+/* ================================================================
+   S8-V4 线条画 —— 白底、单线一笔勾勒、大面积留白
+   ================================================================ */
+function v4() {
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H)
+  ctx.strokeStyle = '#141414'
+  ctx.lineWidth = 1.7
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round'
+
+  // 一条不断线的侧脸
+  ctx.beginPath()
+  ctx.moveTo(84, 172)
+  ctx.bezierCurveTo(88, 150, 96, 146, 98, 136)
+  ctx.bezierCurveTo(100, 124, 92, 120, 90, 106)
+  ctx.bezierCurveTo(86, 86, 92, 62, 112, 52)
+  ctx.bezierCurveTo(134, 42, 158, 48, 168, 64)
+  ctx.bezierCurveTo(174, 74, 170, 84, 165, 90)
+  ctx.bezierCurveTo(160, 96, 168, 98, 170, 104)
+  ctx.bezierCurveTo(172, 110, 186, 112, 184, 118)
+  ctx.bezierCurveTo(182, 123, 172, 120, 168, 124)
+  ctx.bezierCurveTo(166, 127, 172, 130, 170, 133)
+  ctx.bezierCurveTo(168, 136, 160, 135, 158, 139)
+  ctx.bezierCurveTo(157, 146, 164, 148, 162, 156)
+  ctx.bezierCurveTo(160, 164, 154, 168, 152, 172)
+  ctx.stroke()
+
+  // 头发：三笔
+  ctx.lineWidth = 1.3
+  ctx.beginPath(); ctx.moveTo(112, 52); ctx.bezierCurveTo(120, 70, 118, 96, 108, 112); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(126, 46); ctx.bezierCurveTo(136, 62, 134, 88, 126, 104); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(146, 44); ctx.bezierCurveTo(152, 58, 150, 74, 144, 84); ctx.stroke()
+  // 耳
+  ctx.beginPath()
+  ctx.moveTo(96, 104)
+  ctx.bezierCurveTo(84, 100, 82, 116, 94, 118)
+  ctx.stroke()
+  // 眼 + 眉
+  ctx.beginPath(); ctx.moveTo(136, 82); ctx.bezierCurveTo(146, 78, 152, 80, 156, 84); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(151, 92); ctx.quadraticCurveTo(158, 88, 163, 91); ctx.stroke()
+  // 颈线延伸
+  ctx.beginPath(); ctx.moveTo(118, 140); ctx.bezierCurveTo(126, 156, 120, 164, 116, 172); ctx.stroke()
+
+  // 一点红：唯一的颜色
+  ctx.fillStyle = '#d6452f'
+  circle(258, 128, 5); ctx.fill()
+
+  // 右侧竖排小标题
+  ctx.fillStyle = '#141414'
+  ctx.font = '400 19px ' + F.serif
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('一', 272, 56)
+  ctx.fillText('笔', 272, 78)
+  ctx.font = '7px ' + F.mono
+  ctx.fillStyle = 'rgba(20,20,20,.45)'
+  ctx.textAlign = 'left'
+  ctx.fillText('ONE-LINE', 244, 108)
+  ctx.fillText('DRAWING', 244, 118)
+  // 左下角技术注记
+  ctx.font = '8px ' + F.mono
+  ctx.fillStyle = 'rgba(20,20,20,.5)'
+  ctx.fillText('01 / continuous line, no fill', 18, 168)
+  // 极细网格（留白基准）
+  ctx.strokeStyle = 'rgba(20,20,20,.05)'; ctx.lineWidth = 1
+  for (let x = 20; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x, 24); ctx.lineTo(x, 150); ctx.stroke() }
+}
+
+/* ================================================================
+   S8-V6 形变 —— 圆→圆角方→五角星 的插值序列
+   ================================================================ */
+function v6() {
+  const g = ctx.createLinearGradient(0, 0, W, H)
+  g.addColorStop(0, '#1a1030'); g.addColorStop(1, '#0d0a1c')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  // 背景细格
+  ctx.strokeStyle = 'rgba(255,255,255,.045)'; ctx.lineWidth = 1
+  for (let x = 0; x < W; x += 20) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+  for (let y = 0; y < H; y += 20) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+
+  const smooth = t => t * t * (3 - 2 * t)
+  function radius(a, u) {
+    const sq = 1 / Math.max(Math.abs(Math.cos(a)), Math.abs(Math.sin(a)))
+    const st = 0.40 + 0.60 * Math.pow(Math.abs(Math.cos(2.5 * a + 0.785)), 1.7)
+    if (u < 0.5) { const t = smooth(u * 2); return (1 - t) * 1 + t * sq * 0.94 }
+    const t = smooth((u - 0.5) * 2); return (1 - t) * sq * 0.94 + t * st
+  }
+  const N = 6, Rn = 21, y0 = 96
+  for (let k = 0; k < N; k++) {
+    const u = k / (N - 1)
+    const cx = 42 + k * 47
+    const grad = ctx.createLinearGradient(cx - Rn, y0 - Rn, cx + Rn, y0 + Rn)
+    grad.addColorStop(0, '#8b5cf6'); grad.addColorStop(.55, '#4f46e5'); grad.addColorStop(1, '#22d3ee')
+    ctx.beginPath()
+    for (let i = 0; i <= 80; i++) {
+      const a = i / 80 * Math.PI * 2
+      const r = radius(a, u) * Rn
+      const x = cx + Math.cos(a) * r, y = y0 + Math.sin(a) * r
+      i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)
+    }
+    ctx.closePath()
+    const tk = k / (N - 1)
+    ctx.globalAlpha = 0.45 + 0.55 * tk
+    ctx.fillStyle = grad; ctx.fill()
+    ctx.globalAlpha = 0.4 + 0.6 * tk
+    ctx.strokeStyle = 'rgba(186,200,255,.8)'; ctx.lineWidth = 1.1; ctx.stroke()
+    if (k === N - 1) {
+      ctx.globalAlpha = 1
+      ctx.strokeStyle = 'rgba(255,255,255,.95)'; ctx.lineWidth = 1.5; ctx.stroke()
+      ctx.shadowColor = '#22d3ee'; ctx.shadowBlur = 14; ctx.stroke(); ctx.shadowBlur = 0
+    }
+  }
+  ctx.globalAlpha = 1
+  // 时间轴
+  ctx.strokeStyle = 'rgba(165,180,252,.45)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(22, 128); ctx.lineTo(292, 128); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(292, 128); ctx.lineTo(285, 124); ctx.moveTo(292, 128); ctx.lineTo(285, 132); ctx.stroke()
+  ctx.fillStyle = 'rgba(165,180,252,.55)'
+  ctx.font = '6px ' + F.mono
+  ctx.fillText('0%', 22, 138); ctx.fillText('50%', 152, 138); ctx.fillText('100%', 276, 138)
+  // 标注
+  ctx.fillStyle = '#a5b4fc'
+  ctx.font = '700 8px ' + F.mono
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('MORPH  t=0.00', 20, 26)
+  ctx.textAlign = 'right'
+  ctx.fillText('t=1.00', 300, 26)
+  ctx.textAlign = 'left'
+  ctx.strokeStyle = 'rgba(165,180,252,.35)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(20, 32); ctx.lineTo(300, 32); ctx.stroke()
+  // 底部标签
+  ctx.fillStyle = '#e9e6ff'
+  ctx.font = '700 13px ' + F.sans
+  ctx.fillText('形状渐变', 20, 152)
+  ctx.fillStyle = 'rgba(165,180,252,.75)'
+  ctx.font = '8px ' + F.mono
+  ctx.fillText('circle → squircle → star   (radial interpolation)', 20, 166)
+}
+
+/* ================================================================
+   S8-V7 贴纸讲解 —— 白边贴纸 + 投影 + 手绘虚线
+   ================================================================ */
+function v7() {
+  const bg = '#e7edf4'
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H)
+  // 背景点阵
+  ctx.fillStyle = 'rgba(120,140,165,.16)'
+  for (let y = 10; y < H; y += 14) for (let x = 10; x < W; x += 14) { ctx.fillRect(x, y, 2, 2) }
+
+  function stickerShadow() {
+    ctx.shadowColor = 'rgba(40,60,90,.28)'
+    ctx.shadowBlur = 6; ctx.shadowOffsetX = 2; ctx.shadowOffsetY = 3
+  }
+  function clearShadow() { ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0 }
+
+  // 1) 对话气泡贴纸
+  ctx.save(); ctx.translate(104, 78); ctx.rotate(-.05)
+  stickerShadow()
+  ctx.fillStyle = '#ffffff'
+  rr(-56, -34, 112, 68, 18); ctx.fill()
+  clearShadow()
+  ctx.fillStyle = '#f45b69'
+  rr(-49, -27, 98, 54, 14); ctx.fill()
+  // 尾巴
+  ctx.fillStyle = '#ffffff'
+  poly([[-14, 34], [2, 34], [-10, 52]], true); ctx.fill()
+  ctx.fillStyle = '#f45b69'
+  poly([[-14, 30], [4, 30], [-9, 46]], true); ctx.fill()
+  ctx.fillStyle = '#fff'
+  ctx.font = '700 22px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('讲清楚', 0, -2)
+  ctx.font = '8px ' + F.mono
+  ctx.fillStyle = 'rgba(255,255,255,.8)'
+  ctx.fillText('STEP 01', 0, 16)
+  ctx.restore()
+
+  // 2) 星星贴纸
+  ctx.save(); ctx.translate(250, 58); ctx.rotate(.18)
+  stickerShadow()
+  ctx.fillStyle = '#fff'
+  poly(star(0, 0, 33, 5, .46, 0), true); ctx.fill()
+  clearShadow()
+  ctx.fillStyle = '#ffc93c'
+  poly(star(0, 0, 25, 5, .46, 0), true); ctx.fill()
+  ctx.fillStyle = '#8a5a00'
+  ctx.font = '700 13px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('!', 0, 1)
+  ctx.restore()
+
+  // 3) 对勾圆贴纸
+  ctx.save(); ctx.translate(252, 138); ctx.rotate(-.12)
+  stickerShadow()
+  ctx.fillStyle = '#fff'; circle(0, 0, 25); ctx.fill()
+  clearShadow()
+  ctx.fillStyle = '#31c48d'; circle(0, 0, 18); ctx.fill()
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 3.4; ctx.lineCap = 'round'
+  ctx.beginPath(); ctx.moveTo(-7, 1); ctx.lineTo(-1, 7); ctx.lineTo(8, -6); ctx.stroke()
+  ctx.restore()
+
+  // 4) 虚线路径
+  ctx.strokeStyle = 'rgba(90,110,140,.5)'; ctx.lineWidth = 1.5
+  ctx.setLineDash([5, 5])
+  ctx.beginPath(); ctx.moveTo(158, 118); ctx.quadraticCurveTo(196, 132, 224, 130); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(214, 40); ctx.quadraticCurveTo(204, 46, 190, 52); ctx.stroke()
+  ctx.setLineDash([])
+
+  // 5) 便签
+  ctx.save(); ctx.translate(42, 146); ctx.rotate(.06)
+  ctx.shadowColor = 'rgba(40,60,90,.2)'; ctx.shadowBlur = 5; ctx.shadowOffsetY = 2
+  ctx.fillStyle = '#fff7cf'; ctx.fillRect(-28, -14, 56, 28)
+  ctx.shadowColor = 'transparent'
+  ctx.fillStyle = '#6b5a2a'
+  ctx.font = '700 10px ' + F.hand
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('白边 + 投影', 0, 0)
+  ctx.restore()
+  ctx.fillStyle = 'rgba(60,80,105,.6)'
+  ctx.font = '7px ' + F.mono
+  ctx.textAlign = 'left'
+  ctx.fillText('STICKER EXPLAINER', 16, 22)
+}
+
+/* ================================================================
+   S8-V8 赛博朋克界面 —— HUD + 数据流 + 霓虹
+   ================================================================ */
+function v8() {
+  const R = rng(88)
+  ctx.fillStyle = '#05080f'; ctx.fillRect(0, 0, W, H)
+  // 暗蓝底光
+  const gl = ctx.createRadialGradient(160, 92, 6, 160, 92, 150)
+  gl.addColorStop(0, 'rgba(0,140,180,.30)'); gl.addColorStop(1, 'rgba(0,0,0,0)')
+  ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H)
+  // 网格
+  ctx.strokeStyle = 'rgba(0,229,255,.10)'; ctx.lineWidth = 1
+  for (let x = 0; x < W; x += 18) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+  for (let y = 0; y < H; y += 18) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+  // 数据流列
+  ctx.font = '7px ' + F.mono
+  const hex = '0123456789ABCDEF'
+  for (let col = 0; col < 8; col++) {
+    const x = 10 + col * 41
+    for (let r0 = 0; r0 < 7; r0++) {
+      let s = ''
+      for (let k = 0; k < 5; k++) s += hex[Math.floor(R() * 16)]
+      ctx.fillStyle = `rgba(0,229,255,${0.07 + R() * 0.16})`
+      ctx.fillText(s, x, 18 + r0 * 9 + col * 3)
+    }
+  }
+  const cyan = '#00e5ff', mag = '#ff2e97'
+  // 角标
+  ctx.strokeStyle = cyan; ctx.lineWidth = 1.6
+  const br = [[6, 6, 1, 1], [314, 6, -1, 1], [6, 174, 1, -1], [314, 174, -1, -1]]
+  for (const [x, y, sx, sy] of br) {
+    ctx.beginPath(); ctx.moveTo(x, y + 16 * sy); ctx.lineTo(x, y); ctx.lineTo(x + 16 * sx, y); ctx.stroke()
+  }
+  // 中央六边形面板
+  const cx = 160, cy = 90
+  const hexPts = r => {
+    const p = []
+    for (let i = 0; i < 6; i++) {
+      const a = Math.PI / 6 + i * Math.PI / 3
+      p.push([cx + Math.cos(a) * r * 1.12, cy + Math.sin(a) * r * 0.86])
+    }
+    return p
+  }
+  ctx.fillStyle = 'rgba(0,229,255,.05)'
+  poly(hexPts(52), true); ctx.fill()
+  ctx.strokeStyle = 'rgba(0,229,255,.65)'; ctx.lineWidth = 1.4
+  poly(hexPts(52), true); ctx.stroke()
+  ctx.strokeStyle = 'rgba(255,46,151,.5)'; ctx.lineWidth = 1
+  poly(hexPts(44), true); ctx.stroke()
+  // 雷达弧
+  ctx.strokeStyle = 'rgba(255,46,151,.75)'; ctx.lineWidth = 1.2
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath(); ctx.arc(cx, cy, 26 + i * 6, -Math.PI * .85, -Math.PI * .35); ctx.stroke()
+  }
+  ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + 22, cy - 18); ctx.stroke()
+  // 中心大字（故障双影）
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.font = '700 30px ' + F.sans
+  ctx.fillStyle = mag; ctx.fillText('接入', cx - 3, cy + 1.5)
+  ctx.fillStyle = cyan; ctx.fillText('接入', cx + 2.5, cy - 1.5)
+  ctx.fillStyle = '#eafcff'; ctx.fillText('接入', cx, cy)
+  ctx.globalCompositeOperation = 'source-over'
+  // 十字准星外圈刻度
+  ctx.strokeStyle = 'rgba(0,229,255,.55)'; ctx.lineWidth = 1
+  for (let i = 0; i < 40; i++) {
+    const a = i / 40 * Math.PI * 2
+    const l = i % 5 === 0 ? 6 : 3
+    ctx.beginPath()
+    ctx.moveTo(cx + Math.cos(a) * 68, cy + Math.sin(a) * 58)
+    ctx.lineTo(cx + Math.cos(a) * (68 + l), cy + Math.sin(a) * (58 + l))
+    ctx.stroke()
+  }
+  // 左侧柱状条
+  for (let i = 0; i < 9; i++) {
+    const h = 5 + R() * 26
+    ctx.fillStyle = i % 3 === 0 ? mag : 'rgba(0,229,255,.8)'
+    ctx.fillRect(24, 150 - h - i * 4, 20, h)
+  }
+  // 右上读数
+  ctx.textAlign = 'right'
+  ctx.font = '7px ' + F.mono
+  ctx.fillStyle = 'rgba(0,229,255,.8)'
+  ctx.fillText('SYS//NEO-KYOTO', 300, 18)
+  ctx.fillStyle = 'rgba(255,46,151,.9)'
+  ctx.fillText('LINK 0x7F3A', 300, 28)
+  // 左下状态
+  ctx.textAlign = 'left'
+  ctx.fillStyle = cyan
+  ctx.fillText('> DECRYPT 78%', 24, 66)
+  ctx.fillStyle = 'rgba(0,229,255,.35)'
+  ctx.fillRect(24, 70, 60, 3)
+  ctx.fillStyle = cyan
+  ctx.fillRect(24, 70, 46, 3)
+  // 底部进度
+  ctx.fillStyle = 'rgba(0,229,255,.25)'
+  ctx.fillRect(60, 160, 200, 2)
+  ctx.fillStyle = mag
+  ctx.fillRect(60, 160, 130, 2)
+  ctx.fillStyle = 'rgba(0,229,255,.9)'
+  ctx.font = '7px ' + F.mono
+  ctx.fillText('LOADING 65%', 60, 156)
+  // 扫描线
+  ctx.fillStyle = 'rgba(0,0,0,.35)'
+  for (let y = 0; y < H; y += 3) ctx.fillRect(0, y, W, 1)
+  // 故障横条
+  ctx.globalAlpha = .5
+  ctx.fillStyle = mag
+  ctx.fillRect(82, 74, 156, 2)
+  ctx.globalAlpha = 1
+  // 暗角
+  const vg = ctx.createRadialGradient(160, 90, 40, 160, 90, 200)
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.7)')
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
+}
+
+/* ================================================================
+   S8-V9 拼贴剪贴 —— 牛皮纸 + 撕边 + 半调网点 + 胶带
+   ================================================================ */
+function v9() {
+  const R = rng(97)
+  ctx.fillStyle = '#c3ae90'; ctx.fillRect(0, 0, W, H)
+  // 牛皮纸颗粒
+  for (let i = 0; i < 500; i++) {
+    ctx.fillStyle = `rgba(${R() > .5 ? '90,74,52' : '232,220,200'},${0.03 + R() * 0.07})`
+    ctx.fillRect(R() * W, R() * H, R() * 2.4, R() * 2.4)
+  }
+  function torn(x, y, w, h) {
+    const p = []
+    for (let i = 0; i <= w; i += 7) p.push([x + i, y + (R() - .5) * 5])
+    for (let i = 0; i <= h; i += 7) p.push([x + w + (R() - .5) * 5, y + i])
+    for (let i = w; i >= 0; i -= 7) p.push([x + i, y + h + (R() - .5) * 5])
+    for (let i = h; i >= 0; i -= 7) p.push([x + (R() - .5) * 5, y + i])
+    return p
+  }
+  // 白色撕纸（大）
+  ctx.save(); ctx.translate(112, 88); ctx.rotate(-.06)
+  ctx.shadowColor = 'rgba(50,40,25,.4)'; ctx.shadowBlur = 7; ctx.shadowOffsetY = 3
+  ctx.fillStyle = '#f4f0e6'
+  poly(torn(-70, -56, 140, 112), true); ctx.fill()
+  ctx.shadowColor = 'transparent'
+  // 半调网点
+  ctx.save(); ctx.clip()
+  ctx.fillStyle = 'rgba(30,30,30,.55)'
+  for (let y = -56; y < 56; y += 5) for (let x = -70; x < 70; x += 5) {
+    const d = Math.min(1, (x + 70) / 140)
+    circle(x, y, 0.5 + d * 1.5); ctx.fill()
+  }
+  ctx.restore()
+  // 黑色大字
+  ctx.fillStyle = '#141414'
+  ctx.font = '900 62px ' + F.serif
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('剪', 0, -4)
+  ctx.restore()
+
+  // 红色纸片
+  ctx.save(); ctx.translate(240, 66); ctx.rotate(.09)
+  ctx.shadowColor = 'rgba(50,40,25,.35)'; ctx.shadowBlur = 6; ctx.shadowOffsetY = 3
+  ctx.fillStyle = '#b12a20'
+  poly(torn(-46, -30, 92, 60), true); ctx.fill()
+  ctx.shadowColor = 'transparent'
+  ctx.fillStyle = '#f7ece0'
+  ctx.font = '400 13px ' + F.mono
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('COLLAGE', 0, -8)
+  ctx.font = '700 10px ' + F.sans
+  ctx.fillText('剪 贴', 0, 10)
+  ctx.restore()
+
+  // 报纸条
+  ctx.save(); ctx.translate(244, 132); ctx.rotate(-.13)
+  ctx.fillStyle = '#efe9dc'
+  ctx.fillRect(-44, -13, 88, 26)
+  ctx.fillStyle = 'rgba(30,30,30,.75)'
+  for (let i = 0; i < 4; i++) ctx.fillRect(-40, -10 + i * 5.5, 62 - i * 6, 2)
+  ctx.restore()
+
+  // 胶带 1（左上）
+  ctx.save(); ctx.translate(52, 34); ctx.rotate(-.32)
+  ctx.fillStyle = 'rgba(226,213,178,.72)'
+  ctx.fillRect(-40, -11, 80, 22)
+  ctx.fillStyle = 'rgba(255,255,255,.28)'
+  ctx.fillRect(-40, -11, 80, 5)
+  ctx.strokeStyle = 'rgba(160,145,115,.35)'; ctx.lineWidth = 1
+  for (let i = -38; i < 40; i += 6) { ctx.beginPath(); ctx.moveTo(i, -11); ctx.lineTo(i, 11); ctx.stroke() }
+  ctx.restore()
+  // 胶带 2（右下）
+  ctx.save(); ctx.translate(272, 158); ctx.rotate(-.7)
+  ctx.fillStyle = 'rgba(226,213,178,.7)'
+  ctx.fillRect(-30, -9, 60, 18)
+  ctx.restore()
+
+  // 勒索信字母块
+  const letters = [['拼', -8, '#f6f0e2', '#1a1a1a'], ['贴', 7, '#141414', '#f6f0e2'], ['报', 20, '#b12a20', '#fff']]
+  letters.forEach(([ch, rot, bgc, fgc], i) => {
+    ctx.save(); ctx.translate(34 + i * 26, 152); ctx.rotate(rot * .01)
+    ctx.fillStyle = bgc; ctx.fillRect(-11, -11, 22, 22)
+    ctx.fillStyle = fgc
+    ctx.font = '700 14px ' + F.sans
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+    ctx.fillText(ch, 0, 1)
+    ctx.restore()
+  })
+  ctx.fillStyle = 'rgba(60,48,32,.65)'
+  ctx.font = '7px ' + F.mono
+  ctx.textAlign = 'right'
+  ctx.fillText('MAGAZINE CLIPPING / 1968', 306, 26)
+}
+
+/* ================================================================
+   S8-V10 极光与毛玻璃 —— 渐变极光 + 模糊玻璃卡
+   ================================================================ */
+function v10() {
+  // 夜空
+  const sky = ctx.createLinearGradient(0, 0, 0, H)
+  sky.addColorStop(0, '#030d16'); sky.addColorStop(.55, '#062330'); sky.addColorStop(1, '#03121a')
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H)
+  const R = rng(1010)
+  for (let i = 0; i < 90; i++) {
+    ctx.fillStyle = `rgba(210,240,255,${0.08 + R() * 0.55})`
+    ctx.fillRect(R() * W, R() * 130, 1.1, 1.1)
+  }
+  // 极光帘幕：斜向拉长的软椭圆
+  ctx.filter = 'blur(14px)'
+  ctx.globalCompositeOperation = 'lighter'
+  const ribbons = [
+    [-10, 78, 190, 46, -1.15, '#35f0b0', .55],
+    [50, 62, 175, 38, -1.05, '#21d4e8', .48],
+    [130, 52, 170, 40, -1.25, '#9b6dff', .42],
+    [210, 74, 160, 34, -1.10, '#ff6ad5', .32],
+    [10, 40, 140, 28, -1.00, '#7ef9d0', .28],
+  ]
+  for (const [x, y, rx, ry, rot, col, a] of ribbons) {
+    ctx.save()
+    ctx.translate(x + rx * .6, y)
+    ctx.rotate(rot)
+    const gg = ctx.createRadialGradient(0, 0, 2, 0, 0, rx)
+    gg.addColorStop(0, hexa(col, a))
+    gg.addColorStop(.45, hexa(col, a * .5))
+    gg.addColorStop(1, hexa(col, 0))
+    ctx.fillStyle = gg
+    ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2); ctx.fill()
+    ctx.restore()
+  }
+  // 竖直帘纹
+  ctx.filter = 'blur(6px)'
+  for (let i = 0; i < 14; i++) {
+    const x = 8 + i * 23
+    const g2 = ctx.createLinearGradient(0, 16, 0, 126)
+    const c = i % 3 === 0 ? '#7ef9d0' : i % 3 === 1 ? '#5ce1ff' : '#b48cff'
+    g2.addColorStop(0, hexa(c, 0)); g2.addColorStop(.42, hexa(c, .20)); g2.addColorStop(1, hexa(c, 0))
+    ctx.fillStyle = g2
+    ctx.fillRect(x, 16, 5 + (i % 4) * 2, 110)
+  }
+  ctx.filter = 'none'
+  ctx.globalCompositeOperation = 'source-over'
+  // 远山剪影
+  ctx.fillStyle = '#020a10'
+  poly([[-10, 180], [40, 133], [92, 168], [130, 139], [180, 180]], true); ctx.fill()
+  poly([[120, 180], [180, 141], [230, 172], [268, 147], [330, 180]], true); ctx.fill()
+  // 地平线冷光
+  const hz = ctx.createLinearGradient(0, 138, 0, 168)
+  hz.addColorStop(0, 'rgba(60,230,200,0)'); hz.addColorStop(.55, 'rgba(60,230,200,.15)'); hz.addColorStop(1, 'rgba(60,230,200,0)')
+  ctx.fillStyle = hz; ctx.fillRect(0, 138, W, 30)
+
+  // 毛玻璃卡片
+  const px = 56, py = 42, pw = 208, ph = 94, pr = 16
+  // 卡片投影
+  ctx.save()
+  ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 6
+  ctx.fillStyle = 'rgba(0,0,0,.5)'; rr(px, py, pw, ph, pr); ctx.fill()
+  ctx.restore()
+  ctx.save()
+  rr(px, py, pw, ph, pr); ctx.clip()
+  // 玻璃后的高饱和极光（模糊）
+  ctx.globalCompositeOperation = 'lighter'
+  ctx.filter = 'blur(9px)'
+  const inner = [[96, 108, 78, '#2bf0b4', .85], [168, 66, 76, '#9b6dff', .7],
+                 [248, 104, 66, '#ff6ad5', .55], [140, 130, 60, '#21d4e8', .5]]
+  for (const [x, y, r, col, a] of inner) {
+    const gg = ctx.createRadialGradient(x, y, 2, x, y, r)
+    gg.addColorStop(0, hexa(col, a)); gg.addColorStop(.55, hexa(col, a * .35)); gg.addColorStop(1, hexa(col, 0))
+    ctx.fillStyle = gg; circle(x, y, r); ctx.fill()
+  }
+  ctx.filter = 'none'
+  // 玻璃白纱 + 顶部高光
+  ctx.fillStyle = 'rgba(240,255,252,.13)'; ctx.fillRect(px, py, pw, ph)
+  const top = ctx.createLinearGradient(0, py, 0, py + 40)
+  top.addColorStop(0, 'rgba(255,255,255,.20)'); top.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = top; ctx.fillRect(px, py, pw, 40)
+  ctx.globalCompositeOperation = 'source-over'
+  ctx.restore()
+  // 玻璃边框与内高光
+  ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.3
+  rr(px, py, pw, ph, pr); ctx.stroke()
+  ctx.strokeStyle = 'rgba(255,255,255,.16)'; ctx.lineWidth = 1
+  rr(px + 4.5, py + 4.5, pw - 9, ph - 9, pr - 4); ctx.stroke()
+  ctx.fillStyle = 'rgba(255,255,255,.75)'
+  rr(px + 20, py + 1.2, 72, 1.8, 1); ctx.fill()
+  // 右上角小胶囊
+  ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.lineWidth = 1
+  rr(px + pw - 62, py + 12, 50, 16, 8); ctx.stroke()
+  ctx.fillStyle = 'rgba(255,255,255,.8)'
+  ctx.font = '7px ' + F.mono
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('BLUR 24px', px + pw - 37, py + 20)
+  // 卡内文字
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillStyle = 'rgba(255,255,255,.97)'
+  ctx.font = '700 27px ' + F.sans
+  ctx.fillText('极光', px + 20, py + 54)
+  ctx.fillStyle = 'rgba(200,255,240,.95)'
+  ctx.font = '700 12px ' + F.sans
+  ctx.fillText('毛玻璃卡片', px + 20, py + 74)
+  ctx.fillStyle = 'rgba(255,255,255,.6)'
+  ctx.font = '7px ' + F.mono
+  ctx.fillText('BACKDROP-FILTER · GRADIENT MESH', px + 20, py + 86)
+  // 卡外标签
+  ctx.textAlign = 'left'
+  ctx.fillStyle = 'rgba(255,255,255,.55)'
+  ctx.font = '7px ' + F.mono
+  ctx.fillText('AURORA / GLASSMORPHISM', 18, 20)
+  ctx.textAlign = 'right'
+  ctx.fillText('08', 304, 20)
+  // 细噪点
+  for (let i = 0; i < 220; i++) {
+    ctx.fillStyle = `rgba(255,255,255,${R() * .07})`
+    ctx.fillRect(R() * W, R() * H, 1, 1)
+  }
+}
+function hexa(hex, a) {
+  const n = parseInt(hex.slice(1), 16)
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`
+}
+
+/* ================================================================
+   S8-V11 包豪斯几何 —— 基本形 + 三原色
+   ================================================================ */
+function v11() {
+  const cream = '#f0e9d8', red = '#dc2f2f', yellow = '#f2b705',
+        blue = '#1d4e89', black = '#141414'
+  ctx.fillStyle = cream; ctx.fillRect(0, 0, W, H)
+  // 分栏细线
+  ctx.strokeStyle = 'rgba(20,20,20,.35)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(196, 0); ctx.lineTo(196, H); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(0, 122); ctx.lineTo(196, 122); ctx.stroke()
+
+  // 蓝大圆（左上，被边缘裁切）
+  ctx.fillStyle = blue
+  ctx.beginPath(); ctx.arc(74, 52, 52, 0, Math.PI * 2); ctx.fill()
+  // 黄色半圆（压在蓝圆上）
+  ctx.fillStyle = yellow
+  ctx.beginPath(); ctx.arc(74, 52, 52, Math.PI * .15, Math.PI * .85); ctx.fill()
+  // 红色三角（右下）
+  poly([[216, 168], [264, 78], [312, 168]], true); ctx.fillStyle = red; ctx.fill()
+  // 黑色竖条
+  ctx.fillStyle = black; ctx.fillRect(140, 30, 10, 92)
+  // 黄色方块
+  ctx.fillStyle = yellow; ctx.fillRect(106, 132, 30, 30)
+  // 黑色小圆
+  ctx.fillStyle = black; circle(160, 146, 9); ctx.fill()
+  // 红色细条
+  ctx.fillStyle = red; ctx.fillRect(216, 24, 80, 5)
+  // 蓝色小方
+  ctx.fillStyle = blue; ctx.fillRect(216, 40, 22, 22)
+  // 黑白棋盘小块
+  for (let i = 0; i < 2; i++) for (let j = 0; j < 2; j++) {
+    ctx.fillStyle = (i + j) % 2 ? cream : black
+    ctx.fillRect(264 + i * 10, 30 + j * 10, 10, 10)
+  }
+  // 大弧线
+  ctx.strokeStyle = black; ctx.lineWidth = 2
+  ctx.beginPath(); ctx.arc(196, 122, 40, Math.PI, Math.PI * 1.5); ctx.stroke()
+
+  // 文字
+  ctx.fillStyle = black
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  let tx = 16
+  const word = 'bauhaus'
+  ctx.font = '700 15px ' + F.sans
+  for (const ch of word) { ctx.fillText(ch, tx, 168); tx += 14 }
+  ctx.font = '7px ' + F.mono
+  ctx.fillText('1919 / WEIMAR', 122, 168)
+  ctx.fillStyle = 'rgba(20,20,20,.6)'
+  ctx.fillText('KREIS · QUADRAT · DREIECK', 16, 118)
+  ctx.strokeStyle = 'rgba(20,20,20,.3)'
+  ctx.strokeRect(6, 6, W - 12, H - 12)
+}
+
+/* ================================================================
+   S8-V12 80年代合成波 VHS —— 紫粉渐变 + 网格地平线 + 噪点
+   ================================================================ */
+function v12() {
+  const R = rng(1980)
+  const sky = ctx.createLinearGradient(0, 0, 0, 116)
+  sky.addColorStop(0, '#1b0236'); sky.addColorStop(.45, '#54106b')
+  sky.addColorStop(.78, '#c81e7a'); sky.addColorStop(1, '#ff5c8a')
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H)
+  // 太阳
+  const sunY = 96, sunR = 46
+  const sg = ctx.createLinearGradient(0, sunY - sunR, 0, sunY + sunR)
+  sg.addColorStop(0, '#ffe66d'); sg.addColorStop(.45, '#ff9f45'); sg.addColorStop(1, '#ff2d95')
+  ctx.save()
+  circle(160, sunY, sunR); ctx.clip()
+  ctx.fillStyle = sg; ctx.fillRect(110, sunY - sunR, 100, sunR * 2)
+  // 横向切槽
+  for (let i = 0; i < 7; i++) {
+    const y = sunY + 4 + i * 7
+    ctx.fillStyle = 'rgba(80,10,60,.95)'
+    ctx.fillRect(110, y, 100, 1.6 + i * 0.9)
+  }
+  ctx.restore()
+  // 光晕
+  const halo = ctx.createRadialGradient(160, sunY, sunR * .8, 160, sunY, sunR * 2.6)
+  halo.addColorStop(0, 'rgba(255,90,150,.35)'); halo.addColorStop(1, 'rgba(255,90,150,0)')
+  ctx.fillStyle = halo; ctx.fillRect(0, 0, W, 150)
+  // 远山剪影
+  ctx.fillStyle = '#180026'
+  poly([[-10, 116], [44, 62], [98, 116]], true); ctx.fill()
+  poly([[236, 116], [286, 56], [330, 116]], true); ctx.fill()
+  poly([[70, 116], [110, 88], [150, 116]], true); ctx.fill()
+  // 地平线光带
+  const hz = ctx.createLinearGradient(0, 112, 0, 120)
+  hz.addColorStop(0, 'rgba(255,46,149,0)'); hz.addColorStop(.5, 'rgba(255,120,200,.95)')
+  hz.addColorStop(1, 'rgba(255,46,149,0)')
+  ctx.fillStyle = hz; ctx.fillRect(0, 112, W, 8)
+  // 网格地板
+  ctx.fillStyle = '#0d0018'; ctx.fillRect(0, 116, W, 64)
+  ctx.strokeStyle = 'rgba(0,240,255,.55)'; ctx.lineWidth = 1
+  const vx = 160, vy = 116
+  for (let i = -9; i <= 9; i++) {
+    ctx.beginPath(); ctx.moveTo(vx, vy); ctx.lineTo(vx + i * 46, 180); ctx.stroke()
+  }
+  ctx.strokeStyle = 'rgba(255,46,149,.6)'
+  for (let i = 1; i <= 8; i++) {
+    const y = vy + 64 * Math.pow(i / 8, 2.1)
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke()
+  }
+  // VHS 文字
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.font = '700 13px ' + F.mono
+  ctx.fillStyle = 'rgba(0,240,255,.85)'
+  ctx.fillText('▶ VHS', 12, 26)
+  ctx.fillStyle = 'rgba(255,46,149,.95)'
+  ctx.fillText('▶ VHS', 14.5, 27.5)
+  ctx.font = '7px ' + F.mono
+  ctx.fillStyle = 'rgba(255,255,255,.75)'
+  ctx.fillText('SP  STEREO   1986', 12, 38)
+  // 右上播放指示
+  ctx.textAlign = 'right'
+  ctx.fillStyle = 'rgba(255,255,255,.8)'
+  ctx.fillText('PLAY ▷', 306, 26)
+  ctx.fillText('00:04:21', 306, 36)
+  // 噪点
+  for (let i = 0; i < 900; i++) {
+    const y = R() * H
+    ctx.fillStyle = `rgba(255,255,255,${R() * .16})`
+    ctx.fillRect(R() * W, y, 1 + R() * 2, 1)
+  }
+  // 扫描线
+  ctx.fillStyle = 'rgba(0,0,0,.22)'
+  for (let y = 0; y < H; y += 3) ctx.fillRect(0, y, W, 1)
+  // 追踪带
+  ctx.fillStyle = 'rgba(255,255,255,.10)'; ctx.fillRect(0, 132, W, 5)
+}
+
+/* ================================================================
+   S8-V13 像素 —— 4px 网格像素画 + 点阵字
+   ================================================================ */
+function v13() {
+  const P = '#1a1c2c', D = '#333c57', M = '#566c86', B = '#29366f',
+        L = '#3b5dc9', C = '#41a6f6', T = '#73eff7', Y = '#ffcd75',
+        O = '#ef7d57', R = '#b13e53', G = '#38b764', WT = '#f4f4f4'
+  const S = 4
+  ctx.fillStyle = P; ctx.fillRect(0, 0, W, H)
+  const R0 = rng(4242)
+  // 天空分色带
+  const bands = [[P, 0, 26], ['#232a52', 26, 28], [B, 54, 24], ['#35508f', 78, 18], ['#3b5dc9', 96, 16]]
+  for (const [col, y, h] of bands) { ctx.fillStyle = col; ctx.fillRect(0, y, W, h) }
+  // 像素星
+  for (let i = 0; i < 34; i++) {
+    const gx = Math.floor(R0() * 80) * S, gy = Math.floor(R0() * 22) * S
+    ctx.fillStyle = R0() > .72 ? T : WT
+    ctx.fillRect(gx, gy, S - 1, S - 1)
+  }
+  // 像素月
+  const mx = 244, my = 34, mr = 17
+  for (let y = -mr; y <= mr; y += S) for (let x = -mr; x <= mr; x += S) {
+    if (x * x + y * y <= mr * mr) {
+      const edge = (x * x + y * y) > (mr - S) * (mr - S)
+      ctx.fillStyle = edge ? '#d9a441' : Y
+      ctx.fillRect(Math.round(mx + x), Math.round(my + y), S, S)
+    }
+  }
+  // 像素山
+  function hill(baseY, amp, col, col2, seedX) {
+    for (let x = 0; x < W; x += S) {
+      const hh = amp * (0.5 + 0.5 * Math.sin(x * 0.021 + seedX)) + amp * 0.35 * Math.sin(x * 0.061 + seedX * 2)
+      const top = Math.round((baseY - hh) / S) * S
+      ctx.fillStyle = col
+      ctx.fillRect(x, top, S, baseY - top)
+      ctx.fillStyle = col2
+      ctx.fillRect(x, top, S, S)
+    }
+  }
+  hill(120, 30, D, M, 1.2)
+  hill(134, 24, '#252a44', '#3a4266', 3.4)
+  // 地面
+  ctx.fillStyle = '#1e4038'; ctx.fillRect(0, 132, W, 48)
+  ctx.fillStyle = '#2b5c4a'; ctx.fillRect(0, 132, W, 4)
+  for (let i = 0; i < 110; i++) {
+    const gx = Math.floor(R0() * 80) * S, gy = 138 + Math.floor(R0() * 11) * S
+    ctx.fillStyle = R0() > .62 ? G : (R0() > .3 ? '#257179' : '#4a7a5e')
+    ctx.fillRect(gx, gy, S - 1, S - 1)
+  }
+  // 小屋
+  function px(x, y, w, h, col) { ctx.fillStyle = col; ctx.fillRect(x, y, w, h) }
+  px(46, 116, 40, 20, '#2b2b3e')
+  px(42, 112, 48, 6, R)
+  px(58, 104, 16, 8, R)
+  px(52, 124, 8, 8, Y)
+  px(54, 126, 4, 4, '#fff7cf')
+  px(72, 122, 8, 8, '#101322')
+  // 小树
+  px(224, 126, 4, 8, '#4a3524')
+  px(216, 114, 20, 12, G)
+  px(220, 108, 12, 8, '#4fbf74')
+  // 炊烟
+  px(66, 96, 4, 4, '#8f9bb3'); px(70, 90, 4, 4, '#6d7893'); px(64, 84, 4, 4, '#59637d')
+  // 木栅栏
+  for (let i = 0; i < 9; i++) px(150 + i * 14, 142, 3, 12, '#c9b18a')
+  px(150, 147, 118, 2, '#a8916d')
+  // 池塘（抖色水面）
+  for (let yy = 160; yy < 178; yy += S) for (let xx = 158; xx < 302; xx += S) {
+    if (((xx / S) + (yy / S)) % 2 === 0) { ctx.fillStyle = '#1b5560'; ctx.fillRect(xx, yy, S, S) }
+  }
+  ctx.fillStyle = '#2f8f96'; ctx.fillRect(158, 160, 144, 2)
+  ctx.fillStyle = 'rgba(115,239,247,.35)'; ctx.fillRect(196, 168, 12, 2); ctx.fillRect(240, 172, 16, 2)
+  // 飞鸟
+  for (const [bx, by] of [[104, 52], [116, 46], [128, 55]]) {
+    px(bx, by, 2, 2, '#c9d6e2'); px(bx + 4, by - 2, 2, 2, '#c9d6e2'); px(bx + 8, by, 2, 2, '#c9d6e2')
+  }
+  // 点阵字 PIXEL
+  const font = {
+    P: ['11110', '10001', '10001', '11110', '10000', '10000', '10000'],
+    I: ['11111', '00100', '00100', '00100', '00100', '00100', '11111'],
+    X: ['10001', '10001', '01010', '00100', '01010', '10001', '10001'],
+    E: ['11111', '10000', '10000', '11110', '10000', '10000', '11111'],
+    L: ['10000', '10000', '10000', '10000', '10000', '10000', '11111'],
+  }
+  const word = 'PIXEL'
+  const bx = 14, by = 146, sc = 2
+  for (let li = 0; li < word.length; li++) {
+    const glyph = font[word[li]]
+    for (let r0 = 0; r0 < 7; r0++) for (let c0 = 0; c0 < 5; c0++) {
+      if (glyph[r0][c0] === '1') {
+        ctx.fillStyle = (r0 < 3) ? Y : WT
+        ctx.fillRect(bx + li * 12 + c0 * sc, by + r0 * sc, sc, sc)
+      }
+    }
+  }
+  // 像素边框
+  ctx.fillStyle = 'rgba(115,239,247,.25)'
+  for (let x = 0; x < W; x += 8) { ctx.fillRect(x, 2, 4, 1); ctx.fillRect(x, 177, 4, 1) }
+}
+
+/* ================================================================
+   S8-V14 液态流动 —— 流体金属 + 波纹
+   ================================================================ */
+function v14() {
+  const bg = ctx.createRadialGradient(150, 80, 10, 160, 100, 230)
+  bg.addColorStop(0, '#2b323a'); bg.addColorStop(.55, '#14181d'); bg.addColorStop(1, '#07090b')
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H)
+
+  // 材质：多层同心渐变模拟铬反射带
+  function chrome(cx, cy, r, squash, seed) {
+    ctx.save(); ctx.translate(cx, cy); ctx.scale(1, squash || 1)
+    // 有机轮廓
+    const pts = []
+    for (let i = 0; i <= 100; i++) {
+      const a = i / 100 * Math.PI * 2
+      const k = 1 + 0.10 * Math.sin(3 * a + seed) + 0.055 * Math.sin(5 * a + seed * 2.3) + 0.03 * Math.sin(7 * a - 1.1)
+      pts.push([Math.cos(a) * r * k, Math.sin(a) * r * k])
+    }
+    // 外发光
+    ctx.shadowColor = 'rgba(170,210,240,.30)'; ctx.shadowBlur = 24
+    ctx.fillStyle = '#0b0e12'; poly(pts, true); ctx.fill()
+    ctx.shadowBlur = 0
+    // 内部：斜向铬反射带
+    ctx.save(); poly(pts, true); ctx.clip()
+    const g = ctx.createLinearGradient(-r * .9, -r, r * .9, r)
+    g.addColorStop(0, '#f4faff'); g.addColorStop(.14, '#b9cddd')
+    g.addColorStop(.30, '#1b222a'); g.addColorStop(.44, '#cfe0ec')
+    g.addColorStop(.56, '#5c6b7a'); g.addColorStop(.68, '#0e1319')
+    g.addColorStop(.82, '#a7bccc'); g.addColorStop(1, '#232b34')
+    ctx.fillStyle = g; ctx.fillRect(-r * 2, -r * 2, r * 4, r * 4)
+    // 左右暗边，做出圆柱感
+    const ge = ctx.createLinearGradient(-r * 1.1, 0, r * 1.1, 0)
+    ge.addColorStop(0, 'rgba(0,0,0,.5)'); ge.addColorStop(.3, 'rgba(0,0,0,0)')
+    ge.addColorStop(.72, 'rgba(0,0,0,0)'); ge.addColorStop(1, 'rgba(0,0,0,.55)')
+    ctx.fillStyle = ge; ctx.fillRect(-r * 2, -r * 2, r * 4, r * 4)
+    // 主高光
+    const hg = ctx.createRadialGradient(-r * .34, -r * .42, 1, -r * .34, -r * .42, r * .85)
+    hg.addColorStop(0, 'rgba(255,255,255,.95)'); hg.addColorStop(.4, 'rgba(255,255,255,.14)'); hg.addColorStop(1, 'rgba(255,255,255,0)')
+    ctx.fillStyle = hg; ctx.fillRect(-r * 2, -r * 2, r * 4, r * 4)
+    ctx.restore()
+    // 边缘
+    ctx.strokeStyle = 'rgba(255,255,255,.72)'; ctx.lineWidth = 1.2
+    poly(pts, true); ctx.stroke()
+    ctx.restore()
+  }
+
+  // 主液滴
+  chrome(132, 92, 52, .92, 1.7)
+  // 卫星液滴
+  chrome(214, 60, 17, 1, 4.2)
+  chrome(226, 122, 11, 1, 2.1)
+  chrome(76, 56, 9, 1, 5.3)
+  // 拉丝高光
+  ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 2.2; ctx.lineCap = 'round'
+  ctx.beginPath(); ctx.moveTo(104, 66); ctx.quadraticCurveTo(126, 56, 152, 66); ctx.stroke()
+  ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1.2
+  ctx.beginPath(); ctx.moveTo(98, 100); ctx.quadraticCurveTo(120, 112, 146, 104); ctx.stroke()
+  // 虹彩边
+  ctx.strokeStyle = 'rgba(150,130,255,.28)'; ctx.lineWidth = 1.4
+  ctx.beginPath(); ctx.arc(130, 92, 49, -0.5, 0.7); ctx.stroke()
+  ctx.strokeStyle = 'rgba(110,255,235,.22)'
+  ctx.beginPath(); ctx.arc(134, 90, 48, 1.7, 2.7); ctx.stroke()
+
+  // 波纹
+  for (let i = 1; i <= 6; i++) {
+    ctx.strokeStyle = `rgba(200,225,245,${0.26 - i * 0.035})`
+    ctx.lineWidth = 1
+    ctx.beginPath(); ctx.ellipse(132, 150, 16 + i * 14, 3 + i * 2.4, 0, 0, Math.PI * 2); ctx.stroke()
+  }
+  // 溅起的水珠
+  const R = rng(77)
+  for (let i = 0; i < 12; i++) {
+    const x = 60 + R() * 160, y = 30 + R() * 70
+    const r = 1 + R() * 2.6
+    const g = ctx.createRadialGradient(x - r * .3, y - r * .3, 0, x, y, r)
+    g.addColorStop(0, 'rgba(255,255,255,.95)'); g.addColorStop(1, 'rgba(120,140,160,.25)')
+    ctx.fillStyle = g; circle(x, y, r); ctx.fill()
+  }
+  // 文字
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillStyle = 'rgba(236,244,250,.92)'
+  ctx.font = '300 15px ' + F.sans
+  ctx.fillText('LIQUID', 24, 162)
+  ctx.fillStyle = 'rgba(236,244,250,.45)'
+  ctx.font = '7px ' + F.mono
+  ctx.fillText('FLUID METAL / RIPPLE', 24, 172)
+  ctx.textAlign = 'right'
+  ctx.fillStyle = 'rgba(236,244,250,.35)'
+  ctx.fillText('n=0.42  μ=8.1', 300, 172)
+}
+
+/* ================================================================
+   S8-V15 综艺花字 —— 描边大字 + 爆炸贴纸
+   ================================================================ */
+function v15() {
+  // 背景渐变
+  const bg = ctx.createLinearGradient(0, 0, W, H)
+  bg.addColorStop(0, '#7b2cbf'); bg.addColorStop(.55, '#e01e6e'); bg.addColorStop(1, '#ff5e3a')
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H)
+  // 放射线
+  ctx.save(); ctx.translate(160, 88)
+  for (let i = 0; i < 24; i++) {
+    const a1 = (i / 24) * Math.PI * 2, a2 = a1 + Math.PI / 24
+    ctx.beginPath(); ctx.moveTo(0, 0)
+    ctx.arc(0, 0, 300, a1, a2); ctx.closePath()
+    ctx.fillStyle = i % 2 ? 'rgba(255,217,61,.12)' : 'rgba(255,255,255,.07)'
+    ctx.fill()
+  }
+  ctx.restore()
+  // 爆炸星形贴纸
+  ctx.save(); ctx.translate(160, 84); ctx.rotate(-.06)
+  ctx.fillStyle = '#ffd93d'
+  poly(star(0, 0, 74, 14, .74, .1), true); ctx.fill()
+  ctx.fillStyle = 'rgba(255,255,255,.22)'
+  poly(star(0, 0, 60, 14, .74, .1), true); ctx.fill()
+  ctx.restore()
+  // 大字：综艺
+  function outlined(text, x, y, size, fill, stroke, lw, rot, shadowCol) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot)
+    ctx.font = '900 ' + size + 'px ' + F.sans
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+    ctx.lineJoin = 'round'
+    if (shadowCol) {
+      ctx.fillStyle = shadowCol
+      ctx.fillText(text, 4, 5)
+      ctx.strokeStyle = shadowCol; ctx.lineWidth = lw + 6; ctx.strokeText(text, 4, 5)
+    }
+    ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.strokeText(text, 0, 0)
+    ctx.fillStyle = fill; ctx.fillText(text, 0, 0)
+    // 顶部高光
+    const g = ctx.createLinearGradient(0, -size * .5, 0, size * .5)
+    g.addColorStop(0, 'rgba(255,255,255,.85)'); g.addColorStop(.45, 'rgba(255,255,255,0)')
+    ctx.fillStyle = g; ctx.fillText(text, 0, 0)
+    ctx.restore()
+  }
+  outlined('综艺', 160, 78, 62, '#ffffff', '#2b0a4a', 9, -.05, '#e01e6e')
+  // 小花字
+  ctx.save(); ctx.translate(160, 132); ctx.rotate(-.05)
+  ctx.font = '900 26px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.lineJoin = 'round'
+  ctx.strokeStyle = '#2b0a4a'; ctx.lineWidth = 7; ctx.strokeText('花字大爆炸', 0, 0)
+  ctx.fillStyle = '#ffd93d'; ctx.fillText('花字大爆炸', 0, 0)
+  ctx.restore()
+  // 四角星闪
+  function spark(x, y, r, col) {
+    ctx.fillStyle = col
+    ctx.beginPath()
+    ctx.moveTo(x, y - r); ctx.quadraticCurveTo(x + r * .16, y - r * .16, x + r, y)
+    ctx.quadraticCurveTo(x + r * .16, y + r * .16, x, y + r)
+    ctx.quadraticCurveTo(x - r * .16, y + r * .16, x - r, y)
+    ctx.quadraticCurveTo(x - r * .16, y - r * .16, x, y - r)
+    ctx.fill()
+  }
+  spark(252, 40, 14, '#ffffff')
+  spark(58, 52, 10, '#ffd93d')
+  spark(276, 108, 8, '#ffffff')
+  spark(38, 120, 7, '#ffffff')
+  // 感叹号气泡
+  ctx.save(); ctx.translate(272, 138); ctx.rotate(.15)
+  ctx.fillStyle = '#fff'; circle(0, 0, 17); ctx.fill()
+  ctx.fillStyle = '#e01e6e'
+  ctx.font = '900 20px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('!', 0, 1)
+  ctx.restore()
+  // 彩带小圆
+  const R = rng(555)
+  for (let i = 0; i < 26; i++) {
+    ctx.fillStyle = ['#ffd93d', '#ffffff', '#ff5e3a', '#00e5ff'][i % 4]
+    ctx.globalAlpha = .85
+    circle(8 + R() * 304, 8 + R() * 164, 1 + R() * 2.4); ctx.fill()
+  }
+  ctx.globalAlpha = 1
+  // 底部条
+  ctx.fillStyle = 'rgba(43,10,74,.85)'
+  ctx.fillRect(0, 160, W, 20)
+  ctx.fillStyle = '#ffd93d'
+  ctx.font = '700 9px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle'
+  ctx.fillText('VARIETY SHOW', 12, 170)
+  ctx.textAlign = 'right'
+  ctx.fillStyle = 'rgba(255,255,255,.8)'
+  ctx.font = '8px ' + F.mono
+  ctx.fillText('★ 强节奏 / 高饱和', 308, 170)
+}
+
+const DRAW = {
+  'S8-V1': v1, 'S8-V3': v3, 'S8-V4': v4, 'S8-V6': v6, 'S8-V7': v7,
+  'S8-V8': v8, 'S8-V9': v9, 'S8-V10': v10, 'S8-V11': v11, 'S8-V12': v12,
+  'S8-V13': v13, 'S8-V14': v14, 'S8-V15': v15,
+}
+;(DRAW[id] || v1)()
+window.__DONE__ = true
+</script>
+</body>
+</html>
