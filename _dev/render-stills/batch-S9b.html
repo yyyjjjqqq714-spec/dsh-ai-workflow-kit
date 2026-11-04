@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<style>
+  html,body{margin:0;padding:0;background:#000;overflow:hidden}
+  canvas{display:block;width:320px;height:180px}
+</style>
+</head>
+<body>
+<canvas id="c" width="320" height="180"></canvas>
+<script>
+const W = 320, H = 180
+const c = document.getElementById('c')
+const ctx = c.getContext('2d')
+const id = new URLSearchParams(location.search).get('id') || 'S9-X18'
+
+const F = {
+  sans: '"Microsoft YaHei","PingFang SC",sans-serif',
+  serif: '"SimSun","Songti SC",serif',
+  hand: '"KaiTi","STKaiti",serif',
+  mono: '"Consolas","Courier New",monospace',
+}
+
+/* ---------------- 工具 ---------------- */
+function rng(seed) {
+  let s = seed >>> 0
+  return function () {
+    s = (s + 0x6D2B79F5) >>> 0
+    let t = Math.imul(s ^ (s >>> 15), 1 | s)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+function rr(x, y, w, h, r) {
+  ctx.beginPath()
+  ctx.moveTo(x + r, y)
+  ctx.arcTo(x + w, y, x + w, y + h, r)
+  ctx.arcTo(x + w, y + h, x, y + h, r)
+  ctx.arcTo(x, y + h, x, y, r)
+  ctx.arcTo(x, y, x + w, y, r)
+  ctx.closePath()
+}
+function circle(x, y, r) { ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2) }
+function poly(pts, close) {
+  ctx.beginPath()
+  for (let i = 0; i < pts.length; i++) i ? ctx.lineTo(pts[i][0], pts[i][1]) : ctx.moveTo(pts[i][0], pts[i][1])
+  if (close) ctx.closePath()
+}
+function starPts(cx, cy, R, spikes, inner, rot) {
+  const pts = []
+  for (let i = 0; i < spikes * 2; i++) {
+    const rad = i % 2 ? R * inner : R
+    const a = (i / (spikes * 2)) * Math.PI * 2 - Math.PI / 2 + (rot || 0)
+    pts.push([cx + Math.cos(a) * rad, cy + Math.sin(a) * rad])
+  }
+  return pts
+}
+function halftone(x, y, w, h, step, r, color) {
+  ctx.save(); ctx.fillStyle = color
+  let row = 0
+  for (let yy = y; yy < y + h; yy += step, row++) {
+    for (let xx = x + (row % 2 ? step / 2 : 0); xx < x + w; xx += step) {
+      ctx.beginPath(); ctx.arc(xx, yy, r, 0, 6.2832); ctx.fill()
+    }
+  }
+  ctx.restore()
+}
+function grain(n, seed, alpha) {
+  const R = rng(seed); ctx.save()
+  for (let i = 0; i < n; i++) {
+    ctx.fillStyle = 'rgba(255,255,255,' + (R() * alpha).toFixed(3) + ')'
+    ctx.fillRect(R() * W, R() * H, 1, 1)
+  }
+  ctx.restore()
+}
+function dashArrow(x1, y1, x2, y2, color, lw) {
+  ctx.save()
+  ctx.strokeStyle = color; ctx.lineWidth = lw || 1
+  ctx.setLineDash([4, 3])
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke()
+  ctx.setLineDash([])
+  const a = Math.atan2(y2 - y1, x2 - x1)
+  ctx.beginPath()
+  ctx.moveTo(x2, y2); ctx.lineTo(x2 - Math.cos(a - .42) * 6, y2 - Math.sin(a - .42) * 6)
+  ctx.moveTo(x2, y2); ctx.lineTo(x2 - Math.cos(a + .42) * 6, y2 - Math.sin(a + .42) * 6)
+  ctx.stroke(); ctx.restore()
+}
+
+/* ================================================================
+   S9-X18 漫画书 —— 分格 / 对话气泡 / 网点
+   ================================================================ */
+function comic() {
+  const R = rng(1801)
+  ctx.fillStyle = '#f8f1dc'; ctx.fillRect(0, 0, W, H)
+  halftone(0, 0, W, H, 5.5, 1.05, 'rgba(186,140,50,.22)')
+
+  /* ---- 左大格：动作爆炸 ---- */
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(8, 8, 192, 164)
+  ctx.save(); ctx.beginPath(); ctx.rect(8, 8, 192, 164); ctx.clip()
+  ctx.strokeStyle = 'rgba(20,18,16,.5)'; ctx.lineWidth = 1.1
+  for (let i = 0; i < 28; i++) {
+    const a = i / 28 * Math.PI * 2 + .15
+    ctx.beginPath()
+    ctx.moveTo(104 + Math.cos(a) * 44, 86 + Math.sin(a) * 44)
+    ctx.lineTo(104 + Math.cos(a) * 240, 86 + Math.sin(a) * 240)
+    ctx.stroke()
+  }
+  halftone(8, 116, 200, 172, 5.4, 1.7, 'rgba(200,52,36,.42)')
+  halftone(8, 8, 200, 62, 6, 1.4, 'rgba(30,90,170,.20)')
+  poly(starPts(104, 84, 58, 15, .6, .12), true)
+  ctx.fillStyle = '#ffd23f'; ctx.fill()
+  ctx.strokeStyle = '#141414'; ctx.lineWidth = 2.6; ctx.stroke()
+  ctx.save(); ctx.translate(104, 88); ctx.rotate(-.09)
+  ctx.fillStyle = '#141414'; ctx.font = '900 32px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('砰!', 0, 0)
+  ctx.restore()
+  /* 旁白框 */
+  ctx.fillStyle = '#fff'; ctx.fillRect(16, 146, 76, 18)
+  ctx.strokeStyle = '#141414'; ctx.lineWidth = 2; ctx.strokeRect(16, 146, 76, 18)
+  ctx.fillStyle = '#141414'; ctx.font = '700 9px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('第 12 话', 23, 159)
+  ctx.restore()
+  ctx.strokeStyle = '#141414'; ctx.lineWidth = 3; ctx.strokeRect(8, 8, 192, 164)
+
+  /* ---- 右上格：对白气泡 ---- */
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(208, 8, 104, 76)
+  halftone(208, 8, 104, 76, 5, 1.25, 'rgba(30,90,170,.26)')
+  ctx.beginPath(); ctx.ellipse(257, 36, 36, 22, 0, 0, 6.2832)
+  ctx.fillStyle = '#ffffff'; ctx.fill()
+  ctx.beginPath(); ctx.moveTo(240, 54); ctx.lineTo(226, 72); ctx.lineTo(252, 57); ctx.closePath()
+  ctx.fillStyle = '#ffffff'; ctx.fill()
+  ctx.strokeStyle = '#141414'; ctx.lineWidth = 2
+  ctx.beginPath(); ctx.ellipse(257, 36, 36, 22, 0, 0, 6.2832); ctx.stroke()
+  ctx.fillStyle = '#141414'; ctx.font = '700 12px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('你确定？', 257, 37)
+  ctx.strokeStyle = '#141414'; ctx.lineWidth = 3; ctx.strokeRect(208, 8, 104, 76)
+
+  /* ---- 右下格：黑底待续 ---- */
+  ctx.fillStyle = '#17171a'; ctx.fillRect(208, 84, 104, 88)
+  poly([[246, 90], [228, 124], [246, 124], [238, 146], [266, 110], [248, 110]], true)
+  ctx.fillStyle = '#ffe14d'; ctx.fill()
+  ctx.fillStyle = '#ffffff'; ctx.font = '700 13px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('待续…', 256, 162)
+  ctx.strokeStyle = '#141414'; ctx.lineWidth = 3; ctx.strokeRect(208, 84, 104, 88)
+}
+
+/* ================================================================
+   S9-X19 纪录片 —— 采访画框 / 字幕条 / 时间码
+   ================================================================ */
+function docu() {
+  const R = rng(1902)
+  const g = ctx.createLinearGradient(0, 0, W, H)
+  g.addColorStop(0, '#2c2218'); g.addColorStop(.55, '#161110'); g.addColorStop(1, '#0a0806')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  /* 背景虚化暖光 */
+  for (let i = 0; i < 16; i++) {
+    const x = R() * W, y = 26 + R() * 120, r = 8 + R() * 26
+    const rg = ctx.createRadialGradient(x, y, 0, x, y, r)
+    rg.addColorStop(0, 'rgba(255,188,110,' + (.05 + R() * .07).toFixed(3) + ')')
+    rg.addColorStop(1, 'rgba(255,180,100,0)')
+    ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill()
+  }
+  /* 人物剪影 */
+  ctx.beginPath(); ctx.moveTo(190, 168)
+  ctx.quadraticCurveTo(200, 120, 232, 104)
+  ctx.lineTo(296, 104)
+  ctx.quadraticCurveTo(320, 122, 322, 168)
+  ctx.closePath()
+  ctx.fillStyle = '#0c0a09'; ctx.fill()
+  ctx.beginPath(); ctx.arc(254, 72, 27, 0, 6.2832)
+  ctx.fillStyle = '#131110'; ctx.fill()
+  /* 轮廓光 */
+  ctx.beginPath(); ctx.arc(254, 72, 27, 2.05, 4.05)
+  ctx.strokeStyle = 'rgba(255,205,140,.55)'; ctx.lineWidth = 2.6; ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(232, 104)
+  ctx.quadraticCurveTo(212, 132, 206, 168)
+  ctx.strokeStyle = 'rgba(255,205,140,.26)'; ctx.lineWidth = 2; ctx.stroke()
+  /* 暗角 */
+  const vg = ctx.createRadialGradient(200, 90, 40, 200, 90, 200)
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.75)')
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
+  /* 遮幅 */
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, 15); ctx.fillRect(0, 165, W, 15)
+  /* 时间码 */
+  ctx.fillStyle = 'rgba(232,227,216,.85)'; ctx.font = '10px ' + F.mono
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('00:12:47:03', 12, 29)
+  circle(98, 25.5, 3); ctx.fillStyle = '#d0332b'; ctx.fill()
+  ctx.fillStyle = 'rgba(220,215,205,.8)'; ctx.font = '9px ' + F.mono
+  ctx.fillText('REC', 106, 29)
+  /* 字幕条 */
+  ctx.fillStyle = 'rgba(0,0,0,.52)'; ctx.fillRect(26, 133, 268, 29)
+  ctx.fillStyle = '#f4efe4'; ctx.font = '12px ' + F.sans
+  ctx.textAlign = 'center'; ctx.fillText('“那年冬天，我们几乎是空手出发。”', 160, 152)
+  /* 左下角受访者标签 */
+  ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(190,182,170,.55)'
+  ctx.font = '8px ' + F.sans; ctx.fillText('受访者 ｜ 老船工 · 78 岁', 12, 176)
+  grain(320, 1903, .05)
+}
+
+/* ================================================================
+   S9-X20 博物馆展览 —— 展签 / 文物剪影 / 射灯
+   ================================================================ */
+function museum() {
+  const g = ctx.createLinearGradient(0, 0, 0, H)
+  g.addColorStop(0, '#2c2823'); g.addColorStop(.7, '#151210'); g.addColorStop(1, '#0a0908')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  /* 左后方暗色陶罐（虚） */
+  ctx.fillStyle = 'rgba(58,48,38,.85)'
+  ctx.beginPath(); ctx.ellipse(40, 128, 17, 24, 0, 0, 6.2832); ctx.fill()
+  ctx.fillRect(36, 100, 8, 12)
+  /* 射灯光锥 */
+  const lg = ctx.createLinearGradient(0, 0, 0, 158)
+  lg.addColorStop(0, 'rgba(255,242,206,.30)'); lg.addColorStop(1, 'rgba(255,236,190,.04)')
+  poly([[150, -8], [92, 152], [214, 152], [172, -8]], true)
+  ctx.fillStyle = lg; ctx.fill()
+  /* 地面光斑 */
+  const pool = ctx.createRadialGradient(153, 146, 4, 153, 146, 70)
+  pool.addColorStop(0, 'rgba(255,238,200,.22)'); pool.addColorStop(1, 'rgba(255,238,200,0)')
+  ctx.fillStyle = pool
+  ctx.beginPath(); ctx.ellipse(153, 146, 70, 22, 0, 0, 6.2832); ctx.fill()
+  /* 展台 */
+  ctx.fillStyle = '#100e0c'; ctx.fillRect(104, 126, 98, 42)
+  ctx.fillStyle = 'rgba(255,240,210,.10)'; ctx.fillRect(104, 126, 98, 3)
+  /* 青铜方鼎 */
+  const bronze = ctx.createLinearGradient(118, 62, 196, 130)
+  bronze.addColorStop(0, '#c19653'); bronze.addColorStop(.45, '#8b6735'); bronze.addColorStop(1, '#523719')
+  ctx.fillStyle = '#a87c42'; ctx.fillRect(122, 64, 68, 10)
+  ctx.fillStyle = 'rgba(255,228,175,.55)'; ctx.fillRect(122, 64, 68, 2.6)
+  poly([[124, 74], [188, 74], [180, 122], [132, 122]], true)
+  ctx.fillStyle = bronze; ctx.fill()
+  /* 三足 */
+  ctx.fillStyle = '#6a4a26'
+  poly([[136, 120], [146, 120], [143, 150], [134, 150]], true); ctx.fill()
+  poly([[162, 120], [172, 120], [173, 150], [164, 150]], true); ctx.fill()
+  poly([[148, 120], [158, 120], [158, 147], [149, 147]], true); ctx.fill()
+  /* 双耳 */
+  ctx.strokeStyle = '#a87c42'; ctx.lineWidth = 3.5
+  ctx.beginPath(); ctx.moveTo(128, 64); ctx.lineTo(128, 54); ctx.lineTo(138, 54); ctx.lineTo(138, 64); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(172, 64); ctx.lineTo(172, 54); ctx.lineTo(182, 54); ctx.lineTo(182, 64); ctx.stroke()
+  /* 纹饰带 */
+  ctx.fillStyle = 'rgba(38,24,10,.55)'; ctx.fillRect(128, 88, 56, 11)
+  for (let i = 0; i < 7; i++) {
+    ctx.fillStyle = 'rgba(214,178,112,.6)'; ctx.fillRect(130 + i * 8, 91, 3, 5)
+  }
+  ctx.fillStyle = 'rgba(38,24,10,.4)'; ctx.fillRect(128, 104, 56, 3)
+  /* 高光 */
+  ctx.strokeStyle = 'rgba(255,232,182,.4)'; ctx.lineWidth = 1.2
+  ctx.beginPath(); ctx.moveTo(129, 78); ctx.lineTo(136, 118); ctx.stroke()
+  /* 展签 */
+  ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(16, 136, 88, 32)
+  ctx.fillStyle = '#efe7d6'; ctx.fillRect(14, 134, 88, 32)
+  ctx.fillStyle = '#2a251f'; ctx.font = '700 11px ' + F.serif
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('青铜方鼎', 20, 147)
+  ctx.fillStyle = '#6b6357'; ctx.font = '7px ' + F.sans
+  ctx.fillText('西周 · 公元前十世纪', 20, 156)
+  ctx.fillStyle = '#8a7f70'; ctx.font = '6.5px ' + F.mono
+  ctx.fillText('NO. B-107', 20, 163)
+  grain(260, 2003, .035)
+}
+
+/* ================================================================
+   S9-X21 突发新闻 —— 红色 BREAKING 条 / 演播室
+   ================================================================ */
+function breaking() {
+  const R = rng(2104)
+  const g = ctx.createLinearGradient(0, 0, 0, H)
+  g.addColorStop(0, '#0f3f7a'); g.addColorStop(.6, '#0a2547'); g.addColorStop(1, '#061528')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  /* 演播室灯带 */
+  ctx.strokeStyle = 'rgba(90,170,255,.20)'; ctx.lineWidth = 12
+  ctx.beginPath(); ctx.arc(244, 100, 88, Math.PI * .88, Math.PI * 1.92); ctx.stroke()
+  ctx.strokeStyle = 'rgba(140,210,255,.12)'; ctx.lineWidth = 3
+  ctx.beginPath(); ctx.arc(244, 100, 70, Math.PI * .88, Math.PI * 1.92); ctx.stroke()
+  /* 城市天际线 */
+  for (let i = 0; i < 17; i++) {
+    const w = 12 + R() * 15, h = 14 + R() * 46
+    ctx.fillStyle = 'rgba(6,26,48,.95)'
+    ctx.fillRect(i * 20 - 6, 158 - h, w, h)
+  }
+  for (let i = 0; i < 80; i++) {
+    ctx.fillStyle = 'rgba(120,200,255,' + (.1 + R() * .45).toFixed(2) + ')'
+    ctx.fillRect(R() * W, 64 + R() * 92, 1.6, 1.6)
+  }
+  /* 地球线框 */
+  ctx.save(); ctx.translate(262, 84)
+  ctx.strokeStyle = 'rgba(120,190,255,.32)'; ctx.lineWidth = 1
+  circle(0, 0, 32); ctx.stroke()
+  for (let i = 1; i < 4; i++) {
+    ctx.beginPath(); ctx.ellipse(0, 0, 32 * i / 3.2, 32, 0, 0, 6.2832); ctx.stroke()
+  }
+  for (let i = -2; i <= 2; i++) {
+    const y = i * 13, rx = Math.sqrt(Math.max(0, 1024 - y * y))
+    ctx.beginPath(); ctx.ellipse(0, y, rx, 3.4, 0, 0, 6.2832); ctx.stroke()
+  }
+  ctx.restore()
+  /* BREAKING 条 */
+  poly([[0, 14], [246, 14], [228, 50], [0, 50]], true)
+  ctx.fillStyle = '#d0021b'; ctx.fill()
+  ctx.fillStyle = '#ffffff'; ctx.font = '900 19px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle'
+  ctx.fillText('BREAKING', 15, 32)
+  /* 中文小标 */
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 50, 128, 15)
+  ctx.fillStyle = '#c0021a'; ctx.font = '700 9px ' + F.sans
+  ctx.textBaseline = 'middle'; ctx.fillText('本台最新消息 · 直播中', 8, 58)
+  /* 右上角台标 */
+  ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fillRect(276, 62, 36, 16)
+  ctx.fillStyle = '#cfe4ff'; ctx.font = '700 8px ' + F.sans
+  ctx.textAlign = 'center'; ctx.fillText('NEWS24', 294, 70)
+  /* 底部行情条 */
+  ctx.fillStyle = '#d0021b'; ctx.fillRect(0, 156, W, 24)
+  ctx.fillStyle = '#ffffff'; ctx.font = '700 11px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle'
+  ctx.fillText('突发 ｜ 强降雨致多条道路中断 · 救援正在进行', 10, 168)
+  ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.fillRect(0, 156, W, 1.5)
+}
+
+/* ================================================================
+   S9-X22 侦探线索板 —— 软木板 / 照片 / 红线 / 图钉
+   ================================================================ */
+function clueboard() {
+  const R = rng(2205)
+  ctx.fillStyle = '#b9883f'; ctx.fillRect(0, 0, W, H)
+  for (let i = 0; i < 2800; i++) {
+    const a = (.05 + R() * .13).toFixed(2)
+    ctx.fillStyle = R() > .5 ? 'rgba(118,78,30,' + a + ')' : 'rgba(232,192,132,' + a + ')'
+    ctx.fillRect(R() * W, R() * H, 1.7, 1.7)
+  }
+  for (let i = 0; i < 10; i++) {
+    const x = R() * W, y = R() * H, r = 12 + R() * 30
+    const rg = ctx.createRadialGradient(x, y, 0, x, y, r)
+    rg.addColorStop(0, 'rgba(90,58,18,.12)'); rg.addColorStop(1, 'rgba(90,58,18,0)')
+    ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill()
+  }
+  /* 木框 */
+  ctx.strokeStyle = '#4a2f16'; ctx.lineWidth = 14; ctx.strokeRect(0, 0, W, H)
+  ctx.strokeStyle = 'rgba(255,222,170,.16)'; ctx.lineWidth = 2; ctx.strokeRect(8, 8, W - 16, H - 16)
+
+  function photo(x, y, w, h, rot, painter, note) {
+    ctx.save()
+    ctx.translate(x + w / 2, y + h / 2); ctx.rotate(rot)
+    ctx.shadowColor = 'rgba(0,0,0,.5)'; ctx.shadowBlur = 7; ctx.shadowOffsetY = 3
+    ctx.fillStyle = '#f2ece0'; ctx.fillRect(-w / 2, -h / 2, w, h)
+    ctx.shadowColor = 'transparent'
+    ctx.save()
+    ctx.beginPath(); ctx.rect(-w / 2 + 5, -h / 2 + 5, w - 10, h - 17); ctx.clip()
+    painter(-w / 2 + 5, -h / 2 + 5, w - 10, h - 17)
+    ctx.restore()
+    if (note) {
+      ctx.fillStyle = 'rgba(58,48,38,.55)'; ctx.font = '6px ' + F.hand
+      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'
+      ctx.fillText(note, 0, h / 2 - 4)
+    }
+    ctx.restore()
+  }
+  /* 照片1：男人剪影 */
+  photo(30, 26, 64, 74, -.055, function (x, y, w, h) {
+    ctx.fillStyle = '#3b3a36'; ctx.fillRect(x, y, w, h)
+    ctx.fillStyle = '#14140f'
+    ctx.beginPath(); ctx.arc(x + w / 2, y + h * .38, 13, 0, 6.2832); ctx.fill()
+    ctx.beginPath(); ctx.ellipse(x + w / 2, y + h + 4, 24, 26, 0, 0, 6.2832); ctx.fill()
+    ctx.strokeStyle = 'rgba(255,255,255,.45)'; ctx.lineWidth = 1
+    ctx.beginPath(); ctx.moveTo(x + w / 2, y); ctx.lineTo(x + w / 2, y + h); ctx.stroke()
+  }, '嫌疑人 A')
+  /* 照片2：街角监控 */
+  photo(146, 18, 72, 58, .045, function (x, y, w, h) {
+    ctx.fillStyle = '#2a3038'; ctx.fillRect(x, y, w, h)
+    ctx.fillStyle = '#1a1f26'; ctx.fillRect(x, y + h * .55, w, h * .45)
+    ctx.strokeStyle = 'rgba(180,220,255,.35)'; ctx.lineWidth = 1
+    for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.moveTo(x, y + 8 + i * 9); ctx.lineTo(x + w, y + 8 + i * 9); ctx.stroke() }
+    ctx.fillStyle = 'rgba(240,200,110,.85)'; ctx.fillRect(x + w - 16, y + 6, 8, 5)
+    ctx.fillStyle = 'rgba(255,60,60,.8)'; ctx.font = '6px ' + F.mono
+    ctx.fillText('CAM 04', x + 2, y + h - 3)
+  }, '22:47')
+  /* 照片3：指纹 */
+  photo(212, 92, 68, 72, .085, function (x, y, w, h) {
+    ctx.fillStyle = '#dfe6ea'; ctx.fillRect(x, y, w, h)
+    ctx.strokeStyle = 'rgba(30,50,70,.55)'; ctx.lineWidth = .9
+    for (let i = 1; i <= 9; i++) {
+      ctx.beginPath()
+      ctx.ellipse(x + w / 2, y + h * .5, i * 2.6, i * 3.2, .2, .4, 5.6)
+      ctx.stroke()
+    }
+    ctx.fillStyle = 'rgba(190,60,40,.9)'; ctx.font = '700 6px ' + F.mono
+    ctx.fillText('LIFT', x + 3, y + 9)
+  }, '证物 07')
+
+  /* 红线 */
+  const pins = [[88, 86], [152, 62], [216, 108], [152, 62], [120, 132]]
+  ctx.lineCap = 'round'
+  for (let i = 0; i < pins.length - 1; i++) {
+    const a = pins[i], b = pins[i + 1]
+    const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2 + 10
+    ctx.strokeStyle = 'rgba(0,0,0,.28)'; ctx.lineWidth = 3
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo(mx, my + 1.5, b[0], b[1]); ctx.stroke()
+    ctx.strokeStyle = '#c0392b'; ctx.lineWidth = 1.8
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.quadraticCurveTo(mx, my, b[0], b[1]); ctx.stroke()
+  }
+  /* 图钉 */
+  for (const p of [[88, 86], [152, 62], [216, 108], [120, 132], [30, 30]]) {
+    ctx.fillStyle = 'rgba(0,0,0,.4)'; circle(p[0] + 1, p[1] + 2, 4.5); ctx.fill()
+    ctx.fillStyle = '#d8262c'; circle(p[0], p[1], 4); ctx.fill()
+    ctx.fillStyle = 'rgba(255,255,255,.65)'; circle(p[0] - 1.2, p[1] - 1.4, 1.3); ctx.fill()
+  }
+  /* 便利贴 */
+  ctx.save(); ctx.translate(122, 140); ctx.rotate(-.05)
+  ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = 5; ctx.shadowOffsetY = 2
+  ctx.fillStyle = '#f3dd6d'; ctx.fillRect(-26, -16, 52, 32)
+  ctx.shadowColor = 'transparent'
+  ctx.fillStyle = '#4a3a20'; ctx.font = '10px ' + F.hand
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('谁在说谎？', 0, -2)
+  ctx.restore()
+}
+
+/* ================================================================
+   S9-X23 绘本 —— 柔和插画 / 手写 / 圆角
+   ================================================================ */
+function picturebook() {
+  ctx.fillStyle = '#fdf5e6'; ctx.fillRect(0, 0, W, H)
+  function wash(x, y, r, col) {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r)
+    g.addColorStop(0, col); g.addColorStop(1, 'rgba(255,255,255,0)')
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill()
+  }
+  wash(52, 26, 74, 'rgba(176,222,206,.55)')
+  wash(286, 44, 84, 'rgba(250,204,178,.5)')
+  wash(170, 176, 96, 'rgba(196,226,178,.5)')
+  /* 圆角内框 */
+  ctx.strokeStyle = 'rgba(214,186,146,.85)'; ctx.lineWidth = 1.6
+  rr(9, 9, 302, 162, 16); ctx.stroke()
+  /* 草地 */
+  ctx.beginPath(); ctx.moveTo(9, 150)
+  ctx.quadraticCurveTo(160, 130, 311, 150)
+  ctx.lineTo(311, 171); ctx.lineTo(9, 171); ctx.closePath()
+  ctx.fillStyle = '#cfe3b4'; ctx.fill()
+  /* 小花 */
+  for (const [x, y, col] of [[54, 152, '#f3a6b8'], [96, 158, '#f7c96b'], [236, 154, '#f3a6b8'], [270, 160, '#c9a6e0']]) {
+    for (let i = 0; i < 5; i++) {
+      const a = i / 5 * Math.PI * 2
+      ctx.fillStyle = col
+      ctx.beginPath(); ctx.arc(x + Math.cos(a) * 4, y + Math.sin(a) * 4, 3, 0, 6.2832); ctx.fill()
+    }
+    ctx.fillStyle = '#f7e08a'; circle(x, y, 2.2); ctx.fill()
+  }
+  /* 小熊 */
+  ctx.save(); ctx.translate(168, 118)
+  const fur = '#c99265', fur2 = '#b57e52'
+  /* 身体 */
+  ctx.fillStyle = fur
+  ctx.beginPath(); ctx.ellipse(0, 16, 28, 22, 0, 0, 6.2832); ctx.fill()
+  /* 脚 */
+  ctx.beginPath(); ctx.ellipse(-18, 33, 10, 7, -.2, 0, 6.2832); ctx.fill()
+  ctx.beginPath(); ctx.ellipse(18, 33, 10, 7, .2, 0, 6.2832); ctx.fill()
+  /* 手 */
+  ctx.fillStyle = fur2
+  ctx.beginPath(); ctx.ellipse(-24, 12, 8, 6, .5, 0, 6.2832); ctx.fill()
+  ctx.beginPath(); ctx.ellipse(24, 12, 8, 6, -.5, 0, 6.2832); ctx.fill()
+  /* 头 */
+  ctx.fillStyle = fur
+  ctx.beginPath(); ctx.arc(0, -8, 22, 0, 6.2832); ctx.fill()
+  /* 耳 */
+  for (const s of [-1, 1]) {
+    ctx.fillStyle = fur2
+    ctx.beginPath(); ctx.arc(s * 16, -24, 8, 0, 6.2832); ctx.fill()
+    ctx.fillStyle = '#e8b79a'
+    ctx.beginPath(); ctx.arc(s * 16, -24, 4.2, 0, 6.2832); ctx.fill()
+  }
+  /* 口鼻 */
+  ctx.fillStyle = '#f6e3cd'
+  ctx.beginPath(); ctx.ellipse(0, 0, 11, 8, 0, 0, 6.2832); ctx.fill()
+  ctx.fillStyle = '#4a3626'
+  circle(-7, -10, 2.1); ctx.fill()
+  circle(7, -10, 2.1); ctx.fill()
+  ctx.beginPath(); ctx.ellipse(0, -3, 3.2, 2.4, 0, 0, 6.2832); ctx.fill()
+  ctx.strokeStyle = '#4a3626'; ctx.lineWidth = 1.2
+  ctx.beginPath(); ctx.moveTo(0, -1); ctx.lineTo(0, 2)
+  ctx.moveTo(0, 2); ctx.quadraticCurveTo(-4, 5, -5.5, 2.5)
+  ctx.moveTo(0, 2); ctx.quadraticCurveTo(4, 5, 5.5, 2.5); ctx.stroke()
+  /* 腮红 */
+  ctx.fillStyle = 'rgba(240,150,150,.4)'
+  ctx.beginPath(); ctx.ellipse(-13, 1, 5, 3.4, 0, 0, 6.2832); ctx.fill()
+  ctx.beginPath(); ctx.ellipse(13, 1, 5, 3.4, 0, 0, 6.2832); ctx.fill()
+  ctx.restore()
+  /* 小太阳 */
+  ctx.fillStyle = '#ffd98a'
+  for (let i = 0; i < 8; i++) {
+    const a = i / 8 * Math.PI * 2
+    ctx.save(); ctx.translate(272, 38); ctx.rotate(a)
+    ctx.fillRect(0, -1.2, 12, 2.4); ctx.restore()
+  }
+  circle(272, 38, 10); ctx.fill()
+  /* 手写字 */
+  ctx.fillStyle = '#7b6047'; ctx.font = '700 21px ' + F.hand
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('小熊的下午', 22, 42)
+  ctx.fillStyle = 'rgba(140,112,84,.9)'; ctx.font = '11px ' + F.hand
+  ctx.fillText('它把太阳，抱回了家。', 22, 62)
+  /* 星点 */
+  for (const [x, y, s] of [[240, 74, 3], [212, 96, 2], [284, 104, 2.4], [128, 62, 2]]) {
+    ctx.fillStyle = 'rgba(240,190,110,.75)'
+    ctx.beginPath(); ctx.moveTo(x, y - s); ctx.lineTo(x + s * .6, y); ctx.lineTo(x, y + s)
+    ctx.lineTo(x - s * .6, y); ctx.closePath(); ctx.fill()
+  }
+}
+
+/* ================================================================
+   S9-X24 RPG 任务 —— 任务面板 / 血条 / 属性
+   ================================================================ */
+function rpg() {
+  const g = ctx.createLinearGradient(0, 0, 0, H)
+  g.addColorStop(0, '#101a2c'); g.addColorStop(1, '#05070c')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  const glow = ctx.createRadialGradient(160, 20, 4, 160, 20, 150)
+  glow.addColorStop(0, 'rgba(120,160,220,.16)'); glow.addColorStop(1, 'rgba(0,0,0,0)')
+  ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H)
+  /* 面板 */
+  rr(24, 12, 272, 150, 8); ctx.fillStyle = 'rgba(18,26,40,.96)'; ctx.fill()
+  ctx.strokeStyle = '#c8a24a'; ctx.lineWidth = 2; ctx.stroke()
+  rr(29, 17, 262, 140, 5); ctx.strokeStyle = 'rgba(200,162,74,.3)'; ctx.lineWidth = 1; ctx.stroke()
+  /* 四角饰 */
+  for (const [x, y] of [[24, 12], [296, 12], [24, 162], [296, 162]]) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(Math.PI / 4)
+    ctx.fillStyle = '#c8a24a'; ctx.fillRect(-3, -3, 6, 6); ctx.restore()
+  }
+  /* 标题 */
+  ctx.fillStyle = '#e8c877'; ctx.font = '700 13px ' + F.serif
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('任务 · 失踪的商队', 42, 40)
+  ctx.strokeStyle = 'rgba(200,162,74,.35)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(42, 47); ctx.lineTo(278, 47); ctx.stroke()
+  /* 描述 */
+  ctx.fillStyle = '#9fb0c8'; ctx.font = '9px ' + F.sans
+  ctx.fillText('沿北境古道追踪车队，', 42, 61)
+  ctx.fillText('在黄昏前找到幸存的证人。', 42, 73)
+
+  function bar(x, y, w, h, pct, c1, c2, label, val) {
+    ctx.fillStyle = '#0a0f18'; rr(x, y, w, h, 3); ctx.fill()
+    const gg = ctx.createLinearGradient(x, y, x, y + h)
+    gg.addColorStop(0, c1); gg.addColorStop(1, c2)
+    ctx.fillStyle = gg; rr(x + 1, y + 1, Math.max(2, (w - 2) * pct), h - 2, 2); ctx.fill()
+    ctx.strokeStyle = 'rgba(0,0,0,.4)'; ctx.lineWidth = 1
+    for (let i = 1; i < 10; i++) {
+      const xx = x + i * (w / 10)
+      ctx.beginPath(); ctx.moveTo(xx, y + 1); ctx.lineTo(xx, y + h - 1); ctx.stroke()
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,.2)'; rr(x, y, w, h, 3); ctx.stroke()
+    ctx.fillStyle = 'rgba(226,236,250,.92)'; ctx.font = '700 7.5px ' + F.mono
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+    ctx.fillText(label, x + w + 6, y + h - .5)
+    ctx.fillStyle = 'rgba(226,236,250,.55)'; ctx.font = '7px ' + F.mono
+    ctx.fillText(val, x + w + 6, y + h + 8)
+  }
+  bar(42, 82, 146, 9, .80, '#ff6b5e', '#a01c14', 'HP', '320/400')
+  bar(42, 104, 146, 9, .54, '#57a8ff', '#1b4f9c', 'MP', '85/120')
+  /* 等级徽章 */
+  ctx.strokeStyle = '#c8a24a'; ctx.lineWidth = 1.6
+  circle(266, 88, 16); ctx.stroke()
+  ctx.fillStyle = 'rgba(200,162,74,.12)'; circle(266, 88, 16); ctx.fill()
+  ctx.fillStyle = '#f0d79a'; ctx.font = '700 15px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('27', 266, 89)
+  ctx.fillStyle = 'rgba(200,162,74,.7)'; ctx.font = '6px ' + F.mono
+  ctx.fillText('LV', 266, 74)
+  /* 属性 */
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillStyle = '#8fa3bd'; ctx.font = '8px ' + F.sans
+  const stats = [['力量', '18'], ['敏捷', '14'], ['智力', '9'], ['幸运', '7']]
+  for (let i = 0; i < 4; i++) {
+    const x = 42 + (i % 2) * 84, y = 130 + Math.floor(i / 2) * 14
+    ctx.fillStyle = '#7f93ad'; ctx.font = '8px ' + F.sans
+    ctx.fillText(stats[i][0], x, y)
+    ctx.fillStyle = '#e6eefb'; ctx.font = '700 10px ' + F.mono
+    ctx.fillText(stats[i][1], x + 26, y)
+  }
+  /* 奖励 */
+  ctx.fillStyle = 'rgba(200,162,74,.85)'; ctx.font = '8px ' + F.sans
+  ctx.fillText('奖励：320 金币 · 稀有护符', 190, 130)
+  ctx.fillStyle = 'rgba(255,255,255,.32)'; ctx.font = '7px ' + F.mono
+  ctx.fillText('回车接受  ｜  ESC 放弃', 190, 144)
+}
+
+/* ================================================================
+   S9-X25 天气预报 —— 天气图标 / 大温度 / 地图
+   ================================================================ */
+function weather() {
+  const g = ctx.createLinearGradient(0, 0, 0, H)
+  g.addColorStop(0, '#0c5cb4'); g.addColorStop(.55, '#2f8fd6'); g.addColorStop(1, '#a9d7f0')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  /* 地图轮廓 */
+  ctx.save()
+  ctx.beginPath()
+  ctx.moveTo(188, 0); ctx.lineTo(W, 0); ctx.lineTo(W, 146)
+  ctx.lineTo(272, 138); ctx.lineTo(254, 120); ctx.lineTo(228, 118)
+  ctx.lineTo(224, 98); ctx.lineTo(206, 90); ctx.lineTo(214, 66)
+  ctx.lineTo(196, 54); ctx.closePath()
+  ctx.fillStyle = 'rgba(255,255,255,.13)'; ctx.fill()
+  ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.2; ctx.stroke()
+  ctx.strokeStyle = 'rgba(255,255,255,.2)'; ctx.lineWidth = 1
+  for (let i = 0; i < 4; i++) {
+    ctx.beginPath(); ctx.ellipse(252, 92, 40 + i * 24, 26 + i * 11, -.2, 0, 6.2832); ctx.stroke()
+  }
+  ctx.restore()
+  /* 太阳 */
+  ctx.save(); ctx.translate(46, 40)
+  ctx.strokeStyle = 'rgba(255,222,120,.85)'; ctx.lineWidth = 2
+  for (let i = 0; i < 8; i++) {
+    const a = i / 8 * Math.PI * 2
+    ctx.beginPath(); ctx.moveTo(Math.cos(a) * 17, Math.sin(a) * 17)
+    ctx.lineTo(Math.cos(a) * 23, Math.sin(a) * 23); ctx.stroke()
+  }
+  const sg = ctx.createRadialGradient(-4, -4, 2, 0, 0, 15)
+  sg.addColorStop(0, '#fff1a8'); sg.addColorStop(1, '#f6b32a')
+  circle(0, 0, 14); ctx.fillStyle = sg; ctx.fill()
+  ctx.restore()
+  /* 云 */
+  ctx.fillStyle = 'rgba(255,255,255,.94)'
+  circle(36, 58, 9); ctx.fill()
+  circle(49, 53, 12); ctx.fill()
+  circle(62, 58, 8); ctx.fill()
+  rr(26, 56, 44, 11, 5); ctx.fill()
+  /* 城市 / 天气词 */
+  ctx.fillStyle = 'rgba(255,255,255,.95)'; ctx.font = '700 13px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('上海', 84, 40)
+  ctx.fillStyle = 'rgba(230,244,255,.82)'; ctx.font = '9px ' + F.sans
+  ctx.fillText('多云转晴 · 东南风 2 级', 84, 54)
+  /* 大温度 */
+  ctx.save()
+  ctx.shadowColor = 'rgba(0,40,80,.35)'; ctx.shadowBlur = 6; ctx.shadowOffsetY = 2
+  ctx.fillStyle = '#ffffff'; ctx.font = '900 54px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('28', 16, 132)
+  ctx.font = '700 22px ' + F.sans; ctx.fillText('°', 88, 106)
+  ctx.restore()
+  ctx.fillStyle = 'rgba(235,248,255,.9)'; ctx.font = '9px ' + F.sans
+  ctx.fillText('最高 31° ／ 最低 22°', 18, 148)
+  /* 底部 5 天 */
+  ctx.fillStyle = 'rgba(255,255,255,.18)'; rr(10, 138, 300, 34, 6); ctx.fill()
+  ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = 1; rr(10, 138, 300, 34, 6); ctx.stroke()
+  const days = [['今天', '28°', '22°'], ['周五', '27°', '21°'], ['周六', '25°', '20°'], ['周日', '24°', '19°'], ['周一', '26°', '20°']]
+  for (let i = 0; i < 5; i++) {
+    const x = 10 + i * 60
+    if (i) { ctx.strokeStyle = 'rgba(255,255,255,.16)'; ctx.beginPath(); ctx.moveTo(x, 143); ctx.lineTo(x, 167); ctx.stroke() }
+    ctx.fillStyle = 'rgba(235,248,255,.8)'; ctx.font = '8px ' + F.sans
+    ctx.textAlign = 'center'; ctx.fillText(days[i][0], x + 30, 148)
+    ctx.fillStyle = '#ffffff'; ctx.font = '700 11px ' + F.mono
+    ctx.fillText(days[i][1], x + 30, 161)
+    ctx.fillStyle = 'rgba(235,248,255,.6)'; ctx.font = '8px ' + F.mono
+    ctx.fillText(days[i][2], x + 30, 170)
+  }
+}
+
+/* ================================================================
+   S9-X26 电视购物 —— 爆炸价贴 / 产品 / 促销字
+   ================================================================ */
+function tvc() {
+  const g = ctx.createLinearGradient(0, 0, 0, H)
+  g.addColorStop(0, '#d8331f'); g.addColorStop(1, '#f7a521')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  /* 放射线 */
+  ctx.save(); ctx.translate(160, 192)
+  for (let i = 0; i < 26; i++) {
+    if (i % 2) continue
+    const a1 = -Math.PI + i * Math.PI / 26, a2 = a1 + Math.PI / 26
+    poly([[0, 0], [Math.cos(a1) * 340, Math.sin(a1) * 340], [Math.cos(a2) * 340, Math.sin(a2) * 340]], true)
+    ctx.fillStyle = 'rgba(255,255,255,.10)'; ctx.fill()
+  }
+  ctx.restore()
+  /* 展台 */
+  ctx.fillStyle = 'rgba(90,20,10,.25)'
+  ctx.beginPath(); ctx.ellipse(160, 148, 92, 16, 0, 0, 6.2832); ctx.fill()
+  ctx.fillStyle = '#f4e6c8'
+  ctx.beginPath(); ctx.ellipse(160, 143, 74, 12, 0, 0, 6.2832); ctx.fill()
+  ctx.fillStyle = 'rgba(255,255,255,.55)'
+  ctx.beginPath(); ctx.ellipse(160, 141, 55, 7, 0, 0, 6.2832); ctx.fill()
+  /* 产品：榨汁机 */
+  ctx.fillStyle = '#242a33'; rr(112, 118, 96, 28, 7); ctx.fill()
+  ctx.fillStyle = 'rgba(255,255,255,.18)'; rr(114, 119, 92, 4, 2); ctx.fill()
+  circle(160, 134, 9); ctx.fillStyle = '#3a434f'; ctx.fill()
+  circle(160, 134, 5.5); ctx.fillStyle = '#9fb2c6'; ctx.fill()
+  /* 杯身 */
+  poly([[126, 58], [194, 58], [184, 118], [136, 118]], true)
+  ctx.fillStyle = 'rgba(232,246,255,.34)'; ctx.fill()
+  poly([[131, 78], [190, 78], [184, 116], [136, 116]], true)
+  ctx.fillStyle = '#ff9f1a'; ctx.fill()
+  /* 果汁高光 */
+  ctx.fillStyle = 'rgba(255,232,150,.5)'
+  poly([[136, 82], [150, 82], [148, 112], [138, 112]], true); ctx.fill()
+  /* 玻璃反光 */
+  ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = 2.2
+  ctx.beginPath(); ctx.moveTo(141, 64); ctx.lineTo(146, 112); ctx.stroke()
+  ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(186, 66); ctx.lineTo(180, 108); ctx.stroke()
+  /* 杯身轮廓 */
+  poly([[126, 58], [194, 58], [184, 118], [136, 118]], true)
+  ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.4; ctx.stroke()
+  /* 盖子 */
+  ctx.fillStyle = '#2b3340'; rr(120, 50, 80, 9, 4); ctx.fill()
+  ctx.fillStyle = 'rgba(255,255,255,.25)'; rr(124, 51, 30, 3, 1.5); ctx.fill()
+  /* 爆炸价贴 */
+  poly(starPts(250, 52, 42, 13, .68, .1), true)
+  ctx.fillStyle = '#ffd400'; ctx.fill()
+  ctx.strokeStyle = '#b3260f'; ctx.lineWidth = 2.6; ctx.stroke()
+  ctx.save(); ctx.translate(250, 52); ctx.rotate(-.11)
+  ctx.fillStyle = '#b3260f'; ctx.font = '900 25px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('¥99', 0, -2)
+  ctx.font = '700 8px ' + F.sans; ctx.fillText('限时价', 0, 18)
+  ctx.restore()
+  /* 文案 */
+  ctx.save()
+  ctx.shadowColor = 'rgba(120,20,0,.55)'; ctx.shadowBlur = 5; ctx.shadowOffsetY = 2
+  ctx.fillStyle = '#ffffff'; ctx.font = '900 19px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('今日特惠', 14, 34)
+  ctx.restore()
+  ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.font = '9px ' + F.sans
+  ctx.fillText('原价', 15, 50)
+  ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '9px ' + F.mono
+  ctx.fillText('¥299', 34, 50)
+  ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(33, 47); ctx.lineTo(55, 47); ctx.stroke()
+  /* 买一送一标签 */
+  ctx.save(); ctx.translate(14, 62); ctx.rotate(-.03)
+  ctx.fillStyle = '#ffe14d'; rr(0, 0, 62, 18, 3); ctx.fill()
+  ctx.fillStyle = '#8a1a0c'; ctx.font = '700 10px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('买一送一', 31, 10)
+  ctx.restore()
+  /* 库存角标 */
+  ctx.fillStyle = 'rgba(0,0,0,.55)'; rr(214, 100, 54, 16, 3); ctx.fill()
+  ctx.fillStyle = '#ffe14d'; ctx.font = '700 9px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('仅剩 3 件', 241, 108)
+  /* 底部条 */
+  ctx.fillStyle = '#a81c0c'; ctx.fillRect(0, 162, W, 18)
+  ctx.fillStyle = '#ffffff'; ctx.font = '700 10px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('下单立减 100 元 ｜ 全国包邮 ｜ 七天无理由', 160, 171)
+}
+
+/* ================================================================
+   S9-X27 体育直播 —— 比分条 / 草皮 / 队标
+   ================================================================ */
+function sport() {
+  const g = ctx.createLinearGradient(0, 30, 0, H)
+  g.addColorStop(0, '#1c7038'); g.addColorStop(1, '#0b3f1f')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  /* 草皮竖条纹 */
+  for (let i = 0; i < 7; i++) {
+    if (i % 2) continue
+    ctx.fillStyle = 'rgba(255,255,255,.055)'
+    ctx.fillRect(i * 46, 0, 46, H)
+  }
+  /* 场地线（透视） */
+  ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 1.6
+  ctx.beginPath(); ctx.moveTo(0, 52); ctx.lineTo(W, 52); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(0, 98); ctx.lineTo(W, 98); ctx.stroke()
+  ctx.beginPath(); ctx.ellipse(160, 98, 52, 21, 0, 0, 6.2832); ctx.stroke()
+  circle(160, 98, 2.4); ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.fill()
+  poly([[0, 66], [50, 76], [50, 120], [0, 130]], true); ctx.stroke()
+  poly([[W, 66], [270, 76], [270, 120], [W, 130]], true); ctx.stroke()
+  /* 足球 */
+  ctx.fillStyle = '#f4f6f2'; circle(232, 138, 10); ctx.fill()
+  ctx.strokeStyle = 'rgba(30,40,30,.55)'; ctx.lineWidth = .8
+  circle(232, 138, 10); ctx.stroke()
+  ctx.fillStyle = '#20261f'
+  for (const [dx, dy, r] of [[0, 0, 3.4], [6, -4, 2.2], [-6, 4, 2.2], [1, 7, 2]]) {
+    circle(232 + dx, 138 + dy, r); ctx.fill()
+  }
+  /* 比分条 */
+  ctx.fillStyle = 'rgba(5,14,9,.86)'; rr(8, 8, 214, 38, 5); ctx.fill()
+  ctx.strokeStyle = 'rgba(255,255,255,.22)'; ctx.lineWidth = 1; rr(8, 8, 214, 38, 5); ctx.stroke()
+  /* 左队标 */
+  circle(28, 22, 10); ctx.fillStyle = '#2f5fd0'; ctx.fill()
+  ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 1.2; circle(28, 22, 10); ctx.stroke()
+  ctx.fillStyle = '#ffffff'; ctx.font = '700 8px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('★', 28, 22)
+  /* 右队标 */
+  circle(192, 22, 10); ctx.fillStyle = '#c0392b'; ctx.fill()
+  ctx.strokeStyle = 'rgba(255,255,255,.7)'; circle(192, 22, 10); ctx.stroke()
+  ctx.fillStyle = '#ffffff'; ctx.fillText('★', 192, 22)
+  /* 比分 */
+  ctx.fillStyle = '#ffffff'; ctx.font = '900 22px ' + F.sans
+  ctx.fillText('2', 96, 25)
+  ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.font = '700 14px ' + F.sans
+  ctx.fillText(':', 110, 25)
+  ctx.fillStyle = '#ffffff'; ctx.font = '900 22px ' + F.sans
+  ctx.fillText('1', 124, 25)
+  /* 队名 */
+  ctx.fillStyle = 'rgba(210,225,255,.85)'; ctx.font = '8px ' + F.sans
+  ctx.fillText('蓝队', 46, 22)
+  ctx.fillStyle = 'rgba(255,215,210,.85)'; ctx.fillText('红队', 166, 22)
+  /* 时间 */
+  ctx.fillStyle = 'rgba(180,220,190,.9)'; ctx.font = '700 8px ' + F.mono
+  ctx.textAlign = 'left'; ctx.fillText('78:24', 44, 38)
+  ctx.fillStyle = 'rgba(180,200,190,.6)'; ctx.font = '7px ' + F.sans
+  ctx.fillText('下半场', 78, 38)
+  /* LIVE */
+  ctx.fillStyle = '#d0021b'; rr(228, 8, 62, 18, 4); ctx.fill()
+  ctx.fillStyle = '#ffffff'; circle(238, 17, 3); ctx.fill()
+  ctx.fillStyle = '#ffffff'; ctx.font = '700 9px ' + F.sans
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle'
+  ctx.fillText('LIVE 高清', 245, 17)
+  /* 底部数据条 */
+  ctx.fillStyle = 'rgba(5,14,9,.72)'; ctx.fillRect(0, 164, W, 16)
+  ctx.fillStyle = 'rgba(200,225,205,.9)'; ctx.font = '8px ' + F.mono
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('控球 58% · 射门 12 · 射正 5 · 角球 4', 160, 172)
+}
+
+/* ================================================================
+   S9-X28 组装说明书 —— 零件编号 / 箭头 / 步骤
+   ================================================================ */
+function manual() {
+  ctx.fillStyle = '#f7f6f2'; ctx.fillRect(0, 0, W, H)
+  ctx.strokeStyle = 'rgba(0,0,0,.035)'; ctx.lineWidth = 1
+  for (let x = 0; x < W; x += 16) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+  for (let y = 0; y < H; y += 16) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+  /* 大号步骤水印 */
+  ctx.fillStyle = 'rgba(0,0,0,.05)'; ctx.font = '900 64px ' + F.sans
+  ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('03', 306, 62)
+  /* 标题 */
+  ctx.fillStyle = '#1b1b1b'; ctx.font = '700 12px ' + F.sans
+  ctx.textAlign = 'left'; ctx.fillText('组装说明 · 三层书架', 12, 20)
+  ctx.fillStyle = '#767676'; ctx.font = '8px ' + F.mono
+  ctx.fillText('ASSEMBLY 03 / 05', 12, 31)
+  ctx.strokeStyle = '#d8d6cf'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(12, 36); ctx.lineTo(306, 36); ctx.stroke()
+  /* 左列步骤文字 */
+  ctx.fillStyle = '#2b2b2b'; ctx.font = '8.5px ' + F.sans
+  ctx.fillText('1. 对齐两侧立板', 12, 52)
+  ctx.fillText('   保持 90° 直角', 12, 63)
+  ctx.fillText('2. 拧入螺钉 A×4', 12, 82)
+  ctx.fillText('   先定位，后拧紧', 12, 93)
+  ctx.fillText('3. 自上而下装层板', 12, 112)
+  ctx.fillText('4. 检查水平', 12, 131)
+  ctx.fillStyle = '#9a9a9a'; ctx.font = '7px ' + F.mono
+  ctx.fillText('TOOL: 十字螺丝刀', 12, 146)
+  /* 爆炸轴测图 */
+  const line = '#3a3a3a'
+  ctx.strokeStyle = line; ctx.lineWidth = 1
+  /* 立板 */
+  ctx.fillStyle = '#e7e5df'; ctx.strokeStyle = line
+  ctx.fillRect(146, 56, 12, 88); ctx.strokeRect(146, 56, 12, 88)
+  ctx.strokeRect(266, 56, 12, 88)
+  ctx.fillStyle = 'rgba(0,0,0,.06)'; ctx.fillRect(266, 56, 3, 88)
+  /* 层板 */
+  for (const y of [58, 90, 122]) {
+    ctx.fillStyle = '#efeee9'; ctx.fillRect(162, y, 100, 8); ctx.strokeRect(162, y, 100, 8)
+    ctx.fillStyle = 'rgba(0,0,0,.08)'; ctx.fillRect(162, y + 6, 100, 2)
+  }
+  /* 螺钉 */
+  for (const [x, y] of [[151, 62], [151, 94], [151, 126], [273, 62], [273, 94], [273, 126]]) {
+    ctx.fillStyle = '#cfcfc7'; circle(x, y, 2.6); ctx.fill()
+    ctx.strokeStyle = '#5a5a55'; ctx.lineWidth = .8
+    circle(x, y, 2.6); ctx.stroke()
+    ctx.beginPath(); ctx.moveTo(x - 1.6, y); ctx.lineTo(x + 1.6, y)
+    ctx.moveTo(x, y - 1.6); ctx.lineTo(x, y + 1.6); ctx.stroke()
+  }
+  /* 装配虚线箭头 */
+  dashArrow(206, 40, 206, 55, 'rgba(60,60,60,.55)', 1)
+  dashArrow(210, 84, 210, 68, 'rgba(60,60,60,.4)', .9)
+  dashArrow(140, 100, 160, 100, 'rgba(60,60,60,.5)', 1)
+  /* 编号圆 */
+  function badge(x, y, t) {
+    ctx.fillStyle = '#ffffff'; circle(x, y, 7); ctx.fill()
+    ctx.strokeStyle = '#333'; ctx.lineWidth = 1.2; circle(x, y, 7); ctx.stroke()
+    ctx.fillStyle = '#222'; ctx.font = '700 8px ' + F.mono
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+    ctx.fillText(t, x, y + .5)
+  }
+  /* 引线 */
+  ctx.strokeStyle = '#8a8a84'; ctx.lineWidth = .8
+  ctx.beginPath(); ctx.moveTo(140, 74); ctx.lineTo(146, 78); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(246, 112); ctx.lineTo(262, 118); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(184, 150); ctx.lineTo(194, 146); ctx.stroke()
+  badge(132, 74, '1')
+  badge(254, 110, '2')
+  badge(178, 152, '3')
+  /* 零件表 */
+  ctx.strokeStyle = '#c9c7bf'; ctx.lineWidth = 1
+  ctx.strokeRect(12, 150, 280, 24)
+  ctx.beginPath(); ctx.moveTo(12, 158); ctx.lineTo(292, 158); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(12, 166); ctx.lineTo(292, 166); ctx.stroke()
+  ctx.fillStyle = '#4a4a45'; ctx.font = '7px ' + F.mono
+  ctx.textAlign = 'left'; ctx.textBaseline = 'middle'
+  ctx.fillText('NO.', 16, 154); ctx.fillText('零件', 42, 154)
+  ctx.fillText('数量', 190, 154); ctx.fillText('图号', 240, 154)
+  ctx.fillText('①  立板', 16, 162); ctx.fillText('2', 196, 162); ctx.fillText('P-146', 240, 162)
+  ctx.fillText('②  螺钉', 16, 170); ctx.fillText('4', 196, 170); ctx.fillText('S-4×30', 240, 170)
+  /* 第三行信息挪到右侧小字 */
+  ctx.fillStyle = '#8a8a84'; ctx.font = '6.5px ' + F.mono
+  ctx.textAlign = 'left'; ctx.fillText('③ 层板 ×3', 96, 176)
+}
+
+/* ================================================================
+   S9-X29 白板讲课 —— 白板 / 马克笔 / 箭头标注
+   ================================================================ */
+function whiteboard() {
+  ctx.fillStyle = '#fcfcfa'; ctx.fillRect(0, 0, W, H)
+  const g = ctx.createLinearGradient(0, 0, W, H)
+  g.addColorStop(0, 'rgba(206,222,234,.35)')
+  g.addColorStop(.45, 'rgba(255,255,255,0)')
+  g.addColorStop(1, 'rgba(198,214,230,.28)')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  /* 铝框 */
+  ctx.strokeStyle = '#c9ced3'; ctx.lineWidth = 6; ctx.strokeRect(3, 3, W - 6, H - 6)
+  ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 1.5; ctx.strokeRect(5.5, 5.5, W - 11, H - 11)
+  ctx.strokeStyle = 'rgba(110,120,130,.5)'; ctx.lineWidth = 1; ctx.strokeRect(1.5, 1.5, W - 3, H - 3)
+  /* 笔槽 */
+  ctx.fillStyle = '#d6dade'; ctx.fillRect(0, 167, W, 13)
+  ctx.fillStyle = 'rgba(0,0,0,.12)'; ctx.fillRect(0, 167, W, 2)
+  for (const [x, col] of [[24, '#2a5fc0'], [46, '#1b1b1b'], [68, '#c0392b']]) {
+    ctx.fillStyle = col; rr(x, 169, 16, 6, 3); ctx.fill()
+    ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.fillRect(x + 1, 170, 14, 1.5)
+  }
+  /* 标题 */
+  ctx.fillStyle = 'rgba(34,78,168,.94)'; ctx.font = '700 21px ' + F.hand
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('为什么要分三步？', 18, 44)
+  /* 红色下划 */
+  ctx.strokeStyle = 'rgba(200,50,40,.7)'; ctx.lineWidth = 2.2; ctx.lineCap = 'round'
+  ctx.beginPath(); ctx.moveTo(20, 50); ctx.quadraticCurveTo(100, 54, 208, 50); ctx.stroke()
+  /* 要点 */
+  ctx.fillStyle = 'rgba(30,30,30,.9)'; ctx.font = '14px ' + F.hand
+  ctx.fillText('① 先看现象', 22, 76)
+  ctx.fillText('② 再找原因', 22, 98)
+  ctx.fillText('③ 最后给方案', 22, 120)
+  /* 红圈 */
+  ctx.strokeStyle = 'rgba(192,57,43,.85)'; ctx.lineWidth = 1.8
+  ctx.beginPath(); ctx.ellipse(92, 92, 42, 13, -.03, 0, 6.2832); ctx.stroke()
+  /* 右侧两个框 + 箭头 */
+  ctx.strokeStyle = 'rgba(42,95,192,.85)'; ctx.lineWidth = 2
+  rr(196, 62, 58, 24, 3); ctx.stroke()
+  ctx.fillStyle = 'rgba(42,95,192,.95)'; ctx.font = '12px ' + F.hand
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('现象', 225, 74)
+  ctx.strokeStyle = 'rgba(30,30,30,.8)'; ctx.lineWidth = 1.8
+  rr(196, 112, 58, 24, 3); ctx.stroke()
+  ctx.fillStyle = 'rgba(30,30,30,.9)'; ctx.fillText('原因', 225, 124)
+  /* 竖箭头 */
+  ctx.strokeStyle = 'rgba(192,57,43,.9)'; ctx.lineWidth = 2
+  ctx.beginPath(); ctx.moveTo(225, 88); ctx.lineTo(225, 108); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(225, 110); ctx.lineTo(220, 101); ctx.moveTo(225, 110); ctx.lineTo(230, 101); ctx.stroke()
+  ctx.fillStyle = 'rgba(192,57,43,.9)'; ctx.font = '9px ' + F.hand
+  ctx.textAlign = 'left'; ctx.fillText('追问', 232, 100)
+  /* 便利贴 */
+  ctx.save(); ctx.translate(258, 30); ctx.rotate(.1)
+  ctx.shadowColor = 'rgba(0,0,0,.28)'; ctx.shadowBlur = 4; ctx.shadowOffsetY = 2
+  ctx.fillStyle = '#f6c85c'; ctx.fillRect(-26, -14, 52, 30)
+  ctx.shadowColor = 'transparent'
+  ctx.fillStyle = '#6b4a12'; ctx.font = '9px ' + F.hand
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('别忘了', 0, -4); ctx.fillText('复习！', 0, 8)
+  ctx.restore()
+  /* 右下角箭头指向要点③ */
+  ctx.strokeStyle = 'rgba(42,95,192,.7)'; ctx.lineWidth = 1.6
+  ctx.beginPath(); ctx.moveTo(190, 140); ctx.quadraticCurveTo(150, 148, 118, 126); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(116, 124); ctx.lineTo(128, 126); ctx.moveTo(116, 124); ctx.lineTo(122, 134); ctx.stroke()
+  ctx.fillStyle = 'rgba(42,95,192,.75)'; ctx.font = '9px ' + F.hand
+  ctx.textAlign = 'left'; ctx.fillText('重点', 194, 144)
+}
+
+/* ================================================================
+   S9-X30 电影预告片 —— 黑底 / 白粗字 / 光晕 / 竖线
+   ================================================================ */
+function trailer() {
+  const R = rng(3001)
+  ctx.fillStyle = '#050506'; ctx.fillRect(0, 0, W, H)
+  /* 竖光线 */
+  for (const x of [82, 160, 238]) {
+    const g = ctx.createLinearGradient(x - 9, 0, x + 9, 0)
+    g.addColorStop(0, 'rgba(255,255,255,0)')
+    g.addColorStop(.5, 'rgba(215,232,255,.12)')
+    g.addColorStop(1, 'rgba(255,255,255,0)')
+    ctx.fillStyle = g; ctx.fillRect(x - 9, 0, 18, H)
+  }
+  /* 中央光晕 */
+  const rg = ctx.createRadialGradient(160, 88, 0, 160, 88, 126)
+  rg.addColorStop(0, 'rgba(255,250,238,.17)')
+  rg.addColorStop(.35, 'rgba(255,238,214,.06)')
+  rg.addColorStop(1, 'rgba(0,0,0,0)')
+  ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H)
+  /* 横向镜头光 */
+  const lg = ctx.createLinearGradient(0, 88, W, 88)
+  lg.addColorStop(0, 'rgba(120,180,255,0)')
+  lg.addColorStop(.5, 'rgba(190,220,255,.45)')
+  lg.addColorStop(1, 'rgba(120,180,255,0)')
+  ctx.fillStyle = lg; ctx.fillRect(0, 87, W, 2)
+  /* 上方小标 */
+  ctx.fillStyle = 'rgba(198,206,220,.7)'; ctx.font = '7px ' + F.mono
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('T H I S   W I N T E R', 160, 40)
+  /* 主标题 */
+  ctx.save()
+  ctx.shadowColor = 'rgba(255,255,255,.45)'; ctx.shadowBlur = 18
+  ctx.fillStyle = '#ffffff'; ctx.font = '900 40px ' + F.sans
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('即将上映', 160, 92)
+  ctx.restore()
+  /* 分隔线 */
+  ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(112, 112); ctx.lineTo(208, 112); ctx.stroke()
+  ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fillRect(158, 110, 4, 4)
+  /* 日期 */
+  ctx.fillStyle = '#e8ecf2'; ctx.font = '11px ' + F.mono
+  ctx.textAlign = 'center'; ctx.fillText('2027.01.01', 160, 130)
+  ctx.fillStyle = 'rgba(200,208,220,.62)'; ctx.font = '9px ' + F.sans
+  ctx.fillText('敬 请 期 待', 160, 152)
+  /* 颗粒 + 暗角 */
+  grain(420, 3002, .07)
+  const vg = ctx.createRadialGradient(160, 90, 46, 160, 90, 210)
+  vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.8)')
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
+}
+
+/* ================================================================
+   S9-X31 数学证明讲课 —— 公式 / 高亮框 / 深蓝底
+   ================================================================ */
+function mathlecture() {
+  const g = ctx.createLinearGradient(0, 0, 0, H)
+  g.addColorStop(0, '#0a1a33'); g.addColorStop(1, '#060e1d')
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
+  /* 格线 */
+  ctx.strokeStyle = 'rgba(120,170,230,.07)'; ctx.lineWidth = 1
+  for (let x = 0; x < W; x += 16) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke() }
+  for (let y = 0; y < H; y += 16) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke() }
+  /* 标题 */
+  ctx.fillStyle = '#8fb6e6'; ctx.font = '10px ' + F.serif
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('定理 2.3 ｜ 极限的唯一性', 14, 20)
+  ctx.strokeStyle = 'rgba(140,180,230,.35)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(14, 26); ctx.lineTo(306, 26); ctx.stroke()
+  /* 行号 */
+  ctx.fillStyle = 'rgba(130,160,200,.45)'; ctx.font = '8px ' + F.mono
+  for (const [t, y] of [['(1)', 46], ['(2)', 68], ['(3)', 88], ['(4)', 156]]) ctx.fillText(t, 12, y)
+  /* 推导 */
+  ctx.fillStyle = '#e6eef9'; ctx.font = '11px ' + F.serif
+  ctx.fillText('设 lim f(x) = L₁，lim f(x) = L₂', 34, 46)
+  ctx.fillText('取 ε = |L₁ − L₂| / 2 > 0', 34, 68)
+  ctx.fillText('于是 |f(x) − L₁| < ε，', 34, 88)
+  ctx.fillText('|f(x) − L₂| < ε', 34, 104)
+  /* 高亮框 */
+  ctx.fillStyle = 'rgba(255,214,80,.09)'; rr(28, 114, 268, 38, 4); ctx.fill()
+  ctx.strokeStyle = '#e5c25a'; ctx.lineWidth = 1.2; rr(28, 114, 268, 38, 4); ctx.stroke()
+  ctx.fillStyle = '#ffe08a'; ctx.font = '700 11px ' + F.serif
+  ctx.fillText('∴ |L₁ − L₂| < 2ε = |L₁ − L₂|', 38, 132)
+  ctx.fillStyle = '#ffd06a'; ctx.font = '10px ' + F.serif
+  ctx.fillText('⇒ 矛盾，故 L₁ = L₂', 38, 146)
+  /* 结论 */
+  ctx.fillStyle = 'rgba(160,200,240,.85)'; ctx.font = '9px ' + F.serif
+  ctx.fillText('证明完毕　□', 34, 164)
+  /* 右侧 ε 示意 */
+  ctx.strokeStyle = 'rgba(140,200,255,.5)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(232, 160); ctx.lineTo(300, 160); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(268, 58); ctx.lineTo(268, 160); ctx.stroke()
+  ctx.strokeStyle = 'rgba(255,208,106,.7)'; ctx.lineWidth = 1
+  ctx.beginPath(); ctx.moveTo(246, 150); ctx.lineTo(290, 150); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(246, 150); ctx.lineTo(246, 148); ctx.moveTo(290, 150); ctx.lineTo(290, 148); ctx.stroke()
+  ctx.fillStyle = 'rgba(255,208,106,.85)'; ctx.font = '8px ' + F.mono
+  ctx.textAlign = 'center'; ctx.fillText('2ε', 268, 144)
+  ctx.textAlign = 'left'
+}
+
+/* ---------------- 路由 ---------------- */
+const DRAW = {
+  'S9-X18': comic,
+  'S9-X19': docu,
+  'S9-X20': museum,
+  'S9-X21': breaking,
+  'S9-X22': clueboard,
+  'S9-X23': picturebook,
+  'S9-X24': rpg,
+  'S9-X25': weather,
+  'S9-X26': tvc,
+  'S9-X27': sport,
+  'S9-X28': manual,
+  'S9-X29': whiteboard,
+  'S9-X30': trailer,
+  'S9-X31': mathlecture,
+}
+;(DRAW[id] || comic)()
+window.__DONE__ = true
+</script>
+</body>
+</html>
