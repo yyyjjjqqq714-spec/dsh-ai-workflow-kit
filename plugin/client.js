@@ -432,7 +432,7 @@ window.__ModuleLoader__.load({
           .catch((e) => setDetail({ kind: 'template', row, loading: false, error: String((e && e.message) || e) }))
       }
 
-      if (detail) return h('div', { style: { height: '100%', boxSizing: 'border-box', overflowY: 'auto', overflowX: 'hidden', padding: '16px 20px 40px' } }, h(DetailView, { state: detail, onBack: () => setDetail(null) }))
+      if (detail) return h('div', { className: 'awkit-scroll', style: { height: '100%', boxSizing: 'border-box', overflowY: 'auto', overflowX: 'hidden', padding: '16px 20px 40px' } }, h(DetailView, { state: detail, onBack: () => setDetail(null) }))
 
       const counts = {
         styles: data ? data.styles.total : null,
@@ -440,7 +440,8 @@ window.__ModuleLoader__.load({
         templates: data ? data.templates.total : null,
       }
 
-      return h('div', { style: { height: '100%', boxSizing: 'border-box', overflowY: 'auto', overflowX: 'hidden', padding: '16px 20px 40px', color: C.text } },
+      return h('div', { className: 'awkit-scroll', style: { height: '100%', boxSizing: 'border-box', overflowY: 'auto', overflowX: 'hidden', padding: '16px 20px 40px', color: C.text } },
+        h('style', null, '.awkit-scroll{scrollbar-width:thin;scrollbar-color:rgba(128,128,128,.45) transparent}.awkit-scroll::-webkit-scrollbar{width:10px;height:10px}.awkit-scroll::-webkit-scrollbar-thumb{background:rgba(128,128,128,.45);border-radius:5px;border:2px solid transparent;background-clip:content-box}.awkit-scroll::-webkit-scrollbar-thumb:hover{background:rgba(128,128,128,.72);background-clip:content-box}.awkit-scroll::-webkit-scrollbar-track{background:transparent}'),
         h('div', { style: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 } },
           h('h2', { style: { fontSize: 16, fontWeight: 600, margin: 0 } }, 'AI 工作流'),
           h('span', { style: { fontSize: 11, color: C.faint } }, '真数据版'),
