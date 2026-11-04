@@ -54,6 +54,24 @@ for (const [dirName, series] of Object.entries(SERIES_MAP)) {
   }
 }
 
+// 用 _patched 里的 H1 覆盖名称（原库空名条目补全后，列表才显示真名）
+const PATCH = path.join(path.dirname(OUT), '_patched')
+let renamed = 0
+for (const r of rows) {
+  const p = path.join(PATCH, r.id + '.md')
+  if (!fs.existsSync(p)) continue
+  const md = fs.readFileSync(p, 'utf8')
+  const line = md.split(/\r?\n/).find((l) => l.trim().startsWith('#'))
+  if (!line) continue
+  const h1 = line.replace(/^#+\s*/, '').trim()
+  // 去掉开头的编号（"M14 手绘定格 · 多角色互动" -> "手绘定格 · 多角色互动"）
+  const name = h1.replace(/^[A-Za-z]+\d*[_\s]+/, '').trim()
+  if (name && name !== r.name) {
+    r.name = name
+    renamed++
+  }
+}
+
 // 排序：系列 → id 数字自然序
 rows.sort((a, b) => {
   if (a.series !== b.series) return a.series.localeCompare(b.series)
