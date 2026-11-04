@@ -165,21 +165,45 @@ function docu() {
     rg.addColorStop(1, 'rgba(255,180,100,0)')
     ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill()
   }
-  /* 人物剪影 */
-  ctx.beginPath(); ctx.moveTo(190, 168)
-  ctx.quadraticCurveTo(200, 120, 232, 104)
-  ctx.lineTo(296, 104)
-  ctx.quadraticCurveTo(320, 122, 322, 168)
+  /* 人物身后暖光分离 */
+  const sep = ctx.createRadialGradient(258, 62, 6, 258, 62, 92)
+  sep.addColorStop(0, 'rgba(255,186,112,.22)'); sep.addColorStop(1, 'rgba(255,186,112,0)')
+  ctx.fillStyle = sep; ctx.fillRect(0, 0, W, H)
+  /* 人物剪影（比背景亮一档，才看得出形） */
+  ctx.beginPath(); ctx.moveTo(188, 168)
+  ctx.quadraticCurveTo(198, 118, 232, 103)
+  ctx.lineTo(298, 103)
+  ctx.quadraticCurveTo(322, 124, 322, 168)
   ctx.closePath()
-  ctx.fillStyle = '#0c0a09'; ctx.fill()
-  ctx.beginPath(); ctx.arc(254, 72, 27, 0, 6.2832)
-  ctx.fillStyle = '#131110'; ctx.fill()
-  /* 轮廓光 */
-  ctx.beginPath(); ctx.arc(254, 72, 27, 2.05, 4.05)
-  ctx.strokeStyle = 'rgba(255,205,140,.55)'; ctx.lineWidth = 2.6; ctx.stroke()
-  ctx.beginPath(); ctx.moveTo(232, 104)
-  ctx.quadraticCurveTo(212, 132, 206, 168)
-  ctx.strokeStyle = 'rgba(255,205,140,.26)'; ctx.lineWidth = 2; ctx.stroke()
+  ctx.fillStyle = '#2b2218'; ctx.fill()
+  /* 脖子 + 头 */
+  ctx.fillStyle = '#241b14'
+  ctx.fillRect(240, 92, 30, 16)
+  ctx.beginPath(); ctx.ellipse(255, 70, 25, 28, 0, 0, 6.2832); ctx.fill()
+  /* 头发 */
+  ctx.beginPath(); ctx.ellipse(255, 52, 25, 15, 0, Math.PI, 0); ctx.fill()
+  /* 左侧轮廓光 */
+  ctx.save()
+  ctx.beginPath(); ctx.ellipse(255, 70, 25, 28, 0, 0, 6.2832); ctx.clip()
+  const rim = ctx.createLinearGradient(228, 56, 262, 100)
+  rim.addColorStop(0, 'rgba(255,208,146,.55)'); rim.addColorStop(1, 'rgba(255,208,146,0)')
+  ctx.fillStyle = rim; ctx.fillRect(226, 38, 40, 64)
+  ctx.restore()
+  ctx.beginPath(); ctx.moveTo(232, 103)
+  ctx.quadraticCurveTo(208, 130, 202, 168)
+  ctx.strokeStyle = 'rgba(255,206,142,.42)'; ctx.lineWidth = 2.4; ctx.stroke()
+  /* 采访麦 */
+  ctx.strokeStyle = 'rgba(14,11,9,.98)'; ctx.lineWidth = 4
+  ctx.beginPath(); ctx.moveTo(138, 182); ctx.lineTo(199, 116); ctx.stroke()
+  const mg = ctx.createRadialGradient(202, 104, 2, 206, 110, 13)
+  mg.addColorStop(0, 'rgba(104,96,84,1)'); mg.addColorStop(1, 'rgba(26,22,18,1)')
+  ctx.fillStyle = mg; circle(206, 110, 11); ctx.fill()
+  ctx.strokeStyle = 'rgba(255,200,150,.22)'; ctx.lineWidth = 1; circle(206, 110, 11); ctx.stroke()
+  ctx.fillStyle = 'rgba(255,240,220,.16)'
+  for (let i = 0; i < 30; i++) {
+    const a = R() * 6.2832, rd = 3 + R() * 7
+    circle(206 + Math.cos(a) * rd, 110 + Math.sin(a) * rd, 1); ctx.fill()
+  }
   /* 暗角 */
   const vg = ctx.createRadialGradient(200, 90, 40, 200, 90, 200)
   vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,.75)')
@@ -220,38 +244,46 @@ function museum() {
   poly([[150, -8], [92, 152], [214, 152], [172, -8]], true)
   ctx.fillStyle = lg; ctx.fill()
   /* 地面光斑 */
-  const pool = ctx.createRadialGradient(153, 146, 4, 153, 146, 70)
-  pool.addColorStop(0, 'rgba(255,238,200,.22)'); pool.addColorStop(1, 'rgba(255,238,200,0)')
+  const pool = ctx.createRadialGradient(153, 152, 4, 153, 152, 74)
+  pool.addColorStop(0, 'rgba(255,238,200,.24)'); pool.addColorStop(1, 'rgba(255,238,200,0)')
   ctx.fillStyle = pool
-  ctx.beginPath(); ctx.ellipse(153, 146, 70, 22, 0, 0, 6.2832); ctx.fill()
-  /* 展台 */
-  ctx.fillStyle = '#100e0c'; ctx.fillRect(104, 126, 98, 42)
-  ctx.fillStyle = 'rgba(255,240,210,.10)'; ctx.fillRect(104, 126, 98, 3)
+  ctx.beginPath(); ctx.ellipse(153, 152, 74, 22, 0, 0, 6.2832); ctx.fill()
+  /* 展台（薄石板） */
+  ctx.fillStyle = '#0d0b09'; ctx.fillRect(96, 150, 112, 30)
+  ctx.fillStyle = 'rgba(255,240,210,.16)'; ctx.fillRect(96, 150, 112, 2.5)
+  ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.fillRect(96, 152.5, 112, 4)
   /* 青铜方鼎 */
-  const bronze = ctx.createLinearGradient(118, 62, 196, 130)
-  bronze.addColorStop(0, '#c19653'); bronze.addColorStop(.45, '#8b6735'); bronze.addColorStop(1, '#523719')
-  ctx.fillStyle = '#a87c42'; ctx.fillRect(122, 64, 68, 10)
-  ctx.fillStyle = 'rgba(255,228,175,.55)'; ctx.fillRect(122, 64, 68, 2.6)
-  poly([[124, 74], [188, 74], [180, 122], [132, 122]], true)
-  ctx.fillStyle = bronze; ctx.fill()
-  /* 三足 */
-  ctx.fillStyle = '#6a4a26'
-  poly([[136, 120], [146, 120], [143, 150], [134, 150]], true); ctx.fill()
-  poly([[162, 120], [172, 120], [173, 150], [164, 150]], true); ctx.fill()
-  poly([[148, 120], [158, 120], [158, 147], [149, 147]], true); ctx.fill()
+  const bronze = ctx.createLinearGradient(118, 58, 196, 126)
+  bronze.addColorStop(0, '#c99a55'); bronze.addColorStop(.45, '#8b6735'); bronze.addColorStop(1, '#4d3318')
+  /* 口沿 */
+  ctx.fillStyle = '#b0803f'; ctx.fillRect(116, 60, 84, 12)
+  ctx.fillStyle = 'rgba(255,230,180,.6)'; ctx.fillRect(116, 60, 84, 3)
   /* 双耳 */
-  ctx.strokeStyle = '#a87c42'; ctx.lineWidth = 3.5
-  ctx.beginPath(); ctx.moveTo(128, 64); ctx.lineTo(128, 54); ctx.lineTo(138, 54); ctx.lineTo(138, 64); ctx.stroke()
-  ctx.beginPath(); ctx.moveTo(172, 64); ctx.lineTo(172, 54); ctx.lineTo(182, 54); ctx.lineTo(182, 64); ctx.stroke()
-  /* 纹饰带 */
-  ctx.fillStyle = 'rgba(38,24,10,.55)'; ctx.fillRect(128, 88, 56, 11)
-  for (let i = 0; i < 7; i++) {
-    ctx.fillStyle = 'rgba(214,178,112,.6)'; ctx.fillRect(130 + i * 8, 91, 3, 5)
-  }
-  ctx.fillStyle = 'rgba(38,24,10,.4)'; ctx.fillRect(128, 104, 56, 3)
-  /* 高光 */
-  ctx.strokeStyle = 'rgba(255,232,182,.4)'; ctx.lineWidth = 1.2
-  ctx.beginPath(); ctx.moveTo(129, 78); ctx.lineTo(136, 118); ctx.stroke()
+  ctx.strokeStyle = '#a87c42'; ctx.lineWidth = 4
+  ctx.beginPath(); ctx.moveTo(124, 60); ctx.lineTo(124, 46); ctx.lineTo(136, 46); ctx.lineTo(136, 60); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(180, 60); ctx.lineTo(180, 46); ctx.lineTo(192, 46); ctx.lineTo(192, 60); ctx.stroke()
+  /* 腹 */
+  poly([[120, 72], [196, 72], [184, 124], [132, 124]], true)
+  ctx.fillStyle = bronze; ctx.fill()
+  ctx.strokeStyle = 'rgba(30,18,6,.55)'; ctx.lineWidth = 1; ctx.stroke()
+  /* 饕餮纹带 */
+  ctx.fillStyle = 'rgba(36,22,8,.5)'; ctx.fillRect(124, 86, 68, 13)
+  ctx.fillStyle = 'rgba(228,194,128,.85)'
+  circle(146, 92, 3.2); ctx.fill()
+  circle(170, 92, 3.2); ctx.fill()
+  for (let i = 0; i < 5; i++) { ctx.fillRect(129 + i * 14, 96, 5, 1.6) }
+  /* 三足 */
+  ctx.fillStyle = '#63431f'
+  poly([[132, 122], [142, 122], [139, 150], [129, 150]], true); ctx.fill()
+  poly([[174, 122], [184, 122], [187, 150], [177, 150]], true); ctx.fill()
+  poly([[153, 122], [163, 122], [162, 146], [154, 146]], true); ctx.fill()
+  /* 足端 */
+  ctx.fillStyle = '#7d5626'
+  ctx.fillRect(128, 147, 12, 3); ctx.fillRect(176, 147, 12, 3)
+  /* 腹侧高光 */
+  ctx.strokeStyle = 'rgba(255,232,182,.42)'; ctx.lineWidth = 1.2
+  ctx.beginPath(); ctx.moveTo(126, 76); ctx.lineTo(134, 120); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(190, 76); ctx.lineTo(184, 118); ctx.stroke()
   /* 展签 */
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(16, 136, 88, 32)
   ctx.fillStyle = '#efe7d6'; ctx.fillRect(14, 134, 88, 32)
@@ -594,20 +626,36 @@ function weather() {
   const g = ctx.createLinearGradient(0, 0, 0, H)
   g.addColorStop(0, '#0c5cb4'); g.addColorStop(.55, '#2f8fd6'); g.addColorStop(1, '#a9d7f0')
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H)
-  /* 地图轮廓 */
-  ctx.save()
-  ctx.beginPath()
-  ctx.moveTo(188, 0); ctx.lineTo(W, 0); ctx.lineTo(W, 146)
-  ctx.lineTo(272, 138); ctx.lineTo(254, 120); ctx.lineTo(228, 118)
-  ctx.lineTo(224, 98); ctx.lineTo(206, 90); ctx.lineTo(214, 66)
-  ctx.lineTo(196, 54); ctx.closePath()
-  ctx.fillStyle = 'rgba(255,255,255,.13)'; ctx.fill()
-  ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = 1.2; ctx.stroke()
-  ctx.strokeStyle = 'rgba(255,255,255,.2)'; ctx.lineWidth = 1
-  for (let i = 0; i < 4; i++) {
-    ctx.beginPath(); ctx.ellipse(252, 92, 40 + i * 24, 26 + i * 11, -.2, 0, 6.2832); ctx.stroke()
+  /* 等压线 */
+  ctx.strokeStyle = 'rgba(255,255,255,.13)'; ctx.lineWidth = 1
+  for (let i = 0; i < 3; i++) {
+    ctx.beginPath(); ctx.ellipse(112, 96, 88 + i * 28, 42 + i * 12, -.22, 0, 6.2832); ctx.stroke()
   }
-  ctx.restore()
+  /* 陆地轮廓（手绘海岸线） */
+  ctx.beginPath()
+  ctx.moveTo(198, 0); ctx.lineTo(W, 0); ctx.lineTo(W, 152)
+  ctx.lineTo(292, 146); ctx.lineTo(276, 132); ctx.lineTo(258, 136)
+  ctx.lineTo(244, 122); ctx.lineTo(222, 126); ctx.lineTo(210, 106)
+  ctx.lineTo(222, 90); ctx.lineTo(206, 74); ctx.lineTo(214, 56)
+  ctx.lineTo(202, 39); ctx.closePath()
+  ctx.fillStyle = 'rgba(255,255,255,.18)'; ctx.fill()
+  ctx.strokeStyle = 'rgba(255,255,255,.72)'; ctx.lineWidth = 1.3; ctx.stroke()
+  /* 省界 */
+  ctx.strokeStyle = 'rgba(40,90,150,.32)'; ctx.lineWidth = .9
+  ctx.beginPath(); ctx.moveTo(214, 56); ctx.lineTo(246, 78); ctx.lineTo(238, 104); ctx.lineTo(270, 118); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(246, 78); ctx.lineTo(288, 86); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(238, 104); ctx.lineTo(214, 116); ctx.stroke()
+  /* 降雨区 */
+  const rain = ctx.createRadialGradient(262, 108, 2, 262, 108, 30)
+  rain.addColorStop(0, 'rgba(96,206,176,.7)'); rain.addColorStop(1, 'rgba(96,206,176,0)')
+  ctx.fillStyle = rain; ctx.beginPath(); ctx.arc(262, 108, 30, 0, 6.2832); ctx.fill()
+  /* 城市点 */
+  for (const [x, y, n] of [[236, 66, '南京'], [266, 96, '杭州'], [292, 130, '温州']]) {
+    ctx.fillStyle = '#ffffff'; circle(x, y, 2); ctx.fill()
+    ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.font = '6px ' + F.sans
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'
+    ctx.fillText(n, x + 4, y + 2)
+  }
   /* 太阳 */
   ctx.save(); ctx.translate(46, 40)
   ctx.strokeStyle = 'rgba(255,222,120,.85)'; ctx.lineWidth = 2
@@ -640,8 +688,8 @@ function weather() {
   ctx.fillText('28', 16, 132)
   ctx.font = '700 22px ' + F.sans; ctx.fillText('°', 88, 106)
   ctx.restore()
-  ctx.fillStyle = 'rgba(235,248,255,.9)'; ctx.font = '9px ' + F.sans
-  ctx.fillText('最高 31° ／ 最低 22°', 18, 148)
+  ctx.fillStyle = 'rgba(235,248,255,.82)'; ctx.font = '9px ' + F.sans
+  ctx.fillText('最高 31° ／ 最低 22°', 84, 68)
   /* 底部 5 天 */
   ctx.fillStyle = 'rgba(255,255,255,.18)'; rr(10, 138, 300, 34, 6); ctx.fill()
   ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = 1; rr(10, 138, 300, 34, 6); ctx.stroke()
@@ -884,24 +932,25 @@ function manual() {
   ctx.strokeStyle = '#8a8a84'; ctx.lineWidth = .8
   ctx.beginPath(); ctx.moveTo(140, 74); ctx.lineTo(146, 78); ctx.stroke()
   ctx.beginPath(); ctx.moveTo(246, 112); ctx.lineTo(262, 118); ctx.stroke()
-  ctx.beginPath(); ctx.moveTo(184, 150); ctx.lineTo(194, 146); ctx.stroke()
+  ctx.beginPath(); ctx.moveTo(280, 134); ctx.lineTo(272, 129); ctx.stroke()
   badge(132, 74, '1')
   badge(254, 110, '2')
-  badge(178, 152, '3')
+  badge(288, 138, '3')
   /* 零件表 */
   ctx.strokeStyle = '#c9c7bf'; ctx.lineWidth = 1
-  ctx.strokeRect(12, 150, 280, 24)
-  ctx.beginPath(); ctx.moveTo(12, 158); ctx.lineTo(292, 158); ctx.stroke()
-  ctx.beginPath(); ctx.moveTo(12, 166); ctx.lineTo(292, 166); ctx.stroke()
-  ctx.fillStyle = '#4a4a45'; ctx.font = '7px ' + F.mono
+  ctx.strokeRect(12, 148, 280, 28)
+  for (const y of [155, 162, 169]) { ctx.beginPath(); ctx.moveTo(12, y); ctx.lineTo(292, y); ctx.stroke() }
+  for (const x of [36, 186, 236]) { ctx.beginPath(); ctx.moveTo(x, 155); ctx.lineTo(x, 176); ctx.stroke() }
+  ctx.fillStyle = '#4a4a45'; ctx.font = '6.5px ' + F.mono
   ctx.textAlign = 'left'; ctx.textBaseline = 'middle'
-  ctx.fillText('NO.', 16, 154); ctx.fillText('零件', 42, 154)
-  ctx.fillText('数量', 190, 154); ctx.fillText('图号', 240, 154)
-  ctx.fillText('①  立板', 16, 162); ctx.fillText('2', 196, 162); ctx.fillText('P-146', 240, 162)
-  ctx.fillText('②  螺钉', 16, 170); ctx.fillText('4', 196, 170); ctx.fillText('S-4×30', 240, 170)
-  /* 第三行信息挪到右侧小字 */
-  ctx.fillStyle = '#8a8a84'; ctx.font = '6.5px ' + F.mono
-  ctx.textAlign = 'left'; ctx.fillText('③ 层板 ×3', 96, 176)
+  ctx.fillText('NO.', 16, 151.5); ctx.fillText('零件', 41, 151.5)
+  ctx.fillText('数量', 190, 151.5); ctx.fillText('图号', 240, 151.5)
+  ctx.fillText('①', 19, 158.5); ctx.fillText('立板', 41, 158.5)
+  ctx.fillText('2', 196, 158.5); ctx.fillText('P-146', 240, 158.5)
+  ctx.fillText('②', 19, 165.5); ctx.fillText('螺钉', 41, 165.5)
+  ctx.fillText('4', 196, 165.5); ctx.fillText('S-4x30', 240, 165.5)
+  ctx.fillText('③', 19, 172.5); ctx.fillText('层板', 41, 172.5)
+  ctx.fillText('3', 196, 172.5); ctx.fillText('P-12', 240, 172.5)
 }
 
 /* ================================================================
@@ -939,7 +988,7 @@ function whiteboard() {
   ctx.fillText('③ 最后给方案', 22, 120)
   /* 红圈 */
   ctx.strokeStyle = 'rgba(192,57,43,.85)'; ctx.lineWidth = 1.8
-  ctx.beginPath(); ctx.ellipse(92, 92, 42, 13, -.03, 0, 6.2832); ctx.stroke()
+  ctx.beginPath(); ctx.ellipse(70, 95, 44, 11, -.03, 0, 6.2832); ctx.stroke()
   /* 右侧两个框 + 箭头 */
   ctx.strokeStyle = 'rgba(42,95,192,.85)'; ctx.lineWidth = 2
   rr(196, 62, 58, 24, 3); ctx.stroke()
@@ -1044,7 +1093,7 @@ function mathlecture() {
   ctx.beginPath(); ctx.moveTo(14, 26); ctx.lineTo(306, 26); ctx.stroke()
   /* 行号 */
   ctx.fillStyle = 'rgba(130,160,200,.45)'; ctx.font = '8px ' + F.mono
-  for (const [t, y] of [['(1)', 46], ['(2)', 68], ['(3)', 88], ['(4)', 156]]) ctx.fillText(t, 12, y)
+  for (const [t, y] of [['(1)', 46], ['(2)', 68], ['(3)', 88]]) ctx.fillText(t, 12, y)
   /* 推导 */
   ctx.fillStyle = '#e6eef9'; ctx.font = '11px ' + F.serif
   ctx.fillText('设 lim f(x) = L₁，lim f(x) = L₂', 34, 46)
@@ -1061,16 +1110,6 @@ function mathlecture() {
   /* 结论 */
   ctx.fillStyle = 'rgba(160,200,240,.85)'; ctx.font = '9px ' + F.serif
   ctx.fillText('证明完毕　□', 34, 164)
-  /* 右侧 ε 示意 */
-  ctx.strokeStyle = 'rgba(140,200,255,.5)'; ctx.lineWidth = 1
-  ctx.beginPath(); ctx.moveTo(232, 160); ctx.lineTo(300, 160); ctx.stroke()
-  ctx.beginPath(); ctx.moveTo(268, 58); ctx.lineTo(268, 160); ctx.stroke()
-  ctx.strokeStyle = 'rgba(255,208,106,.7)'; ctx.lineWidth = 1
-  ctx.beginPath(); ctx.moveTo(246, 150); ctx.lineTo(290, 150); ctx.stroke()
-  ctx.beginPath(); ctx.moveTo(246, 150); ctx.lineTo(246, 148); ctx.moveTo(290, 150); ctx.lineTo(290, 148); ctx.stroke()
-  ctx.fillStyle = 'rgba(255,208,106,.85)'; ctx.font = '8px ' + F.mono
-  ctx.textAlign = 'center'; ctx.fillText('2ε', 268, 144)
-  ctx.textAlign = 'left'
 }
 
 /* ---------------- 路由 ---------------- */

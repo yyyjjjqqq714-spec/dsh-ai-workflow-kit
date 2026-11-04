@@ -440,86 +440,78 @@ function M27() {
    S5-M28 对称暖色电影空镜 —— 中轴镜像的室内
    ============================================================ */
 function M28() {
-  bg('#f6d5c8')
-  const g = ctx.createLinearGradient(0, 0, 0, 142)
-  g.addColorStop(0, '#fbe6d6'); g.addColorStop(1, '#eeb9a3')
-  ctx.fillStyle = g; ctx.fillRect(0, 0, W, 142)
-  ctx.fillStyle = '#c98a70'; ctx.fillRect(0, 142, W, 38)
-  L(0, 142, W, 142, '#e6a98d', 2)
+  // 对称暖色的电影感空镜：严格中轴对称的「窗 + 书桌 + 茶杯」，冷蓝窗光 vs 暖橙室内
+  // （与 S3-K38 情景喜剧的沙发客厅构图完全不同）
+  const cx = W / 2
+  bgg = ctx.createLinearGradient(0, 0, 0, H)
+  bgg.addColorStop(0, '#2a1c17'); bgg.addColorStop(.55, '#472c1f'); bgg.addColorStop(1, '#1a110d')
+  ctx.fillStyle = bgg; ctx.fillRect(0, 0, W, H)
 
-  // 窗
-  ctx.fillStyle = '#efc3a4'; ctx.fillRect(110, 24, 100, 86)
-  const wg = ctx.createLinearGradient(0, 26, 0, 108)
-  wg.addColorStop(0, '#fff4d8'); wg.addColorStop(1, '#ffc78a')
-  ctx.fillStyle = wg; ctx.fillRect(113, 27, 94, 80)
-  ctx.beginPath(); ctx.arc(188, 54, 13, 0, 7)
-  ctx.fillStyle = 'rgba(255,246,214,.8)'; ctx.fill()
-  ctx.strokeStyle = '#e9c7b0'; ctx.lineWidth = 4; ctx.strokeRect(110, 24, 100, 86)
-  L(160, 24, 160, 110, '#e9c7b0', 3)
-  L(110, 67, 210, 67, '#e9c7b0', 3)
+  // 后墙（暖棕）
+  ctx.fillStyle = '#5a3626'; ctx.fillRect(40, 20, W - 80, 110)
+  // 墙上的对称腰线
+  ctx.fillStyle = 'rgba(120,80,55,.55)'; ctx.fillRect(40, 74, W - 80, 2)
 
-  // 对称窗帘
-  for (const s of [-1, 1]) {
-    ctx.save(); ctx.translate(160 + s * 50, 0)
-    ctx.beginPath(); ctx.moveTo(0, 22)
-    ctx.bezierCurveTo(-s * 26, 48, -s * 4, 96, -s * 12, 142)
-    ctx.lineTo(0, 142); ctx.closePath()
-    ctx.fillStyle = '#d98c88'; ctx.fill()
-    ctx.strokeStyle = 'rgba(180,100,96,.5)'; ctx.lineWidth = 1
-    ctx.beginPath(); ctx.moveTo(-s * 6, 40); ctx.bezierCurveTo(-s * 18, 70, -s * 8, 110, -s * 10, 140); ctx.stroke()
-    ctx.restore()
+  // 中央大窗（冷蓝光，对称）
+  const wx = cx - 52, wy = 30, ww = 104, wh = 74
+  const win = ctx.createLinearGradient(0, wy, 0, wy + wh)
+  win.addColorStop(0, '#bfe3ff'); win.addColorStop(1, '#7fb2d8')
+  ctx.fillStyle = win; ctx.fillRect(wx, wy, ww, wh)
+  // 窗格（十字对称）
+  ctx.fillStyle = '#3d2418'
+  ctx.fillRect(cx - 2, wy, 4, wh)
+  ctx.fillRect(wx, wy + 36, ww, 4)
+  // 窗框
+  ctx.strokeStyle = '#33200f'; ctx.lineWidth = 5
+  ctx.strokeRect(wx, wy, ww, wh)
+
+  // 两侧对称壁灯（暖光斑）
+  for (const sx of [-1, 1]) {
+    const lx = cx + sx * 96
+    const halo = ctx.createRadialGradient(lx, 46, 2, lx, 46, 26)
+    halo.addColorStop(0, 'rgba(255,190,110,.55)'); halo.addColorStop(1, 'rgba(255,190,110,0)')
+    ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(lx, 46, 26, 0, 7); ctx.fill()
+    ctx.fillStyle = '#ffcf8a'
+    ctx.beginPath(); ctx.ellipse(lx, 46, 9, 6, 0, 0, 7); ctx.fill()
   }
 
-  // 对称画框
-  for (const s of [-1, 1]) {
-    const x = 160 + s * 108 - 12
-    ctx.fillStyle = '#b9745c'; ctx.fillRect(x, 56, 24, 30)
-    ctx.fillStyle = '#f2c9a4'; ctx.fillRect(x + 3, 59, 18, 24)
-    ctx.fillStyle = '#c98a70'
-    ctx.beginPath(); ctx.arc(x + 12, 66, 5, 0, 7); ctx.fill()
+  // 地平面
+  ctx.fillStyle = '#3a2419'; ctx.fillRect(0, 130, W, H - 130)
+
+  // 中央书桌（严格对称）
+  ctx.fillStyle = '#8a5a3b'; ctx.fillRect(cx - 78, 108, 156, 7)
+  ctx.fillStyle = '#6e4429'
+  ctx.fillRect(cx - 70, 115, 6, 30)
+  ctx.fillRect(cx + 64, 115, 6, 30)
+
+  // 桌上对称物：左茶壶 / 右茶杯 + 中间烛台
+  ctx.fillStyle = '#c9a26e'; ctx.beginPath(); ctx.ellipse(cx - 36, 103, 9, 6, 0, 0, 7); ctx.fill()
+  ctx.fillStyle = '#e8e2d4'; ctx.beginPath(); ctx.ellipse(cx + 36, 104, 6, 4, 0, 0, 7); ctx.fill()
+  // 烛光
+  const cg = ctx.createRadialGradient(cx, 96, 1, cx, 96, 14)
+  cg.addColorStop(0, 'rgba(255,220,150,.85)'); cg.addColorStop(1, 'rgba(255,220,150,0)')
+  ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx, 96, 14, 0, 7); ctx.fill()
+  ctx.fillStyle = '#ffe6b0'; ctx.beginPath(); ctx.ellipse(cx, 100, 2, 5, 0, 0, 7); ctx.fill()
+
+  // 左右对称的椅子剪影
+  for (const sx of [-1, 1]) {
+    const px = cx + sx * 112
+    ctx.fillStyle = '#4a2c1c'
+    ctx.fillRect(px - 12, 118, 24, 5)
+    ctx.fillRect(px - 12, 100, 5, 22)
+    ctx.fillRect(px + 7, 100, 5, 22)
   }
 
-  // 桌子
-  ctx.fillStyle = '#a9603f'; ctx.fillRect(90, 126, 140, 5)
-  ctx.fillStyle = '#8e4c33'; ctx.fillRect(96, 131, 6, 27); ctx.fillRect(218, 131, 6, 27)
-  ctx.fillStyle = 'rgba(255,220,190,.25)'; ctx.fillRect(90, 126, 140, 1.4)
-
-  // 杯子（中轴）
-  ctx.beginPath(); ctx.ellipse(160, 125, 17, 3.4, 0, 0, 7)
-  ctx.fillStyle = '#f7e6d4'; ctx.fill()
-  ctx.beginPath(); ctx.moveTo(149, 111); ctx.lineTo(171, 111)
-  ctx.lineTo(168, 124); ctx.lineTo(152, 124); ctx.closePath()
-  ctx.fillStyle = '#fdf3e6'; ctx.fill()
-  ctx.beginPath(); ctx.ellipse(160, 111, 11, 3, 0, 0, 7)
-  ctx.fillStyle = '#6b4028'; ctx.fill()
-  ctx.beginPath(); ctx.arc(172, 116, 4.6, -Math.PI / 2, Math.PI / 2)
-  ctx.strokeStyle = '#fdf3e6'; ctx.lineWidth = 2; ctx.stroke()
-  // 对称蒸汽
-  for (const s of [-1, 1]) {
-    ctx.beginPath(); ctx.moveTo(160 + s * 4, 106)
-    ctx.bezierCurveTo(160 + s * 13, 98, 160 + s * 1, 92, 160 + s * 8, 84)
-    ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 1.6; ctx.stroke()
-  }
-
-  // 对称椅子
-  for (const s of [-1, 1]) {
-    const x = s < 0 ? 24 : 266
-    ctx.fillStyle = '#b5725c'; ctx.fillRect(x, 98, 30, 26)
-    ctx.fillStyle = '#f0c3a8'; ctx.fillRect(x + 4, 102, 22, 18)
-    ctx.fillStyle = '#a9603f'; ctx.fillRect(x + 2, 124, 26, 4)
-    ctx.fillRect(x + 4, 128, 4, 20); ctx.fillRect(x + 22, 128, 4, 20)
-  }
-
-  // 暗角
-  const vg = ctx.createRadialGradient(160, 84, 60, 160, 84, 210)
-  vg.addColorStop(0, 'rgba(90,40,30,0)'); vg.addColorStop(1, 'rgba(90,40,30,.28)')
-  ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H)
-  T('SYMMETRIC  /  WARM  /  EMPTY SHOT', 160, 174, 4.5, 'rgba(255,235,220,.55)', F.mono, 'center', '700')
+  // 字幕（对称居中）
+  ctx.fillStyle = 'rgba(255,238,215,.9)'
+  ctx.font = '700 12px ' + F.serif
+  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'
+  ctx.fillText('她说，家里总有一个人在等', cx, 168)
+  ctx.font = '9px ' + F.mono
+  ctx.fillStyle = 'rgba(230,200,170,.55)'
+  ctx.fillText('SYMMETRY · WARM INTERIOR', cx, 22)
 }
 
-/* ============================================================
-   S5-M29 日落天空 3D 空镜 —— 渐变天空 + 地平线 + 海面反光
-   ============================================================ */
 function M29() {
   const sky = ctx.createLinearGradient(0, 0, 0, 120)
   sky.addColorStop(0, '#241347'); sky.addColorStop(0.35, '#5b2a66')
@@ -591,73 +583,70 @@ function M29() {
    S5-M30 东方意境 —— 留白 + 远山 + 小舟
    ============================================================ */
 function M30() {
-  bg('#f0e8d6')
-  const wash = ctx.createLinearGradient(0, 0, 0, H)
-  wash.addColorStop(0, 'rgba(255,255,255,.35)'); wash.addColorStop(1, 'rgba(196,186,160,.25)')
-  ctx.fillStyle = wash; ctx.fillRect(0, 0, W, H)
-
-  // 月
-  ctx.beginPath(); ctx.arc(64, 42, 17, 0, 7)
-  ctx.fillStyle = 'rgba(226,224,206,.85)'; ctx.fill()
-  ctx.strokeStyle = 'rgba(120,120,105,.18)'; ctx.lineWidth = 0.8; ctx.stroke()
-
-  // 远山
-  const ranges = [
-    { pts: [[0, 104], [38, 80], [74, 98], [108, 68], [146, 96], [188, 78], [228, 102], [268, 88], [320, 108]], c: 'rgba(150,160,152,.5)' },
-    { pts: [[0, 124], [46, 100], [92, 118], [138, 94], [184, 116], [232, 100], [278, 120], [320, 112]], c: 'rgba(100,115,108,.6)' },
-    { pts: [[0, 144], [52, 124], [104, 138], [150, 120], [198, 142], [246, 130], [320, 146]], c: 'rgba(58,70,64,.82)' },
-  ]
-  ranges.forEach(rg => {
-    ctx.beginPath(); ctx.moveTo(0, 180)
-    rg.pts.forEach(p => ctx.lineTo(p[0], p[1]))
-    ctx.lineTo(320, 180); ctx.closePath()
-    ctx.fillStyle = rg.c; ctx.fill()
-  })
-
-  // 水
-  const wg = ctx.createLinearGradient(0, 146, 0, 180)
-  wg.addColorStop(0, 'rgba(196,200,190,.5)'); wg.addColorStop(1, 'rgba(214,208,190,.75)')
-  ctx.fillStyle = wg; ctx.fillRect(0, 146, W, 34)
-  const rw = rng(30)
+  // 东方意境：改为「近景竹筏 + 水面倒影」视角，避开远山构图（与 S10-Z4 山水区分）
+  bg('#e8ddc8')
+  // 水面：下半屏，带横向波纹
+  const water = ctx.createLinearGradient(0, 96, 0, H)
+  water.addColorStop(0, '#cfd8d0'); water.addColorStop(1, '#8f9d93')
+  ctx.fillStyle = water; ctx.fillRect(0, 96, W, H - 96)
+  const ry = rs => { let v = 0; for (let k = 0; k < 3; k++) v += Math.sin(rs * 9.3 + k * 2.1) * 1.2; return v }
+  ctx.strokeStyle = 'rgba(70,84,78,.22)'
   for (let i = 0; i < 16; i++) {
-    const y = 150 + rw() * 26, x = 90 + rw() * 200, w = 10 + rw() * 26
-    ctx.fillStyle = 'rgba(90,105,98,' + (0.06 + rw() * 0.12) + ')'
-    ctx.fillRect(x, y, w, 0.9)
+    const y = 104 + i * 4.6
+    ctx.beginPath()
+    for (let x = 0; x <= W; x += 7) {
+      const yy = y + ry(x + i) * (1 - i / 22)
+      x === 0 ? ctx.moveTo(x, yy) : ctx.lineTo(x, yy)
+    }
+    ctx.lineWidth = i % 3 === 0 ? 1.1 : 0.6
+    ctx.stroke()
   }
 
-  // 小舟（乌篷船）
-  ctx.fillStyle = '#2f3a35'
-  ctx.beginPath(); ctx.moveTo(178, 152)
-  ctx.quadraticCurveTo(198, 161, 220, 152)
-  ctx.quadraticCurveTo(198, 155, 178, 152); ctx.closePath(); ctx.fill()
-  ctx.beginPath(); ctx.arc(196, 151, 11, Math.PI, 0); ctx.closePath(); ctx.fill()
-  ctx.beginPath(); ctx.arc(196, 151, 7.5, Math.PI, 0); ctx.closePath()
-  ctx.fillStyle = '#59655e'; ctx.fill()
-  // 船夫与竹竿
-  ctx.fillStyle = '#2f3a35'
-  ctx.beginPath(); ctx.arc(214, 143, 2, 0, 7); ctx.fill()
-  L(214, 145, 213, 152, '#2f3a35', 1.6)
-  L(214, 149, 224, 137, '#2f3a35', 1)
-  // 倒影
-  ctx.beginPath(); ctx.ellipse(199, 157, 20, 2, 0, 0, 7)
-  ctx.fillStyle = 'rgba(47,58,53,.16)'; ctx.fill()
-  for (let i = 0; i < 3; i++) L(174 - i * 6, 160 + i * 3, 224 + i * 5, 160 + i * 3, 'rgba(70,82,77,.16)', 0.8)
+  // 竹筏（斜置前景 + 倒影）
+  const bx = 118, by = 122
+  ctx.save(); ctx.translate(bx, by); ctx.rotate(-0.06)
+  ctx.fillStyle = '#6f5c3e'
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath(); ctx.roundRect(-58, -5 + i * 5.4, 116, 4.4, 2); ctx.fill()
+  }
+  // 撑篙的人（剪影）
+  ctx.fillStyle = '#2b302c'
+  ctx.beginPath(); ctx.ellipse(-30, -14, 5.5, 7, 0, 0, 7); ctx.fill()
+  ctx.fillRect(-34, -8, 8, 12)
+  ctx.beginPath(); ctx.moveTo(-26, -4); ctx.lineTo(6, -34); ctx.strokeStyle = '#3e453f'; ctx.lineWidth = 2.2; ctx.stroke()
+  // 斗笠
+  ctx.beginPath(); ctx.moveTo(-36, -18); ctx.lineTo(-24, -18); ctx.lineTo(-30, -25); ctx.closePath()
+  ctx.fillStyle = '#8a7a55'; ctx.fill()
+  ctx.restore()
 
-  // 竖排题字
-  const poem = ['江', '上', '月']
-  poem.forEach((ch, i) => T(ch, 288, 44 + i * 22, 15, 'rgba(48,54,49,.88)', F.kai, 'center', '700'))
-  L(288, 96, 288, 108, 'rgba(48,54,49,.3)', 1)
-  T('意', 288, 124, 11, 'rgba(48,54,49,.6)', F.kai, 'center')
-  ctx.fillStyle = '#a83a2c'; ctx.fillRect(282, 132, 12, 12)
-  T('境', 288, 141, 8, '#f0e8d6', F.kai, 'center', '700')
+  // 倒影（垂直翻转 + 降低不透明度）
+  ctx.save()
+  ctx.globalAlpha = .3
+  ctx.translate(0, by * 2); ctx.scale(1, -1)
+  ctx.fillStyle = '#5c5136'
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath(); ctx.roundRect(bx - 58, by - 5 + i * 5.4, 116, 4.4, 2); ctx.fill()
+  }
+  ctx.restore()
 
-  T('东方意境', 16, 172, 7, 'rgba(70,78,72,.55)', F.kai, 'left', '700')
-  T('INK · MOUNTAIN · BOAT', 16, 24, 5, 'rgba(90,96,88,.45)', F.mono, 'left', '700')
+  // 右上留白处一行题款
+  ctx.fillStyle = 'rgba(44,48,44,.85)'
+  ctx.font = '700 13px ' + F.hand
+  ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic'
+  const vertical = ['孤', '舟', '过', '寒', '江']
+  vertical.forEach((ch, i) => ctx.fillText(ch, 286, 30 + i * 17))
+  // 朱印
+  ctx.fillStyle = '#b23a2e'
+  ctx.beginPath(); ctx.roundRect(272, 122, 14, 14, 1.5); ctx.fill()
+  ctx.fillStyle = '#efe4cf'; ctx.font = '700 8px ' + F.serif
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+  ctx.fillText('寒', 279, 129)
+
+  // 远岸一线（压到最上缘，不做山形）
+  ctx.fillStyle = 'rgba(90,102,94,.55)'
+  ctx.fillRect(0, 94, W, 2.5)
 }
 
-/* ============================================================
-   S5-M31 粘土定格 MV —— 黏土角色 + 暖色手作感
-   ============================================================ */
 function M31() {
   const sky = ctx.createLinearGradient(0, 0, 0, H)
   sky.addColorStop(0, '#fbd6b4'); sky.addColorStop(0.55, '#f7b48d'); sky.addColorStop(1, '#eda07c')
