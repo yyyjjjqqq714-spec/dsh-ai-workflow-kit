@@ -1,0 +1,68 @@
+{
+  "name": "dsh-ai-workflow-kit",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "AI workflow kit for DeepSeek Harness: a 340-entry code-animation style library, prompt templates and renderable code templates in one sidebar panel, plus agent tools to search and render them.",
+  "icon": "icon.svg",
+  "license": "MIT",
+  "author": {
+    "name": "ai-workflow-kit contributors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit.git"
+  },
+  "homepage": "https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit#readme",
+  "bugs": {
+    "url": "https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek",
+    "deepseek-harness",
+    "workflow",
+    "prompt-library",
+    "video-style",
+    "code-templates",
+    "storyboard"
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "icon.svg",
+    "lib",
+    "content/manifest.json",
+    "content/styles/_index.json",
+    "content/styles/_index.full.json",
+    "content/styles/prompts",
+    "content/styles/stills",
+    "content/prompts",
+    "content/templates",
+    "assets",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "engines": {
+    "dsh": ">=0.1.7"
+  }
+}

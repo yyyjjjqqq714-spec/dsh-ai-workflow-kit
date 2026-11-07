@@ -1,69 +1,118 @@
-# ai-workflow-kit
+# AI Workflow Kit for DeepSeek Harness
 
-> 一套可复用、可版本管理、可验收的 AI 工作流插件包。
-> 把「提示词工程 / 代码模板 / 视频风格脚本 / 本地知识库 / 300+ 风格库」落成可执行的系统。
+[中文说明](README.zh.md)
 
----
+A sidebar panel that puts a **340-entry code-animation style library**, **prompt
+templates** and **renderable code templates** one click away from the chat — and
+exposes the same library to the agent as tools, so it can search a style and
+write the implementation prompt for you.
 
-## 先读什么
-
-| 你想知道 | 读这个 | 用时 |
-|----------|--------|------|
-| 整体怎么搭的、为什么这么搭 | [A-architecture.md](docs/A-architecture.md) | 8 分钟 |
-| 三个插件各吃什么、吐什么 | [B-plugin-specs.md](docs/B-plugin-specs.md) | 10 分钟 |
-| 知识库目录怎么建、元数据怎么写 | [C-knowledge-base.md](docs/C-knowledge-base.md) | 8 分钟 |
-| 300+ 风格库怎么分类、怎么分批 | [D-style-library.md](docs/D-style-library.md) | 10 分钟 |
-| 明天 2 小时具体干什么 | [E-tomorrow-mvp.md](docs/E-tomorrow-mvp.md) | 5 分钟 |
+Everything ships inside the package: no extra download, no network call, no
+absolute path baked into your machine.
 
 ---
 
-## 一句话说明
+## Why this exists
 
-**内容与界面解耦**：所有资产都是 `content/` 下的纯文件，
-由 `schema/` 统一约束，通过两种入口使用 ——
-给 AI 读的 **skill**，给人操作的 **plugin**。
+Prompt libraries usually live in a folder you forget the path of. This one is a
+plugin: the library is browsable as thumbnails, searchable by id / name / tag,
+and callable by the agent during a normal conversation.
 
----
+- **340 video styles** across 10 series (code samples, cartoon, motion graphics,
+  Chinese ink, Oscar-film palettes, code-video, …), each with the original
+  implementation prompt.
+- **8 prompt templates** for storyboards, title cards, style mixing, style →
+  code, tutorials and scripts.
+- **5 code templates** (Fastify route, React component, Zod schema, FastAPI
+  router, argparse CLI) with variables and one-click rendering.
+- **Storyboard forge**: pick a style, type a topic, get a complete director
+  instruction with platform rules baked in.
 
-## 现在有什么 / 明天做什么
+## Install
 
-**已完成（本方案设计阶段）**
-- ✅ 四层架构与五条设计决策
-- ✅ 三个插件的输入输出规格
-- ✅ 知识库目录模板 + 元数据字段 + 引用规则
-- ✅ 300+ 风格库的 19 字段规范 + 5 大类 + 16 批计划
-- ✅ 2 小时 MVP 清单
+From the plugin market, or:
 
-**明天（2 小时）**
-- schema × 3
-- 三个 MVP 各一个（1 条提示词 / 1 个代码模板 / 1 条风格）
-- 索引 + 校验 + 验收报告
+```sh
+dsh plugin --profile web add dsh-ai-workflow-kit
+```
 
-**明确不做的**
-- 350 条风格全做
-- 插件 UI
-- 知识库批量入库
+Pin a release tarball instead:
 
----
+```sh
+dsh plugin --profile web add "https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit/releases/latest/download/dsh-ai-workflow-kit.tgz"
+```
 
-## 关键前提
+Requires DeepSeek Harness `>= 0.1.7`. Restart DSH after installing a replacement
+build; a first install can activate through HMR.
 
-1. **本机已有 340 条代码动画风格**（`C:\Users\1\.dsh\skills\code-animation-styles\`），
-   是 S1 大类的基础，不重复建设。
-2. **本机已装 `dsh-webui-prompt-optimizer`**，它做单轮/多轮改写，
-   B1 补的是澄清/结构化/评分/版本，不重写改写引擎。
-3. **本机没有 git**，版本管理走「只增不改 + 快照」兜底；
-   建议 10 分钟装 git，此后才真正可回滚。
+## Use
 
----
+**Sidebar** — click **AI 工作流** to open the panel. Three tabs, one search box
+(`/` focuses it).
 
-## 目录
+- **视频风格** — thumbnail wall grouped by series. Click a card for the full
+  prompt, a "copy prompt" button, and **生成分镜指令** which turns the style plus
+  a topic / platform / duration into a ready director instruction.
+- **提示词** — 8 templates, copy or send straight into the conversation.
+- **代码模板** — fill the variable form, watch the rendered source update live,
+  copy it or send it to the chat.
+
+**Slash command**
 
 ```
-ai-workflow-kit/
-├─ docs/         A-E 五份方案
-├─ schema/       四个 JSON Schema（明天建）
-├─ content/      prompts / templates / styles / kb
-├─ tools/        build-index / validate / render-style / kb-ingest / new-prompt
-└─ _audit/       生成审计日志
+/awkit                 overview + help
+/awkit 水墨            keyword search, shows the top hit's prompt
+/awkit S1-A3           exact id
+/awkit prompts         prompt inventory
+/awkit templates       code template inventory
 ```
+
+**Agent tools** — the model can call these during a normal turn:
+
+| Tool | What it does |
+|---|---|
+| `awkit_search` | search styles / prompts / templates |
+| `awkit_get_style` | full style prompt by id |
+| `awkit_render_template` | render a code template with variables (dry-run by default) |
+| `awkit_overview` | inventory of the whole library |
+
+Typical ask: *"用 S1-A3 这个风格，帮我做一条 45 秒抖音讲别熬夜的分镜"* — the agent
+finds the style, pulls the prompt, and produces the storyboard.
+
+## Privacy and permissions
+
+- Content is read from the package itself (`content/`), through `node:fs`
+  read-only calls.
+- The only HTTP surface is a same-origin prefix route `/awkit/api` used by the
+  panel in your own browser.
+- No telemetry, no outbound network requests, no shell.
+- Writing is opt-in and single-purpose: `awkit_render_template` writes only when
+  the caller passes `write: true` **and** a `targetDir`, and refuses paths that
+  escape that directory.
+
+## Structure
+
+```
+index.js            host entry — assembly only
+lib/content.js      content layer: load, cache, search, error codes
+lib/routes.js       same-origin REST API (old and new routes both supported)
+lib/tools.js        agent tools
+lib/commands.js     slash commands
+client.js           browser half: panel, detail views, forge, renderer
+content/            340 styles + thumbnails, 8 prompts, 5 templates
+tools/              build + smoke scripts (not shipped in the tarball)
+```
+
+Local development:
+
+```sh
+node tools/prepare-content.mjs      # copy style markdown into the package
+node tools/build-content-manifest.mjs
+node tools/smoke.mjs                # host half
+node tools/check-client.mjs         # browser half
+```
+
+## License
+
+MIT. Third-party style prompts keep their original terms; see
+`content/styles/` for source attribution.

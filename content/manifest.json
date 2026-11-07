@@ -1,0 +1,23 @@
+{
+  "name": "dsh-ai-workflow-kit",
+  "version": "0.2.0",
+  "contentVersion": "e4f11fcd99bf",
+  "builtAt": "2026-11-07T05:26:39.877Z",
+  "counts": {
+    "styles": 340,
+    "stylesWithMarkdown": 340,
+    "stylesWithStill": 193,
+    "bySeries": {
+      "S1": 26,
+      "S10": 14,
+      "S2": 12,
+      "S3": 38,
+      "S4": 59,
+      "S5": 40,
+      "S6": 98,
+      "S7": 7,
+      "S8": 15,
+      "S9": 31
+    }
+  }
+}

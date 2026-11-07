@@ -1,4 +1,16 @@
-﻿node_modules/
+node_modules/
 _backup/
 *.log
 .DS_Store
+
+# build artifacts that should not ship in git
+dist/
+*.tgz
+
+# local audit / dev scratch
+_audit/
+_dev/
+
+# build-time only: contains absolute paths from the authoring machine
+content/styles/_sources.json
+content/styles/_prepare-report.json

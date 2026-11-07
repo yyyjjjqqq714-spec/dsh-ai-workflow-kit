@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 
-const CLIENT = 'F:/软件/DeepSeek Harness工作区/ai-workflow-kit/plugin/client.js'
+const CLIENT = 'F:/软件/DeepSeek Harness工作区/ai-workflow-kit/client.js'
 const src = fs.readFileSync(CLIENT, 'utf8')
 
 let captured = null

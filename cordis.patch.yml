@@ -1,0 +1,6 @@
+# Host half: mounts the /awkit/api routes, agent tools and /awkit command.
+# The `dsh.client` declaration in package.json makes the Web app load
+# ./client.js as the browser half, which owns the sidebar entry + panel.
+- insert:
+    - id: ai-workflow-kit
+      name: 'dsh-ai-workflow-kit'

@@ -1,0 +1,15 @@
+# Kept in git for the static-site build, not needed by the plugin runtime.
+content/exports/
+content/styles/_generated/
+
+# Authoring-side only
+tools/
+docs/
+dist/
+_audit/
+_dev/
+schema/
+
+# Scratch
+*.log
+.DS_Store
