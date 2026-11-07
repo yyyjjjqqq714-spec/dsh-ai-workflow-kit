@@ -40,21 +40,30 @@ export function apply(ctx, config = {}) {
   )
 
   // ---- Agent 工具（可选）----
-  if (typeof ctx.inject === 'function') {
-    ctx.inject(['tools'], (scope) => {
-      scope.effect(() => registerTools(scope, content))
-    })
-  } else if (typeof ctx.tools?.register === 'function') {
-    ctx.effect(() => registerTools(ctx, content))
+  // 宿主没有 tools 服务、或 ctx.inject 签名不兼容时，都只降级不阻断加载。
+  try {
+    if (typeof ctx.inject === 'function') {
+      ctx.inject(['tools'], (scope) => {
+        scope.effect(() => registerTools(scope, content))
+      })
+    } else if (typeof ctx.tools?.register === 'function') {
+      ctx.effect(() => registerTools(ctx, content))
+    }
+  } catch (err) {
+    ctx.logger?.warn?.(`[ai-workflow-kit] Agent 工具注册跳过: ${String((err && err.message) || err)}`)
   }
 
   // ---- 斜杠命令（可选）----
-  if (typeof ctx.inject === 'function') {
-    ctx.inject(['commands'], (scope) => {
-      registerCommands(scope, content)
-    })
-  } else if (typeof ctx.commands?.register === 'function') {
-    registerCommands(ctx, content)
+  try {
+    if (typeof ctx.inject === 'function') {
+      ctx.inject(['commands'], (scope) => {
+        registerCommands(scope, content)
+      })
+    } else if (typeof ctx.commands?.register === 'function') {
+      registerCommands(ctx, content)
+    }
+  } catch (err) {
+    ctx.logger?.warn?.(`[ai-workflow-kit] 斜杠命令注册跳过: ${String((err && err.message) || err)}`)
   }
 
   ctx.logger?.info?.(
