@@ -146,3 +146,40 @@ npm publish --access public
 
 包名 `dsh-ai-workflow-kit` 在 npm 上当前**可用**（已查，404）。
 发布后市场会自动把 `install` 换成 `dsh plugin add dsh-ai-workflow-kit`。
+
+---
+
+## 现状（2026-11-08）
+
+| 项 | 值 |
+|---|---|
+| 仓库 | https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit （main = `dadc1ca`） |
+| Release | v0.2.1 · https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit/releases/tag/v0.2.1 |
+| 资产 | `dsh-ai-workflow-kit.tgz`（8.16 MB；故意去掉版本号，让 `releases/latest/download/` 永久有效） |
+| 上架 PR | #13068 · https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/13068 |
+| PR 改动 | `README.md` +1、`README.zh.md` +1，无其他文件 |
+
+安装：
+
+```sh
+dsh plugin --profile web add "https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit/releases/latest/download/dsh-ai-workflow-kit.tgz"
+```
+
+### 端到端验证记录
+
+在临时 profile `awkit-e2e` 里用上面这条命令装过一次，结果：
+
+- 714 个文件 / 10.05 MB，`package.json`、`lib/*`、`content/*`、`LICENSE` 全部到位
+- 340 篇风格原文 + 340 张缩略图 + 8 个提示词 + 5 个模板（10 个文件）
+- `createContentService()` 在安装目录下自定位成功：340 条风格、8 条提示词、5 个模板
+- 搜索：「水墨」4 条、「A3」20 条、「CRT」3 条、「雨」10 条
+- 验证后已删除该临时 profile
+
+### 踩过的坑
+
+1. **fork 基线太旧会让 PR 变成几百个无关文件的改动。** 正确顺序是：先把 fork 的
+   `main` 强制同步到 upstream 最新 head，再用 git data API 以该 head 为 parent 提交。
+2. **pnpm 不读系统代理。** 系统代理开着、浏览器能开 GitHub，`dsh plugin add` 仍可能
+   `ETIMEDOUT`；要显式设 `$env:HTTPS_PROXY`。
+3. **PowerShell 的 `ConvertTo-Json` 会把 `>=0.1.7` 写成 `\u003e=0.1.7`**，改 `package.json`
+   请直接编辑或用 node，不要用 PS 的 JSON 往返。
