@@ -47,14 +47,22 @@ foreach ($item in $map) {
         $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
         $g.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
 
-        # cover crop: fill the box, centre-crop the overflow
+        # cover crop: pick the largest source rect that keeps the target aspect
+        # ratio, then scale it onto the whole 640x360 box.
+        # NOTE: the srcW/srcH below are in SOURCE pixels (Width/scale), not the
+        # scaled size - passing the scaled size here was the bug that showed only
+        # the top-left corner of every image.
         $scale = [Math]::Max($Width / $img.Width, $Height / $img.Height)
-        $w = [int]($img.Width * $scale)
-        $h = [int]($img.Height * $scale)
-        $x = [int](($w - $Width) / 2)
-        $y = [int](($h - $Height) / 2)
+        $srcW = [int][Math]::Round($Width / $scale)
+        $srcH = [int][Math]::Round($Height / $scale)
+        if ($srcW -gt $img.Width) { $srcW = $img.Width }
+        if ($srcH -gt $img.Height) { $srcH = $img.Height }
+        $srcX = [int](($img.Width - $srcW) / 2)
+        $srcY = [int](($img.Height - $srcH) / 2)
+
         $dest = New-Object System.Drawing.Rectangle 0, 0, $Width, $Height
-        $g.DrawImage($img, $dest, $x, $y, $w, $h, [System.Drawing.GraphicsUnit]::Pixel)
+        $srcRect = New-Object System.Drawing.Rectangle $srcX, $srcY, $srcW, $srcH
+        $g.DrawImage($img, $dest, $srcRect, [System.Drawing.GraphicsUnit]::Pixel)
       } finally { $g.Dispose() }
 
       $bmp.Save($out, $codec, $encParams)

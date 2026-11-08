@@ -8,7 +8,7 @@
  *
  * 用法：node tools/build-content-manifest.mjs
  */
-import { readFile, writeFile } from 'node:fs/promises'
+import { readFile, writeFile, readdir, stat } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -78,6 +78,21 @@ async function main() {
 
   const hash = createHash('sha256')
   for (const s of full) hash.update(s.id + ':' + s.chars + ';')
+
+  // 缩略图也要进指纹：内容版本是客户端的图片缓存键，只算正文的话
+  // 重新生成图片后版本不变，所有人会继续看旧图。
+  const stillsDir = join(CONTENT, 'styles/stills')
+  let stills = []
+  try {
+    stills = (await readdir(stillsDir)).sort()
+  } catch {
+    stills = []
+  }
+  for (const f of stills) {
+    const st = await stat(join(stillsDir, f))
+    hash.update('still:' + f + ':' + st.size + ';')
+  }
+
   const contentVersion = hash.digest('hex').slice(0, 12)
 
   const pkg = JSON.parse(await readFile(join(ROOT, 'package.json'), 'utf8'))

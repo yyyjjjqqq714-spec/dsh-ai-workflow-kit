@@ -1,8 +1,8 @@
 {
   "name": "dsh-ai-workflow-kit",
-  "version": "0.2.0",
-  "contentVersion": "e4f11fcd99bf",
-  "builtAt": "2026-11-07T05:26:39.877Z",
+  "version": "0.2.2",
+  "contentVersion": "3a0bcb97462e",
+  "builtAt": "2026-11-08T05:32:34.084Z",
   "counts": {
     "styles": 340,
     "stylesWithMarkdown": 340,
