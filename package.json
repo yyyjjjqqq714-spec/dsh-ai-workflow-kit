@@ -1,6 +1,6 @@
 {
   "name": "dsh-ai-workflow-kit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "AI workflow kit for DeepSeek Harness: a 340-entry code-animation style library, prompt templates and renderable code templates in one sidebar panel, plus agent tools to search and render them.",
   "icon": "icon.svg",

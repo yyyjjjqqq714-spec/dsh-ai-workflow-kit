@@ -45,6 +45,15 @@ dsh plugin --profile web add "https://github.com/yyyjjjqqq714-spec/dsh-ai-workfl
 Requires DeepSeek Harness `>= 0.1.7`. Restart DSH after installing a replacement
 build; a first install can activate through HMR.
 
+**Behind a proxy** — DSH's plugin manager shells out to pnpm, and pnpm does not
+read the OS proxy settings. If the install hangs on `ETIMEDOUT` while your
+browser can reach GitHub, pass the proxy explicitly:
+
+```powershell
+$env:HTTPS_PROXY = "http://127.0.0.1:7897"   # your own proxy
+dsh plugin --profile web add "https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit/releases/latest/download/dsh-ai-workflow-kit.tgz"
+```
+
 ## Use
 
 **Sidebar** — click **AI 工作流** to open the panel. Three tabs, one search box

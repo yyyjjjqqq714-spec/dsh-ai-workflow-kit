@@ -37,6 +37,13 @@ dsh plugin --profile web add "https://github.com/yyyjjjqqq714-spec/dsh-ai-workfl
 
 需要 DeepSeek Harness `>= 0.1.7`。替换已装版本后需重启 DSH；首次安装可经 HMR 激活。
 
+**走代理** —— DSH 的插件管理器实际调用 pnpm，而 pnpm 不读系统代理设置。如果浏览器能打开 GitHub、安装却卡在 `ETIMEDOUT`，把代理显式传给它：
+
+```powershell
+$env:HTTPS_PROXY = "http://127.0.0.1:7897"   # 换成你自己的代理
+dsh plugin --profile web add "https://github.com/yyyjjjqqq714-spec/dsh-ai-workflow-kit/releases/latest/download/dsh-ai-workflow-kit.tgz"
+```
+
 ## 用法
 
 **侧栏** —— 点 **AI 工作流** 打开面板。三个标签页、一个搜索框（按 `/` 聚焦）。
