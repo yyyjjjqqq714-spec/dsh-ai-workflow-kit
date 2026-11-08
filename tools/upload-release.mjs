@@ -26,14 +26,9 @@ const auth = {
   Accept: 'application/vnd.github+json',
 }
 
-const body = `## 0.2.1
+const body = process.env.RELEASE_BODY || `## ${TAG.replace(/^v/, '')}
 
-Docs-only follow-up to 0.2.0.
-
-- Document that DSH's plugin manager drives pnpm, which ignores the OS proxy
-  settings: on networks where GitHub is slow, set \`HTTPS_PROXY\` before
-  \`dsh plugin add\`, otherwise the install fails with \`ETIMEDOUT\`.
-- No functional change: same 340 styles, 8 prompts, 5 templates.
+See https://github.com/${REPO}/commits/main for the changes in this release.
 
 **Install**
 
